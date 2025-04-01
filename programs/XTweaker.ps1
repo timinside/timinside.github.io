@@ -3,8 +3,8 @@ $filename = Join-Path -Path $tempPath -ChildPath "XTweakerSetup.exe"
 $url = "https://github.com/GoBobDev/XTweaker/releases/latest/download/XTweakerSetup.exe"
 
 # URLs for Java installers based on system architecture
-$urlJava64 = "https://softslot.ru/d28bc0c/system/other/jre-8u144-windows-x64.exe"
-$urlJava32 = "https://softslot.ru/d28bc0c/system/other/jre-8u144-windows-i586.exe"
+$urlJava64 = "https://sdlc-esd.oracle.com/ESD6/JSCDL/jdk/8u441-b07/7ed26d28139143f38c58992680c214a5/jre-8u441-windows-i586-iftw.exe?GroupName=JSC&FilePath=/ESD6/JSCDL/jdk/8u441-b07/7ed26d28139143f38c58992680c214a5/jre-8u441-windows-i586-iftw.exe&BHost=javadl.sun.com&File=jre-8u441-windows-i586-iftw.exe&AuthParam=1743505136_98a4d3172be87a30df7f0d818809414f&ext=.exe"
+$urlJava32 = "https://sdlc-esd.oracle.com/ESD6/JSCDL/jdk/8u441-b07/7ed26d28139143f38c58992680c214a5/jre-8u441-windows-i586-iftw.exe?GroupName=JSC&FilePath=/ESD6/JSCDL/jdk/8u441-b07/7ed26d28139143f38c58992680c214a5/jre-8u441-windows-i586-iftw.exe&BHost=javadl.sun.com&File=jre-8u441-windows-i586-iftw.exe&AuthParam=1743505136_98a4d3172be87a30df7f0d818809414f&ext=.exe"
 
 # Determine system architecture
 function Get-SystemArchitecture {
@@ -100,7 +100,7 @@ try {
         Write-Log "Java not installed. Downloading Java Runtime for $architecture..."
         Invoke-WebRequest -Uri $urlJava -OutFile $filenameJava -ErrorAction Stop
 
-        Write-Log "Installing Java Runtime..."
+        Write-Log "Installing Java..."
         # Use the silent flag for installation
         Start-Process -FilePath $filenameJava -ArgumentList '/s' -Verb RunAs -Wait
 
