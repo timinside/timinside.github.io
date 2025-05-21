@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PortableOS - Windows PE with Custom Desktop Experience</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="icon.png" type="image/png">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <img src="icon.png" alt="PortableOS Logo">
+                <h1>PortableOS</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#screenshots">Screenshots</a></li>
+                    <li><a href="#download">Download</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                    <li>
+                        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle Dark Mode">
+                            <img id="light-icon" src="white.png" alt="Light Mode" class="theme-icon">
+                            <img id="dark-icon" src="dark.png" alt="Dark Mode" class="theme-icon" style="display: none;">
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container hero-wrapper">
+            <div class="hero-content">
+                <h2>Windows PE Reimagined with a Custom Desktop Experience</h2>
+                <p>PortableOS combines the reliability of Windows PE with a customized desktop environment and essential applications, making it the perfect portable solution for diagnostics, recovery, and on-the-go productivity.</p>
+                <div class="hero-buttons">
+                    <a href="#download" class="btn btn-primary">Download Now</a>
+                    <a href="#features" class="btn btn-outline">Learn More</a>
+                </div>
+            </div>
+            <div class="hero-img">
+                <img src="icon1.png" alt="PortableOS Desktop Screenshot">
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>Key Features</h2>
+                <p>Discover what makes PortableOS the ultimate portable Windows environment</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <span class="material-icon">&#128187;</span>
+                    </div>
+                    <h3>Custom Desktop Environment</h3>
+                    <p>Enjoy a full-featured Windows 11 style desktop with taskbar, start menu, and modern WinUI 3 interface.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <span class="material-icon">&#128190;</span>
+                    </div>
+                    <h3>Pre-installed Applications</h3>
+                    <p>Comes with essential software for productivity, system recovery, and diagnostics tools.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <span class="material-icon">&#128640;</span>
+                    </div>
+                    <h3>Lightweight & Fast</h3>
+                    <p>Optimized for speed and performance, boots quickly on any hardware configuration.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <span class="material-icon">&#128274;</span>
+                    </div>
+                    <h3>Secure Environment</h3>
+                    <p>Run applications in a safe, isolated environment without risking your main system.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <span class="material-icon">&#128257;</span>
+                    </div>
+                    <h3>System Recovery</h3>
+                    <p>Powerful tools for data recovery, partition management, and system repair.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <span class="material-icon">&#128218;</span>
+                    </div>
+                    <h3>Customizable</h3>
+                    <p>Easily customize and extend with additional drivers and applications.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Screenshots Section -->
+    <section id="screenshots" class="screenshots">
+        <div class="container">
+            <div class="section-title">
+                <h2>Screenshots</h2>
+                <p>Take a visual tour of PortableOS and its features</p>
+            </div>
+            <div class="screenshot-gallery">
+                <div class="screenshot-item">
+                    <img src="/api/placeholder/500/320" alt="PortableOS Desktop">
+                    <div class="screenshot-caption">
+                        <h4>Modern Desktop Interface</h4>
+                        <p>Clean and intuitive WinUI 3 inspired interface</p>
+                    </div>
+                </div>
+                <div class="screenshot-item">
+                    <img src="/api/placeholder/500/320" alt="PortableOS Start Menu">
+                    <div class="screenshot-caption">
+                        <h4>Start Menu</h4>
+                        <p>Quick access to all applications and utilities</p>
+                    </div>
+                </div>
+                <div class="screenshot-item">
+                    <img src="/api/placeholder/500/320" alt="PortableOS File Explorer">
+                    <div class="screenshot-caption">
+                        <h4>File Explorer</h4>
+                        <p>Powerful file management with modern design</p>
+                    </div>
+                </div>
+                <div class="screenshot-item">
+                    <img src="/api/placeholder/500/320" alt="PortableOS System Tools">
+                    <div class="screenshot-caption">
+                        <h4>System Tools</h4>
+                        <p>Diagnostic and recovery utilities</p>
+                    </div>
+                </div>
+                <div class="screenshot-item">
+                    <img src="/api/placeholder/500/320" alt="PortableOS Settings">
+                    <div class="screenshot-caption">
+                        <h4>Settings Panel</h4>
+                        <p>Customize your PortableOS experience</p>
+                    </div>
+                </div>
+                <div class="screenshot-item">
+                    <img src="/api/placeholder/500/320" alt="PortableOS Applications">
+                    <div class="screenshot-caption">
+                        <h4>Application Suite</h4>
+                        <p>Pre-installed productivity applications</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Download Section -->
+    <section id="download" class="download">
+        <div class="container">
+            <div class="section-title">
+                <h2>Download PortableOS</h2>
+                <p>Get started with PortableOS today</p>
+            </div>
+            <div class="download-options">
+                <div class="download-card">
+                    <h3>PortableOS Standard Edition</h3>
+                    <p class="version">Version 1.2.3</p>
+                    <ul class="download-features">
+                        <li>Complete desktop environment</li>
+                        <li>Essential applications</li>
+                        <li>Recovery tools</li>
+                        <li>USB boot support</li>
+                    </ul>
+                    <div class="download-actions">
+                        <a href="#" class="btn btn-primary">Download ISO</a>
+                        <p class="download-size">1.8 GB</p>
+                    </div>
+                </div>
+                <div class="download-card">
+                    <h3>PortableOS Lite Edition</h3>
+                    <p class="version">Version 1.2.3</p>
+                    <ul class="download-features">
+                        <li>Minimal desktop environment</li>
+                        <li>Basic utilities only</li>
+                        <li>Smaller footprint</li>
+                        <li>Faster boot time</li>
+                    </ul>
+                    <div class="download-actions">
+                        <a href="#" class="btn btn-primary">Download ISO</a>
+                        <p class="download-size">950 MB</p>
+                    </div>
+                </div>
+            </div>
+            <div class="system-requirements">
+                <h3>System Requirements</h3>
+                <div class="requirements-grid">
+                    <div class="requirement-item">
+                        <h4>Processor</h4>
+                        <p>1 GHz or faster x64 processor</p>
+                    </div>
+                    <div class="requirement-item">
+                        <h4>RAM</h4>
+                        <p>2 GB minimum (4 GB recommended)</p>
+                    </div>
+                    <div class="requirement-item">
+                        <h4>Storage</h4>
+                        <p>2 GB available space for installation</p>
+                    </div>
+                    <div class="requirement-item">
+                        <h4>Boot Media</h4>
+                        <p>USB drive (8 GB+) or DVD-R</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="faq">
+        <div class="container">
+            <div class="section-title">
+                <h2>Frequently Asked Questions</h2>
+                <p>Find answers to common questions about PortableOS</p>
+            </div>
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <h3>What is PortableOS?</h3>
+                    <p>PortableOS is a customized Windows PE environment featuring a full desktop experience and pre-installed applications, designed for system recovery, diagnostics, and portable computing needs.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Can I install applications on PortableOS?</h3>
+                    <p>Yes, you can install and run portable applications. For persistent storage, you'll need to configure a storage partition or use external media.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Is PortableOS free to use?</h3>
+                    <p>PortableOS is free for personal and educational use. Commercial usage may require licensing - please check our terms for details.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>How do I create a bootable USB drive?</h3>
+                    <p>We recommend using tools like Rufus or Ventoy to create a bootable USB from the ISO image. Detailed instructions are available in our documentation.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="icon1.png" alt="PortableOS Logo">
+                    <h3> </h3>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Product</h4>
+                        <ul>
+                            <li><a href="#features">Features</a></li>
+                            <li><a href="#screenshots">Screenshots</a></li>
+                            <li><a href="#download">Download</a></li>
+                            <li><a href="#faq">FAQ</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Resources</h4>
+                        <ul>
+                            <li><a href="#">Documentation</a></li>
+                            <li><a href="#">Community Forum</a></li>
+                            <li><a href="#">Blog</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Connect</h4>
+                        <ul>
+                            <li><a href="#">GitHub</a></li>
+                            <li><a href="#">Discord</a></li>
+                            <li><a href="#">Contact Us</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+
+                <div class="footer-legal">
+                    <a>Thank you for selecting PortableOS!</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Theme Toggle Script -->
+    <script>
+        // Получаем элементы для переключения темы
+        const themeToggle = document.getElementById('theme-toggle');
+        const lightIcon = document.getElementById('light-icon');
+        const darkIcon = document.getElementById('dark-icon');
+        const html = document.documentElement;
+        
+        // Добавляем выбор логотипа
+        const logoImg = document.querySelector('.logo img');
+        
+        // Проверяем сохраненную тему или используем предпочитаемую цветовую схему
+        const getCurrentTheme = () => {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                return savedTheme;
+            }
+            return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        };
+        
+        // Устанавливаем тему
+        const setTheme = (theme) => {
+            html.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            
+            // Обновляем видимость иконок переключателя темы
+            if (theme === 'dark') {
+                lightIcon.style.display = 'none';
+                darkIcon.style.display = 'inline';
+                
+                // Меняем логотип на темный
+                logoImg.src = 'iconDark.png';
+                logoImg.alt = 'PortableOS Dark Logo';
+            } else {
+                lightIcon.style.display = 'inline';
+                darkIcon.style.display = 'none';
+                
+                // Возвращаем светлый логотип
+                logoImg.src = 'icon.png';
+                logoImg.alt = 'PortableOS Logo';
+            }
+        };
+        
+        // Инициализируем тему
+        setTheme(getCurrentTheme());
+        
+        // Переключаем тему по клику
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            setTheme(newTheme);
+        });
+        
+        // Обновляем тему при изменении системных предпочтений
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+            const newTheme = e.matches ? 'dark' : 'light';
+            setTheme(newTheme);
+        });
+        </script>
+</body>
+</html>
