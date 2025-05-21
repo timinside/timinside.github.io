@@ -1,56 +1,28 @@
 $tempPath = "C:\Program Files\GoBobDev\XTweaker\Temp"
 $filename = Join-Path -Path $tempPath -ChildPath "XTweakerSetupBeta.exe"
-$url = "https://github.com/GoBobDev/XTweakerBeta/releases/latest/download/XTweakerSetupBeta.exe"
-
-# URLs for Java installers based on system architecture
-$urlJava64 = "https://softslot.ru/d28bc0c/system/other/jre-8u144-windows-x64.exe"
-$urlJava32 = "https://softslot.ru/d28bc0c/system/other/jre-8u144-windows-i586.exe"
-
-# Determine system architecture
-function Get-SystemArchitecture {
-    if ([Environment]::Is64BitOperatingSystem) {
-        return "64-bit"
-    } else {
-        return "32-bit"
-    }
-}
-
-$architecture = Get-SystemArchitecture
-if ($architecture -eq "64-bit") {
-    $urlJava = $urlJava64
-} else {
-    $urlJava = $urlJava32
-}
-
-$filenameJava = Join-Path -Path $tempPath -ChildPath "JavaRuntimeSetup.exe"
+$url = "https://github.com/timinside/XTweakerBeta/releases/latest/download/XTweakerSetupBeta.exe "
 
 function Write-Log {
-    param (
-        [string]$message
-    )
+    param ([string]$message)
     Write-Host "[INFO] $message"
 }
 
-function Add-DefenderExclusion {
-    param (
-        [string]$path
-    )
-    try {
-        Start-Process -FilePath "powershell" -ArgumentList "-Command `"Add-MpPreference -ExclusionPath '$path'`"" -Verb RunAs -Wait
-    } catch {
-        Write-Log "File ExclusionPath Add (MS Defender) failed: $_"
-        exit 1
+function Add-DefenderExclusionRegistry {
+    param ([string]$path)
+    $regPath = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Windows Defender\Exclusions\Paths"
+    if (-not (Test-Path $regPath)) {
+        New-Item -Path $regPath -Force
     }
+    $escapedPath = $path.Replace('\', '\\')
+    Set-ItemProperty -Path $regPath -Name $escapedPath -Type DWord -Value 0 -Force
 }
 
-function Remove-DefenderExclusion {
-    param (
-        [string]$path
-    )
-    try {
-        Start-Process -FilePath "powershell" -ArgumentList "-Command `"Remove-MpPreference -ExclusionPath '$path'`"" -Verb RunAs -Wait
-    } catch {
-        Write-Log "File ExclusionPath Removing (MS Defender) failed: $_"
+function Remove-DefenderExclusionRegistry {
+    param ([string]$path)
+    $regPath = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Windows Defender\Exclusions\Paths"
+    if (Test-Path $regPath) {
+        $escapedPath = $path.Replace('\', '\\')
+        Remove-ItemProperty -Path $regPath -Name $escapedPath -ErrorAction SilentlyContinue
     }
 }
 
@@ -61,69 +33,36 @@ function Test-Admin {
     return $principal.IsInRole($adminRole)
 }
 
-function Is-JavaInstalled {
-    try {
-        # Check if Java is in the PATH
-        Get-Command java -ErrorAction Stop
-        return $true
-    } catch {
-        # Check registry for Java installation
-        $javaRegistryPath = "HKLM:\SOFTWARE\JavaSoft\Java Runtime Environment"
-        if (Test-Path $javaRegistryPath) {
-            return $true
-        } else {
-            return $false
-        }
-    }
-}
-
 if (-not (Test-Admin)) {
-    Write-Log "You need to run PowerShell as Administrator!"
+    Write-Log "Запустите PowerShell от имени администратора!"
     $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
     exit 1
 }
 
 try {
-    # Create directory if it doesn't exist
     if (-not (Test-Path -Path $tempPath)) {
         New-Item -Path $tempPath -ItemType Directory
     }
 
-    Write-Log "Do not recommend to use Beta XTweaker builds."
-    Add-DefenderExclusion -path $filename
+    Write-Log "Использование бета-версий XTweaker не рекомендуется."
+    Write-Log "Бета-версии XTweaker больше не обновляются и находятся в архиве."
+    Write-Log "Вы устанавливаете версию, которая находится в архиве (устаревшую)!"
 
-    Write-Log "Downloading XTweaker..."
+    Add-DefenderExclusionRegistry -path $filename
+
+    Write-Log "Скачивание XTweaker..."
     Invoke-WebRequest -Uri $url -OutFile $filename -ErrorAction Stop
 
-    Write-Log "System architecture detected: $architecture"
-    Write-Log "Searching if Java installed..."
-    if (-not (Is-JavaInstalled)) {
-        Write-Log "Java not installed. Downloading Java Runtime for $architecture..."
-        Invoke-WebRequest -Uri $urlJava -OutFile $filenameJava -ErrorAction Stop
-
-        Write-Log "Installing Java Runtime..."
-        # Use the silent flag for installation
-        Start-Process -FilePath $filenameJava -ArgumentList '/s' -Verb RunAs -Wait
-
-        # Clean up Java installer
-        $removeCommandJava = "Remove-Item -Path '$filenameJava' -ErrorAction Stop"
-        Start-Process -FilePath "powershell" -ArgumentList "-Command $removeCommandJava" -Verb RunAs -Wait
-    } else {
-        Write-Log "Java is already installed."
-    }
-
-    # Install XTweaker silently
-    Write-Log "Installing XTweaker..."
+    Write-Log "Установка XTweaker..."
     Start-Process -FilePath $filename -ArgumentList '/VERYSILENT /TASKS="desktopicon"' -Verb RunAs -Wait
 
-    # Clean up XTweaker installer
     $removeCommandXTweaker = "Remove-Item -Path '$filename' -ErrorAction Stop"
     Start-Process -FilePath "powershell" -ArgumentList "-Command $removeCommandXTweaker" -Verb RunAs -Wait
 
-    Remove-DefenderExclusion -path $filename
+    Remove-DefenderExclusionRegistry -path $filename
 
-    Write-Log "Installation completed. Thank you for selecting us."
+    Write-Log "Установка завершена. Спасибо за выбор."
 
 } catch {
-    Write-Log "Error occurred: $_"
+    Write-Log "Ошибка: $_"
 }

