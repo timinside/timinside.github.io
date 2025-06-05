@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XTweaker: Rebooted - Скачать</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Segoe+UI:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --bg-primary: #202020;
+            --bg-secondary: #2c2c2c;
+            --bg-tertiary: #3c3c3c;
+            --text-primary: #ffffff;
+            --text-secondary: #e5e5e5;
+            --text-tertiary: #cccccc;
+            --accent-color: #0078d4;
+            --accent-hover: #106ebe;
+            --border-color: rgba(255, 255, 255, 0.12);
+            --shadow-color: rgba(0, 0, 0, 0.4);
+        }
+        
+        [data-theme="light"] {
+            --bg-primary: #f3f3f3;
+            --bg-secondary: #ffffff;
+            --bg-tertiary: #f9f9f9;
+            --text-primary: #000000;
+            --text-secondary: #323130;
+            --text-tertiary: #605e5c;
+            --border-color: rgba(0, 0, 0, 0.12);
+            --shadow-color: rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            font-weight: 400;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        .settings-panel {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 8px;
+            z-index: 1000;
+        }
+        
+        .settings-btn {
+            width: 40px;
+            height: 40px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.1s ease;
+            color: var(--text-primary);
+            box-shadow: 0 2px 8px var(--shadow-color);
+        }
+        
+        .settings-btn:hover {
+            background: var(--bg-tertiary);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px var(--shadow-color);
+        }
+        
+        .settings-btn:active {
+            transform: translateY(0);
+            background: var(--bg-tertiary);
+        }
+        
+        .settings-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 40px 0;
+            position: relative;
+        }
+        
+        .app-icon {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 20px;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 12px var(--shadow-color);
+        }
+        
+        .app-icon img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+        }
+        
+        .app-icon-fallback {
+            font-size: 48px;
+            font-weight: 600;
+            color: var(--accent-color);
+        }
+        
+        .title {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+        
+        .subtitle {
+            font-size: 16px;
+            color: var(--text-secondary);
+            font-weight: 400;
+            margin-bottom: 32px;
+        }
+        
+        .main-card {
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            padding: 24px;
+            margin: 24px 0;
+            box-shadow: 0 2px 8px var(--shadow-color);
+        }
+        
+        .download-section {
+            text-align: center;
+            margin: 32px 0;
+        }
+        
+        .download-btn {
+            background: var(--accent-color);
+            color: white;
+            border: 1px solid var(--accent-color);
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.1s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 120px;
+            justify-content: center;
+        }
+        
+        .download-btn:hover {
+            background: var(--accent-hover);
+            border-color: var(--accent-hover);
+        }
+        
+        .download-btn:active {
+            background: #005a9e;
+            border-color: #005a9e;
+        }
+        
+        .download-icon {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 16px;
+            margin: 24px 0;
+        }
+        
+        .feature-card {
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            padding: 20px;
+            transition: box-shadow 0.1s ease;
+        }
+        
+        .feature-card:hover {
+            box-shadow: 0 4px 12px var(--shadow-color);
+        }
+        
+        .feature-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        
+        .feature-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--accent-color);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            color: white;
+        }
+        
+        .feature-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .feature-description {
+            color: var(--text-secondary);
+            line-height: 1.4;
+            font-size: 14px;
+        }
+        
+        .info-section {
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            padding: 20px;
+            margin: 16px 0;
+        }
+        
+        .info-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+        
+        .info-text {
+            color: var(--text-secondary);
+            line-height: 1.4;
+            font-size: 14px;
+        }
+        
+        .github-link {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .github-link:hover {
+            text-decoration: underline;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 32px 0;
+            color: var(--text-tertiary);
+            border-top: 1px solid var(--border-color);
+            margin-top: 48px;
+            font-size: 13px;
+        }
+        
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+        
+        .particles.disabled {
+            opacity: 0;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: var(--accent-color);
+            opacity: 0.3;
+            border-radius: 50%;
+            animation: particle-float 12s infinite linear;
+        }
+        
+        @keyframes particle-float {
+            0% {
+                transform: translateY(100vh) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.3;
+            }
+            90% {
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(-100px) translateX(50px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        .version-info {
+            margin-top: 12px;
+            font-size: 13px;
+            color: var(--text-tertiary);
+        }
+        
+        @media (max-width: 768px) {
+            .title { font-size: 28px; }
+            .subtitle { font-size: 14px; }
+            .main-card { padding: 16px; }
+            .features-grid { grid-template-columns: 1fr; }
+            .settings-panel { 
+                top: 10px; 
+                right: 10px;
+                gap: 6px; 
+            }
+            .settings-btn { 
+                width: 36px; 
+                height: 36px; 
+            }
+        }
+    </style>
+</head>
+<body data-theme="dark">
+    <div class="settings-panel">
+        <button class="settings-btn" id="animationToggle" title="Переключить анимации">
+            <svg viewBox="0 0 24 24">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+            </svg>
+        </button>
+        <button class="settings-btn" id="themeToggle" title="Переключить тему">
+            <svg viewBox="0 0 24 24" class="theme-icon">
+                <path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0 .39-.39.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"/>
+            </svg>
+        </button>
+    </div>
+
+    <div class="particles" id="particles"></div>
+    
+    <div class="container">
+        <header class="header">
+            <div class="app-icon">
+                <img src="icon.png" alt="XTweaker Icon" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <div class="app-icon-fallback" style="display: none;">XT</div>
+            </div>
+            <h1 class="title">XTweaker: Rebooted</h1>
+            <p class="subtitle">Мощный инструмент для настройки и оптимизации Windows</p>
+        </header>
+        
+        <div class="main-card">
+            <div class="download-section">
+                <a href="https://github.com/timinside/XTweakerRebooted/releases/latest/download/XTweakerSetup.exe" 
+                   class="download-btn" id="downloadBtn">
+                    <svg class="download-icon" viewBox="0 0 16 16">
+                        <path d="M8.5 1a.5.5 0 0 0-1 0v8.793L5.354 8.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 9.793V1z"/>
+                        <path d="M3 14.5A1.5 1.5 0 0 0 4.5 16h7a1.5 1.5 0 0 0 1.5-1.5v-7a.5.5 0 0 0-1 0v7a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-7a.5.5 0 0 0-1 0v7z"/>
+                    </svg>
+                    Скачать
+                </a>
+                <div class="version-info">
+                    Версия • Windows 10/11 • Бесплатно
+                </div>
+            </div>
+        </div>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-header">
+                    <div class="feature-icon">⚡</div>
+                    <h3 class="feature-title">Оптимизация производительности</h3>
+                </div>
+                <p class="feature-description">
+                    Улучшите скорость работы вашей системы Windows с помощью продвинутых настроек оптимизации.
+                </p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-header">
+                    <div class="feature-icon">🛡️</div>
+                    <h3 class="feature-title">Конфиденциальность</h3>
+                </div>
+                <p class="feature-description">
+                    Отключите телеметрию и защитите свою приватность от нежелательного сбора данных.
+                </p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-header">
+                    <div class="feature-icon">🎨</div>
+                    <h3 class="feature-title">Персонализация</h3>
+                </div>
+                <p class="feature-description">
+                    Настройте интерфейс Windows под свои предпочтения с расширенными возможностями кастомизации.
+                </p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-header">
+                    <div class="feature-icon">🔧</div>
+                    <h3 class="feature-title">Системные твики</h3>
+                </div>
+                <p class="feature-description">
+                    Получите доступ к скрытым настройкам системы для тонкой настройки Windows.
+                </p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-header">
+                    <div class="feature-icon">🚀</div>
+                    <h3 class="feature-title">Простота использования</h3>
+                </div>
+                <p class="feature-description">
+                    Интуитивно понятный интерфейс делает сложные настройки доступными для каждого пользователя.
+                </p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-header">
+                    <div class="feature-icon">💾</div>
+                    <h3 class="feature-title">Резервное копирование</h3>
+                </div>
+                <p class="feature-description">
+                    Создавайте точки восстановления перед внесением изменений для безопасности системы.
+                </p>
+            </div>
+        </div>
+        
+        <div class="info-section">
+            <h3 class="info-title">О программе</h3>
+            <div class="info-text">
+                XTweaker: Rebooted — это обновленная версия XTweaker Legacy для настройки Windows. 
+                Программа предлагает широкий спектр возможностей для оптимизации, настройки приватности и 
+                персонализации вашей операционной системы. Разработано с учетом современных требований 
+                безопасности и совместимости с Windows 10 и 11.
+            </div>
+        </div>
+        
+        <div class="info-section">
+            <h3 class="info-title">Системные требования</h3>
+            <div class="info-text">
+                • Windows 10 версия 1903 или новее<br>
+                • Минимум 200 МБ свободного места на диске<br>
+                • Минимум 2ГБ оперативной памяти
+            </div>
+        </div>
+        
+        <div class="info-section">
+            <h3 class="info-title">Открытый исходный код</h3>
+            <div class="info-text">
+                XTweaker: Rebooted является проектом с открытым исходным кодом. 
+                Вы можете изучить код, внести свой вклад или сообщить об ошибках на 
+                <a href="https://github.com/timinside/XTweakerRebooted" class="github-link" target="_blank">GitHub</a>.
+            </div>
+        </div>
+    </div>
+    
+    <footer class="footer">
+        <div>&copy; 2025 BlueZero. Все права защищены.</div>
+    </footer>
+    
+    <script>
+        // Состояние переключателей
+        let animationsEnabled = true;
+        let darkTheme = true;
+        
+        // Создание частиц
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            particlesContainer.innerHTML = '';
+            const particleCount = 30;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 12 + 's';
+                particle.style.animationDuration = (Math.random() * 4 + 8) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+        
+        // Переключатель анимаций
+        document.getElementById('animationToggle').addEventListener('click', function() {
+            animationsEnabled = !animationsEnabled;
+            
+            const particles = document.getElementById('particles');
+            if (animationsEnabled) {
+                particles.classList.remove('disabled');
+                createParticles();
+                this.style.background = 'var(--accent-color)';
+                this.style.color = 'white';
+            } else {
+                particles.classList.add('disabled');
+                this.style.background = 'var(--bg-secondary)';
+                this.style.color = 'var(--text-primary)';
+            }
+        });
+        
+        // Переключатель темы
+        document.getElementById('themeToggle').addEventListener('click', function() {
+            darkTheme = !darkTheme;
+            
+            const body = document.body;
+            const themeIcon = this.querySelector('.theme-icon');
+            
+            if (darkTheme) {
+                body.setAttribute('data-theme', 'dark');
+                // Иконка луны для темной темы
+                themeIcon.innerHTML = '<path d="M9.37 5.51c-.18.64-.27 1.31-.27 1.99 0 4.08 3.32 7.4 7.4 7.4.68 0 1.35-.09 1.99-.27C17.45 17.19 14.93 19 12 19c-3.86 0-7-3.14-7-7 0-2.93 1.81-5.45 4.37-6.49z"/>';
+            } else {
+                body.setAttribute('data-theme', 'light');
+                // Иконка солнца для светлой темы
+                themeIcon.innerHTML = '<path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0 .39-.39.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"/>';
+            }
+        });
+        
+        // Точные анимации кнопок как в Windows 11
+        document.getElementById('downloadBtn').addEventListener('mousedown', function() {
+            this.style.transform = 'scale(0.98)';
+        });
+        
+        document.getElementById('downloadBtn').addEventListener('mouseup', function() {
+            this.style.transform = '';
+        });
+        
+        document.getElementById('downloadBtn').addEventListener('mouseleave', function() {
+            this.style.transform = '';
+        });
+        
+        // Имитация кнопок окна
+        document.querySelectorAll('.settings-btn').forEach(btn => {
+            btn.addEventListener('mousedown', function() {
+                this.style.transform = 'translateY(0) scale(0.95)';
+            });
+            
+            btn.addEventListener('mouseup', function() {
+                this.style.transform = '';
+            });
+            
+            btn.addEventListener('mouseleave', function() {
+                this.style.transform = '';
+            });
+        });
+        
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+            
+            // Устанавливаем начальное состояние кнопок
+            const animBtn = document.getElementById('animationToggle');
+            const themeBtn = document.getElementById('themeToggle');
+            
+            animBtn.style.background = 'var(--accent-color)';
+            animBtn.style.color = 'white';
+        });
+    </script>
+</body>
+</html>
