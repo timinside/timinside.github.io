@@ -1,24 +1,20 @@
 # BlueZero Software Installer - PowerShell версия
-# Требует запуска от администратора
+# Установщик программного обеспечения BlueZero
 
 param(
     [switch]$Force
 )
 
-# Проверка прав администратора
-if (-NOT ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
-    Write-Host "Скрипт должен быть запущен от имени администратора!" -ForegroundColor Red
-    Write-Host "Перезапускаем с правами администратора..." -ForegroundColor Yellow
-    Start-Process PowerShell -Verb RunAs "-File `"$PSCommandPath`" $args"
-    exit
-}
+# Установка кодировки для корректного отображения русских символов
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+$OutputEncoding = [System.Text.Encoding]::UTF8
 
 # Функция для отображения прогресс-бара
 function Show-Progress {
     param(
         [int]$PercentComplete,
         [string]$Status,
-        [string]$Activity = "BlueZero Software Installer"
+        [string]$Activity = "Software by BlueZero"
     )
     Write-Progress -Activity $Activity -Status $Status -PercentComplete $PercentComplete
     Write-Host "[$PercentComplete%] $Status" -ForegroundColor Cyan
@@ -62,19 +58,30 @@ function Check-Java {
     }
 }
 
-# Функция установки Java
+# Функция скачивания и установки Java
 function Install-Java {
-    Write-Host "Java Runtime Environment 1.8.0 не найдена!" -ForegroundColor Red
-    $installJava = Get-UserConfirmation "Хотите скачать и установить Java 8?"
+    Write-Host "Скачиваем Java Runtime Environment 8..." -ForegroundColor Yellow
     
-    if ($installJava) {
-        Write-Host "Перенаправляем на страницу загрузки Java..." -ForegroundColor Yellow
-        Start-Process "https://www.java.com/ru/download/"
-        Write-Host "После установки Java перезапустите установщик." -ForegroundColor Yellow
-        Read-Host "Нажмите Enter для выхода"
-        exit
+    Show-Progress -PercentComplete 10 -Status "Скачиваем Java 8..."
+    $javaUrl = "https://javadl.oracle.com/webapps/download/AutoDL?BundleId=245060_d3c52aa6bfa54d3ca74e617f18309292"
+    $javaPath = "C:\Windows\Temp\jre-8-windows-x64.exe"
+    
+    if (Download-File -Url $javaUrl -OutputPath $javaPath) {
+        Show-Progress -PercentComplete 50 -Status "Устанавливаем Java 8..."
+        try {
+            Start-Process -FilePath $javaPath -ArgumentList "/s" -Wait
+            Remove-Item -Path $javaPath -Force -ErrorAction SilentlyContinue
+            Show-Progress -PercentComplete 100 -Status "Java 8 установлена!"
+            Write-Host "Java Runtime Environment 8 успешно установлена!" -ForegroundColor Green
+            return $true
+        }
+        catch {
+            Write-Host "Ошибка установки Java. Попробуйте установить вручную с java.com" -ForegroundColor Red
+            Remove-Item -Path $javaPath -Force -ErrorAction SilentlyContinue
+            return $false
+        }
     } else {
-        Write-Host "Установка прервана. Java 8 необходима для работы большинства программ BlueZero." -ForegroundColor Red
+        Write-Host "Не удалось скачать Java. Установите Java 8 вручную с java.com" -ForegroundColor Red
         return $false
     }
 }
@@ -84,41 +91,47 @@ function Show-Menu {
     Clear-Host
     Write-Host "==========================================" -ForegroundColor Blue
     Write-Host "         Software by BlueZero            " -ForegroundColor Blue
-    Write-Host "         Universal Installer             " -ForegroundColor Blue
     Write-Host "==========================================" -ForegroundColor Blue
     Write-Host ""
     Write-Host "Выберите программу для установки:" -ForegroundColor Yellow
     Write-Host ""
     Write-Host "1. XTweaker Legacy" -ForegroundColor White -NoNewline
     Write-Host " (требует Java 8)" -ForegroundColor DarkGray
-    Write-Host "2. XTweaker Rebooted " -ForegroundColor Red -NoNewline
+    Write-Host "2. XTweaker Rebooted " -ForegroundColor Yellow -NoNewline
     Write-Host "(скоро, требует Java 8)" -ForegroundColor DarkGray
     Write-Host "3. LunaClean" -ForegroundColor White
     Write-Host "4. Not11" -ForegroundColor White -NoNewline
     Write-Host " (требует Java 8)" -ForegroundColor DarkGray
-    Write-Host "5. RedLauncher " -ForegroundColor Red -NoNewline
+    Write-Host "5. RedLauncher " -ForegroundColor Yellow -NoNewline
     Write-Host "(скоро, требует Java 8)" -ForegroundColor DarkGray
-    Write-Host "6. LunaOS " -ForegroundColor Red -NoNewline
+    Write-Host "6. LunaOS " -ForegroundColor Yellow -NoNewline
     Write-Host "(скоро, требует Java 8)" -ForegroundColor DarkGray
     Write-Host ""
     Write-Host "0. Выход" -ForegroundColor Gray
     Write-Host ""
     Write-Host "==========================================" -ForegroundColor Blue
+    
+    # Проверка прав администратора
+    if (-NOT ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
+        Write-Host "ВНИМАНИЕ: Запущено без прав администратора!" -ForegroundColor Red
+        Write-Host "Некоторые функции могут работать некорректно." -ForegroundColor Yellow
+        Write-Host ""
+    }
 }
 
 # Функция показа ошибки для нерелизнутых программ
 function Show-NotReleased {
     param([string]$ProgramName)
     Write-Host ""
-    Write-Host "========================================" -ForegroundColor Red
-    Write-Host "           ОШИБКА УСТАНОВКИ            " -ForegroundColor Red
-    Write-Host "========================================" -ForegroundColor Red
+    Write-Host "========================================" -ForegroundColor Yellow
+    Write-Host "           ПРОГРАММА В РАЗРАБОТКЕ       " -ForegroundColor Yellow
+    Write-Host "========================================" -ForegroundColor Yellow
     Write-Host ""
-    Write-Host "$ProgramName еще не вышел!" -ForegroundColor Red
-    Write-Host "Данная программа находится в разработке." -ForegroundColor Yellow
+    Write-Host "$ProgramName еще не вышел!" -ForegroundColor Yellow
+    Write-Host "Данная программа находится в разработке." -ForegroundColor White
     Write-Host "Следите за обновлениями на GitHub!" -ForegroundColor Cyan
     Write-Host ""
-    Write-Host "========================================" -ForegroundColor Red
+    Write-Host "========================================" -ForegroundColor Yellow
     Read-Host "Нажмите Enter для возврата в меню"
 }
 
@@ -126,8 +139,19 @@ function Show-NotReleased {
 function Install-XTweakerLegacy {
     Write-Host "=== Установка XTweaker Legacy ===" -ForegroundColor Green
     
+    # Проверка Java
     if (!(Check-Java)) {
-        if (!(Install-Java)) { return }
+        Write-Host "Java Runtime Environment 8 не найдена!" -ForegroundColor Yellow
+        $installJava = Get-UserConfirmation "Хотите установить Java 8 автоматически?"
+        
+        if ($installJava) {
+            if (!(Install-Java)) {
+                Write-Host "Продолжаем установку без Java (может не работать корректно)..." -ForegroundColor Yellow
+            }
+        } else {
+            Write-Host "ВНИМАНИЕ: Java 8 необходима для работы XTweaker Legacy!" -ForegroundColor Yellow
+            Write-Host "Программа может не запуститься без Java." -ForegroundColor Yellow
+        }
     }
     
     Show-Progress -PercentComplete 10 -Status "Скачиваем XTweaker Legacy..."
@@ -170,8 +194,19 @@ function Install-LunaClean {
 function Install-Not11 {
     Write-Host "=== Установка Not11 ===" -ForegroundColor Green
     
+    # Проверка Java
     if (!(Check-Java)) {
-        if (!(Install-Java)) { return }
+        Write-Host "Java Runtime Environment 8 не найдена!" -ForegroundColor Yellow
+        $installJava = Get-UserConfirmation "Хотите установить Java 8 автоматически?"
+        
+        if ($installJava) {
+            if (!(Install-Java)) {
+                Write-Host "Продолжаем установку без Java (может не работать корректно)..." -ForegroundColor Yellow
+            }
+        } else {
+            Write-Host "ВНИМАНИЕ: Java 8 необходима для работы Not11!" -ForegroundColor Yellow
+            Write-Host "Программа может не запуститься без Java." -ForegroundColor Yellow
+        }
     }
     
     try {
@@ -317,7 +352,7 @@ do {
         "5" { Show-NotReleased "RedLauncher" }
         "6" { Show-NotReleased "LunaOS" }
         "0" { 
-            Write-Host "Спасибо за использование BlueZero Software Installer!" -ForegroundColor Blue
+            Write-Host "Спасибо за использование Software by BlueZero!" -ForegroundColor Blue
             exit 
         }
         default { 
