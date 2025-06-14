@@ -211,37 +211,37 @@ function Install-Not11 {
         
         $epSetupPath = "C:\Windows\Temp\ep_setup.exe"
         if (!(Download-File -Url "https://github.com/valinet/ExplorerPatcher/releases/latest/download/ep_setup.exe" -OutputPath $epSetupPath)) {
-            throw "Failed to download ExplorerPatcher"
+            throw "Failed to download Required Software"
         }
-        Show-Progress -PercentComplete 15 -Status "ExplorerPatcher downloaded..."
+        Show-Progress -PercentComplete 15 -Status "Downloading files..."
 
         $tweaks1Path = "C:\Windows\Temp\Not11-Tweaks1.reg"
         if (!(Download-File -Url "https://raw.githubusercontent.com/timinside/Not11/refs/heads/data/Tweaks.reg" -OutputPath $tweaks1Path)) {
             throw "Failed to download Tweaks.reg"
         }
-        Show-Progress -PercentComplete 19 -Status "Tweaks.reg downloaded..."
+        Show-Progress -PercentComplete 19 -Status "Downloading files..."
 
         $tweaks2Path = "C:\Windows\Temp\Not11-Tweaks2.reg"
         if (!(Download-File -Url "https://raw.githubusercontent.com/timinside/Not11/refs/heads/data/FixTaskbar.reg" -OutputPath $tweaks2Path)) {
             throw "Failed to download FixTaskbar.reg"
         }
-        Show-Progress -PercentComplete 22 -Status "FixTaskbar.reg downloaded..."
+        Show-Progress -PercentComplete 22 -Status "Downloading files..."
 
-        Show-Progress -PercentComplete 25 -Status "Installing ExplorerPatcher..."
+        Show-Progress -PercentComplete 25 -Status "Installing required software..."
         Start-Process -FilePath $epSetupPath -ArgumentList "/VERYSILENT" -Wait
-        Show-Progress -PercentComplete 32 -Status "ExplorerPatcher installed..."
+        Show-Progress -PercentComplete 32 -Status "Waiting for confirmation..."
 
         Write-Host ""
         $useAlternative = Get-UserConfirmation "Use alternative taskbar modification method? (not recommended!)"
         
         if ($useAlternative) {
-            Write-Host "Applying alternative tweaks..." -ForegroundColor Yellow
+            Write-Host "Applying alternative tweaks..." -ForegroundColor White
             Start-Process -FilePath "reg" -ArgumentList "import `"$tweaks2Path`"" -Wait
         } else {
-            Write-Host "Applying standard tweaks..." -ForegroundColor Green
+            Write-Host "Applying standard tweaks..." -ForegroundColor White
             Start-Process -FilePath "reg" -ArgumentList "import `"$tweaks1Path`"" -Wait
         }
-        Show-Progress -PercentComplete 56 -Status "Registry tweaks applied..."
+        Show-Progress -PercentComplete 56 -Status "Please, wait..."
 
         $shortcutPath = "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\ExplorerPatcher"
         if (Test-Path $shortcutPath) {
