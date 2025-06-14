@@ -96,11 +96,11 @@ function Show-Menu {
     Write-Host "5. RedLauncher " -ForegroundColor White -NoNewline
     Write-Host "(coming soon, requires Java 8)" -ForegroundColor DarkGray
     Write-Host "6. LunaOS " -ForegroundColor White -NoNewline
-    Write-Host "(coming soon)" -ForegroundColor DarkGray
+    Write-Host "(coming soon, requires Java 8)" -ForegroundColor DarkGray
     Write-Host ""
     Write-Host "0. Exit" -ForegroundColor Gray
     Write-Host ""
-    Write-Host "==========================================" -ForegroundColor Blue
+    Write-Host "==========================================" -ForegroundColor White
     
     # Check administrator rights
     if (-NOT ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
