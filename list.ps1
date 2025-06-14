@@ -63,7 +63,7 @@ function Install-Java {
             Start-Process -FilePath $javaPath -ArgumentList "/s" -Wait
             Remove-Item -Path $javaPath -Force -ErrorAction SilentlyContinue
             Show-Progress -PercentComplete 100 -Status "Java 8 installed!"
-            Write-Host "Java Runtime Environment 8 successfully installed!" -ForegroundColor Green
+            Write-Host "Java successfully installed!" -ForegroundColor Green
             return $true
         }
         catch {
