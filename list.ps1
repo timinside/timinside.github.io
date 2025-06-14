@@ -1,15 +1,10 @@
-# BlueZero Software Installer - PowerShell version
-# BlueZero Software Installer
-
 param(
     [switch]$Force
 )
 
-# Set encoding for correct display of characters
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 $OutputEncoding = [System.Text.Encoding]::UTF8
 
-# Function to display progress bar
 function Show-Progress {
     param(
         [int]$PercentComplete,
@@ -20,7 +15,6 @@ function Show-Progress {
     Write-Host "[$PercentComplete%] $Status" -ForegroundColor Cyan
 }
 
-# Function to download files
 function Download-File {
     param(
         [string]$Url,
@@ -37,14 +31,12 @@ function Download-File {
     }
 }
 
-# Function for user confirmation
 function Get-UserConfirmation {
     param([string]$Message)
     $choice = Read-Host "$Message (y/n)"
     return ($choice -eq 'y' -or $choice -eq 'Y' -or $choice -eq 'yes' -or $choice -eq 'Yes')
 }
 
-# Function to check Java
 function Check-Java {
     try {
         $javaVersion = & java -version 2>&1
@@ -58,7 +50,6 @@ function Check-Java {
     }
 }
 
-# Function to download and install Java
 function Install-Java {
     Write-Host "Downloading Java Runtime Environment 8..." -ForegroundColor Yellow
     
@@ -89,23 +80,23 @@ function Install-Java {
 # Menu selection function
 function Show-Menu {
     Clear-Host
-    Write-Host "==========================================" -ForegroundColor Blue
-    Write-Host "         Software by BlueZero            " -ForegroundColor Blue
-    Write-Host "==========================================" -ForegroundColor Blue
+    Write-Host "==========================================" -ForegroundColor White
+    Write-Host "         Software by BlueZero            " -ForegroundColor White
+    Write-Host "==========================================" -ForegroundColor White
     Write-Host ""
-    Write-Host "Select software to install:" -ForegroundColor Yellow
+    Write-Host "Select software to install:" -ForegroundColor White
     Write-Host ""
     Write-Host "1. XTweaker Legacy" -ForegroundColor White -NoNewline
     Write-Host " (requires Java 8)" -ForegroundColor DarkGray
-    Write-Host "2. XTweaker Rebooted " -ForegroundColor Yellow -NoNewline
+    Write-Host "2. XTweaker Rebooted " -ForegroundColor White -NoNewline
     Write-Host "(coming soon, requires Java 8)" -ForegroundColor DarkGray
     Write-Host "3. LunaClean" -ForegroundColor White
     Write-Host "4. Not11" -ForegroundColor White -NoNewline
     Write-Host " (requires Java 8)" -ForegroundColor DarkGray
-    Write-Host "5. RedLauncher " -ForegroundColor Yellow -NoNewline
+    Write-Host "5. RedLauncher " -ForegroundColor White -NoNewline
     Write-Host "(coming soon, requires Java 8)" -ForegroundColor DarkGray
-    Write-Host "6. LunaOS " -ForegroundColor Yellow -NoNewline
-    Write-Host "(coming soon, requires Java 8)" -ForegroundColor DarkGray
+    Write-Host "6. LunaOS " -ForegroundColor White -NoNewline
+    Write-Host "(coming soon)" -ForegroundColor DarkGray
     Write-Host ""
     Write-Host "0. Exit" -ForegroundColor Gray
     Write-Host ""
@@ -114,7 +105,7 @@ function Show-Menu {
     # Check administrator rights
     if (-NOT ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
         Write-Host "WARNING: Running without administrator privileges!" -ForegroundColor Red
-        Write-Host "Some functions may not work correctly." -ForegroundColor Yellow
+        Write-Host "Some functions may not work correctly." -ForegroundColor White
         Write-Host ""
     }
 }
@@ -123,23 +114,21 @@ function Show-Menu {
 function Show-NotReleased {
     param([string]$ProgramName)
     Write-Host ""
-    Write-Host "========================================" -ForegroundColor Yellow
-    Write-Host "           PROGRAM IN DEVELOPMENT       " -ForegroundColor Yellow
-    Write-Host "========================================" -ForegroundColor Yellow
+    Write-Host "========================================" -ForegroundColor White
+    Write-Host "           PROGRAM IN DEVELOPMENT       " -ForegroundColor White
+    Write-Host "========================================" -ForegroundColor White
     Write-Host ""
     Write-Host "$ProgramName is not released yet!" -ForegroundColor Yellow
     Write-Host "This program is currently in development." -ForegroundColor White
     Write-Host "Follow updates on GitHub!" -ForegroundColor Cyan
     Write-Host ""
-    Write-Host "========================================" -ForegroundColor Yellow
+    Write-Host "========================================" -ForegroundColor White
     Read-Host "Press Enter to return to menu"
 }
 
-# Function to install XTweaker Legacy
 function Install-XTweakerLegacy {
     Write-Host "=== Installing XTweaker Legacy ===" -ForegroundColor Green
     
-    # Check Java
     if (!(Check-Java)) {
         Write-Host "Java Runtime Environment 8 not found!" -ForegroundColor Yellow
         $installJava = Get-UserConfirmation "Do you want to install Java 8 automatically?"
@@ -170,7 +159,6 @@ function Install-XTweakerLegacy {
     Read-Host "Press Enter to return to menu"
 }
 
-# Function to install LunaClean
 function Install-LunaClean {
     Write-Host "=== Installing LunaClean ===" -ForegroundColor Green
     
@@ -190,11 +178,9 @@ function Install-LunaClean {
     Read-Host "Press Enter to return to menu"
 }
 
-# Function to install Not11
 function Install-Not11 {
     Write-Host "=== Installing Not11 ===" -ForegroundColor Green
     
-    # Check Java
     if (!(Check-Java)) {
         Write-Host "Java Runtime Environment 8 not found!" -ForegroundColor Yellow
         $installJava = Get-UserConfirmation "Do you want to install Java 8 automatically?"
@@ -210,7 +196,6 @@ function Install-Not11 {
     }
     
     try {
-        # Create directories
         Show-Progress -PercentComplete 3 -Status "Creating directories..."
         $not11Dir = "C:\Windows\System32\Not11"
         $backupDir = "$not11Dir\backup"
@@ -222,17 +207,14 @@ function Install-Not11 {
             New-Item -ItemType Directory -Path $backupDir -Force | Out-Null
         }
 
-        # Download files
         Show-Progress -PercentComplete 8 -Status "Downloading files..."
         
-        # ExplorerPatcher
         $epSetupPath = "C:\Windows\Temp\ep_setup.exe"
         if (!(Download-File -Url "https://github.com/valinet/ExplorerPatcher/releases/latest/download/ep_setup.exe" -OutputPath $epSetupPath)) {
             throw "Failed to download ExplorerPatcher"
         }
         Show-Progress -PercentComplete 15 -Status "ExplorerPatcher downloaded..."
 
-        # Registry files
         $tweaks1Path = "C:\Windows\Temp\Not11-Tweaks1.reg"
         if (!(Download-File -Url "https://raw.githubusercontent.com/timinside/Not11/refs/heads/data/Tweaks.reg" -OutputPath $tweaks1Path)) {
             throw "Failed to download Tweaks.reg"
@@ -245,12 +227,10 @@ function Install-Not11 {
         }
         Show-Progress -PercentComplete 22 -Status "FixTaskbar.reg downloaded..."
 
-        # Install ExplorerPatcher
         Show-Progress -PercentComplete 25 -Status "Installing ExplorerPatcher..."
         Start-Process -FilePath $epSetupPath -ArgumentList "/VERYSILENT" -Wait
         Show-Progress -PercentComplete 32 -Status "ExplorerPatcher installed..."
 
-        # Choose taskbar modification method
         Write-Host ""
         $useAlternative = Get-UserConfirmation "Use alternative taskbar modification method? (not recommended!)"
         
@@ -263,16 +243,12 @@ function Install-Not11 {
         }
         Show-Progress -PercentComplete 56 -Status "Registry tweaks applied..."
 
-        # Remove ExplorerPatcher shortcut
         $shortcutPath = "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\ExplorerPatcher"
         if (Test-Path $shortcutPath) {
             Remove-Item -Path $shortcutPath -Recurse -Force -ErrorAction SilentlyContinue
         }
 
-        # Install wallpapers
         Show-Progress -PercentComplete 60 -Status "Installing wallpapers..."
-        
-        # Create backups
         $wallpaperDir = "C:\Windows\Web\Wallpaper\Windows"
         $img0Path = "$wallpaperDir\img0.jpg"
         $img19Path = "$wallpaperDir\img19.jpg"
@@ -285,7 +261,6 @@ function Install-Not11 {
         }
         Show-Progress -PercentComplete 70 -Status "Backups created..."
 
-        # Download new wallpapers
         $newWallpaperUrl = "https://raw.githubusercontent.com/timinside/Not11/refs/heads/data/img0.jpg"
         $tempWallpaper = "C:\Windows\Temp\new_wallpaper.jpg"
         
@@ -296,21 +271,17 @@ function Install-Not11 {
         }
         Show-Progress -PercentComplete 85 -Status "Wallpapers installed..."
 
-        # Apply wallpapers
         $regCommand = "reg add `"HKEY_CURRENT_USER\Control Panel\Desktop`" /v Wallpaper /t REG_SZ /d `"$img0Path`" /f"
         Start-Process -FilePath "cmd" -ArgumentList "/c $regCommand" -Wait
         Show-Progress -PercentComplete 90 -Status "Wallpaper settings applied..."
 
-        # Update desktop
         Start-Process -FilePath "RUNDLL32.EXE" -ArgumentList "user32.dll,UpdatePerUserSystemParameters" -Wait
         Show-Progress -PercentComplete 99 -Status "Updating desktop..."
 
-        # Completion
         Show-Progress -PercentComplete 100 -Status "Installation completed!"
         Write-Host ""
         Write-Host "=== Not11 successfully installed! ===" -ForegroundColor Green
-        
-        # Clean up temporary files
+
         Remove-Item -Path $epSetupPath -Force -ErrorAction SilentlyContinue
         Remove-Item -Path $tweaks1Path -Force -ErrorAction SilentlyContinue
         Remove-Item -Path $tweaks2Path -Force -ErrorAction SilentlyContinue
@@ -339,7 +310,6 @@ function Install-Not11 {
     }
 }
 
-# Main program loop
 do {
     Show-Menu
     $choice = Read-Host "Enter option number"
@@ -352,7 +322,7 @@ do {
         "5" { Show-NotReleased "RedLauncher" }
         "6" { Show-NotReleased "LunaOS" }
         "0" { 
-            Write-Host "Thank you for using Software by BlueZero!" -ForegroundColor Blue
+            Write-Host "Thank you for using Software by BlueZero!" -ForegroundColor White
             exit 
         }
         default { 
