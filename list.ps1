@@ -403,7 +403,7 @@ function Install-XTweakerRebooted {
     
     Show-Progress -PercentComplete 10 -Status "Downloading XTweaker Rebooted..."
     $setupPath = "C:\Windows\Temp\XTweakerRebootedSetup.exe"
-    $url = "https://github.com/timinside/xtweaker-rebooted/releases/latest/download/XTweakerRebootedSetup.exe"
+    $url = "https://github.com/timinside/XTweakerRebooted/releases/latest/download/XTweakerSetup.exe"
     
     if (Download-File -Url $url -OutputPath $setupPath) {
         Show-Progress -PercentComplete 50 -Status "Running installer..."
