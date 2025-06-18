@@ -24,14 +24,14 @@
     <url>
         <loc>https://timinside.github.io/#xtweaker</loc>
         <lastmod>2025-06-18</lastmod>
-        <changefreq>monthly</changefreq>
+        <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
 
     <url>
         <loc>https://timinside.github.io/#not11</loc>
         <lastmod>2025-06-18</lastmod>
-        <changefreq>yearly</changefreq>
-        <priority>0.6</priority>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
     </url>
 </urlset>
