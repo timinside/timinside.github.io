@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LunaOS</title>
+    <meta name="description" content="Скачайте LunaOS для вашего компьютера, это совершенно бесплатно!">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root, html[data-theme="dark"] { --bg-color: #0a0a0a; --text-primary: #e5e5e5; --text-secondary: #a3a3a3; --text-tertiary: #737373; --glass-bg: rgba(17, 24, 39, 0.7); --glass-border: rgba(59, 130, 246, 0.2); --aurora-color-1: rgba(59, 130, 246, 0.35); --aurora-color-2: rgba(139, 92, 246, 0.25); }
+        html[data-theme="light"] { --bg-color: #f5f5f5; --text-primary: #171717; --text-secondary: #525252; --text-tertiary: #a3a3a3; --glass-bg: #ffffff; --glass-border: #e5e7eb; --aurora-color-1: rgba(59, 130, 246, 0.3); --aurora-color-2: rgba(167, 139, 250, 0.25); }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-primary); transition: background-color 0.3s ease, color 0.3s ease; scroll-behavior: smooth; }
+        .aurora-bg { position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; }
+        .aurora-shape { position: absolute; border-radius: 50%; transition: background 0.5s ease-in-out; }
+        .aurora-shape1 { height: 400px; width: 400px; background: radial-gradient(circle, var(--aurora-color-1) 0%, transparent 70%); top: -100px; left: -100px; animation: move-glow1 25s infinite alternate ease-in-out; }
+        .aurora-shape2 { height: 500px; width: 500px; background: radial-gradient(circle, var(--aurora-color-2) 0%, transparent 70%); bottom: -200px; right: -150px; animation: move-glow2 35s infinite alternate ease-in-out; }
+        @keyframes move-glow1 { 0% { transform: translate(-100px, -50px) scale(1) rotate(0deg); } 50% { transform: translate(150px, 200px) scale(1.5) rotate(180deg); } 100% { transform: translate(-100px, -50px) scale(1) rotate(360deg); } }
+        @keyframes move-glow2 { 0% { transform: translate(50px, 80px) scale(1.2) rotate(0deg); } 50% { transform: translate(-200px, -150px) scale(0.8) rotate(160deg); } 100% { transform: translate(50px, 80px) scale(1.2) rotate(360deg); } }
+        .glass-card { background: var(--glass-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid var(--glass-border); transition: background-color 0.3s ease, border-color 0.3s ease; }
+        p, .text-neutral-400 { color: var(--text-secondary); transition: color 0.3s ease; } .text-neutral-500 { color: var(--text-tertiary); transition: color 0.3s ease; }
+        .controls button, .controls a { transition: all 0.2s ease-in-out; color: var(--text-secondary); }
+        .scroll-reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+        .scroll-reveal.visible { opacity: 1; transform: translateY(0); }
+        .faq-item summary::-webkit-details-marker { display: none; } .faq-item summary { list-style: none; }
+        #custom-alert-overlay {
+            transition: opacity 0.3s ease-in-out;
+        }
+        #custom-alert-modal {
+            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+        }
+        #custom-alert-overlay.hidden #custom-alert-modal {
+            transform: scale(0.95);
+            opacity: 0;
+        }
+    </style>
+</head>
+<body class="antialiased relative overflow-x-hidden">
+
+    <div class="aurora-bg"><div class="aurora-shape aurora-shape1"></div><div class="aurora-shape aurora-shape2"></div></div>
+    
+    <div class="relative min-h-screen flex flex-col items-center justify-center text-center px-4 overflow-hidden">
+        <header class="absolute top-0 left-0 right-0 p-6 z-30">
+            <nav class="container mx-auto flex justify-between items-center">
+                <!-- === ИЗМЕНЕНИЕ: Удалена иконка и синий цвет у логотипа === -->
+                <a href="#" class="z-50"><h1 class="text-2xl font-bold tracking-wider">LunaOS</h1></a>
+                
+                <div class="hidden md:flex items-center gap-4 sm:gap-6 controls">
+                    <button id="theme-toggle-desktop" class="theme-btn p-2 rounded-full hover:bg-white/10"><svg class="sun-icon h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg><svg class="moon-icon h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg></button>
+                </div>
+                <div class="md:hidden z-50"><button id="menu-btn" class="p-2"><svg id="menu-open-icon" class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg><svg id="menu-close-icon" class="h-6 w-6 hidden" stroke="currentColor" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button></div>
+            </nav>
+        </header>
+
+        <div id="mobile-menu" class="hidden md:hidden fixed inset-0 z-20">
+            <div class="absolute inset-0 glass-card"></div>
+            <div class="relative z-30 h-full flex flex-col items-center justify-center text-center gap-10 controls">
+                <a href="#faq" class="text-2xl mobile-menu-link hover:text-white">FAQ</a>
+                <button id="theme-toggle-mobile" class="theme-btn p-3 rounded-full bg-black/10 dark:bg-white/10"><svg class="sun-icon h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg><svg class="moon-icon h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg></button>
+                <a href="#download" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-10 rounded-lg text-lg mobile-menu-link">К загрузкам</a>
+            </div>
+        </div>
+
+        <main class="z-10 scroll-reveal"><h1 class="text-5xl md:text-7xl font-black mb-4 leading-tight tracking-tighter">LunaOS: <span class='text-blue-500'>Перерождение Windows.</span></h1><p class="max-w-3xl mx-auto text-lg md:text-xl text-neutral-400 mb-8">Выберите свою идеальную систему. Максимальная производительность для новых ПК или экстремальная легкость для проверенного железа.</p><a href="#download" class="bg-white text-black font-bold py-4 px-8 rounded-lg hover:bg-neutral-200 transition-all duration-300 transform hover:scale-105">К загрузкам</a></main>
+    </div>
+    <section id="download" class="py-20 sm:py-32 container mx-auto px-4"><div class="scroll-reveal text-center mb-12"><h2 class="text-4xl md:text-5xl font-bold">Выберите свою версию</h2><p class="text-lg text-neutral-400 mt-4">Две уникальные сборки для разных задач, и патчер чтобы сделать вашу Windows лучше!</p></div><div class="scroll-reveal max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="glass-card rounded-2xl p-8 flex flex-col text-center"><h3 class="text-3xl font-bold">LunaOS 11</h3><p class="text-blue-400 mb-4">На базе Windows 11 Pro 22H2</p><p class="flex-grow text-neutral-400 mb-6">Современный дизайн и все последние технологии Windows, очищенные от мусора и телеметрии. Идеально для мощных ПК и игр.</p><a href="#" class="w-full bg-blue-600 text-white font-bold py-4 px-8 rounded-lg hover:bg-blue-700 transition-all duration-300 transform hover:scale-105">Скачать</a></div>
+        <div class="glass-card rounded-2xl p-8 flex flex-col text-center"><h3 class="text-3xl font-bold">LunaOS 10</h3><p class="text-blue-400 mb-4">На базе Windows 10 Pro 22H2</p><p class="flex-grow text-neutral-400 mb-6">Максимально стабильная и легкая система. Оживит любой, даже самый старый ПК или ноутбук.</p><a href="#" class="w-full bg-blue-600 text-white font-bold py-4 px-8 rounded-lg hover:bg-blue-700 transition-all duration-300 transform hover:scale-105">Скачать</a></div>
+        <div class="glass-card rounded-2xl p-8 flex flex-col text-center md:col-span-2 lg:col-span-1"><h3 class="text-3xl font-bold">Патчер</h3><p class="text-indigo-400 mb-4">Тестирование</p><p class="flex-grow text-neutral-400 mb-6">Сделай из обычной Windows - LunaOS, просто скачав и запустив патчер.</p><a href="#" class="w-full bg-blue-600 text-white font-bold py-4 px-8 rounded-lg hover:bg-blue-700 transition-all duration-300 transform hover:scale-105">Скачать</a></div>
+    </div></section>
+
+    <section id="faq" class="py-20 sm:py-32 container mx-auto px-4"><div class="scroll-reveal text-center mb-12"><h2 class="text-4xl md:text-5xl font-bold">Частые вопросы</h2></div><div class="scroll-reveal max-w-3xl mx-auto glass-card rounded-2xl p-4 md:p-6 space-y-2"><details class="faq-item p-4 rounded-lg hover:bg-white/5 transition-colors duration-300"><summary class="font-semibold text-lg cursor-pointer flex justify-between items-center">Безопасно ли это использовать?<span class="text-blue-500 text-3xl font-light transform transition-transform duration-300">+</span></summary><p class="mt-4 text-neutral-400">Абсолютно. Все сборки основаны на официальных образах Microsoft. Мы только удаляем лишнее, не добавляя ничего стороннего.</p></details><details class="faq-item p-4 rounded-lg hover:bg-white/5 transition-colors duration-300"><summary class="font-semibold text-lg cursor-pointer flex justify-between items-center">Чем это лучше обычной Windows?<span class="text-blue-500 text-3xl font-light transform transition-transform duration-300">+</span></summary><p class="mt-4 text-neutral-400">LunaOS потребляет значительно меньше оперативной памяти и ресурсов процессора, что приводит к повышению FPS в играх и отзывчивости системы.</p></details><details class="faq-item p-4 rounded-lg hover:bg-white/5 transition-colors duration-300"><summary class="font-semibold text-lg cursor-pointer flex justify-between items-center">Какой образ мне выбрать?<span class="text-blue-500 text-3xl font-light transform transition-transform duration-300">+</span></summary><p class="mt-4 text-neutral-400">Если у вас современный ПК — выбирайте LunaOS 11. Если компьютер старый или вам нужна максимальная стабильность — LunaOS 10 будет идеальным выбором.</p></details></div></section>
+    <section id="from-developer" class="py-20 sm:py-32"><div class="scroll-reveal container mx-auto px-4 max-w-4xl text-center"><div class="glass-card rounded-2xl p-10 md:p-16"><h3 class="text-3xl font-bold mb-4">От создателя</h3><p class="text-neutral-400 text-lg leading-relaxed">"Привет! Я создал LunaOS, потому что верю, что каждый заслуживает быструю и отзывчивую систему, независимо от мощности его ПК. Моя цель — дать вам чистый опыт Windows, без лишнего мусора и шпионажа, чтобы вы могли сосредоточиться на главном: на играх, работе и творчестве."</p></div></div></section>
+    <footer class="py-8 border-t border-white/20"><div class="container mx-auto px-4 text-center text-neutral-400"><p>Сайт находится на стадии разработки.</p><p class="text-sm text-neutral-500 mt-2">Проект не аффилирован с Microsoft Corporation.</p></div></footer>
+    
+    <div id="custom-alert-overlay" class="fixed inset-0 z-50 bg-black/70 flex items-center justify-center p-4 hidden">
+        <div id="custom-alert-modal" class="glass-card rounded-2xl p-8 max-w-sm w-full text-center shadow-2xl shadow-black/50">
+            <h3 class="text-2xl font-bold">Уведомление</h3>
+            <p class="mt-3 mb-6">Эта версия еще не доступна. Зайдите позже!</p>
+            <button id="close-alert-btn" class="w-full bg-blue-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-blue-700 transition-all duration-300 transform hover:scale-105">Понятно</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeButtons = document.querySelectorAll('#theme-toggle-desktop, #theme-toggle-mobile'); const sunIcons = document.querySelectorAll('.sun-icon'); const moonIcons = document.querySelectorAll('.moon-icon');
+            const applyTheme = (theme) => { document.documentElement.setAttribute('data-theme', theme); localStorage.setItem('lunaos_theme', theme); sunIcons.forEach(i => i.classList.toggle('hidden', theme === 'dark')); moonIcons.forEach(i => i.classList.toggle('hidden', theme === 'light')); };
+            themeButtons.forEach(btn => btn.addEventListener('click', () => { const newTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'; applyTheme(newTheme); }));
+            const savedTheme = localStorage.getItem('lunaos_theme') || 'dark'; applyTheme(savedTheme);
+            const menuBtn = document.getElementById('menu-btn'); const mobileMenu = document.getElementById('mobile-menu'); const openIcon = document.getElementById('menu-open-icon'); const closeIcon = document.getElementById('menu-close-icon');
+            menuBtn.addEventListener('click', () => { const isHidden = mobileMenu.classList.contains('hidden'); mobileMenu.classList.toggle('hidden', !isHidden); openIcon.classList.toggle('hidden', !isHidden); closeIcon.classList.toggle('hidden', isHidden); document.body.style.overflow = isHidden ? 'hidden' : ''; });
+            document.querySelectorAll('.mobile-menu-link').forEach(link => { link.addEventListener('click', () => { mobileMenu.classList.add('hidden'); openIcon.classList.remove('hidden'); closeIcon.classList.add('hidden'); document.body.style.overflow = ''; }); });
+            const scrollElements = document.querySelectorAll('.scroll-reveal'); const elementInView = (el) => el.getBoundingClientRect().top <= (window.innerHeight || document.documentElement.clientHeight);
+            const displayScrollElement = (element) => element.classList.add('visible');
+            const handleScrollAnimation = () => scrollElements.forEach((el) => { if (elementInView(el)) displayScrollElement(el); });
+            window.addEventListener('scroll', handleScrollAnimation); handleScrollAnimation();
+            document.querySelectorAll('.faq-item').forEach(item => { item.addEventListener('toggle', () => { const icon = item.querySelector('summary span:last-child'); icon.style.transform = item.open ? 'rotate(45deg)' : 'rotate(0deg)'; }); });
+
+            const alertOverlay = document.getElementById('custom-alert-overlay');
+            const closeAlertBtn = document.getElementById('close-alert-btn');
+
+            function openModal() {
+                alertOverlay.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeModal() {
+                alertOverlay.classList.add('hidden');
+                document.body.style.overflow = '';
+            }
+
+            document.querySelectorAll('#download a[href="#"]').forEach(button => {
+                button.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    openModal();
+                });
+            });
+
+            closeAlertBtn.addEventListener('click', closeModal);
+            alertOverlay.addEventListener('click', (event) => { 
+                if (event.target === alertOverlay) {
+                    closeModal();
+                }
+            });
+            document.addEventListener('keydown', (event) => { 
+                if (event.key === 'Escape' && !alertOverlay.classList.contains('hidden')) {
+                    closeModal();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
