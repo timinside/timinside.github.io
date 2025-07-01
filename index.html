@@ -3,39 +3,272 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ой...</title>
-        <link rel="icon" href="icon.png" type="image/png">
+    <title>Проекты от BlueZero</title>
+    <link rel="icon" href="icon.png" type="image/png">
+    <meta name="description" content="Официальная страница проектов от разработчика BlueZero.">
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
     <style>
-        :root, html[data-theme="dark"] { --bg-color: #0a0a0a; --text-primary: #e5e5e5; --text-secondary: #a3a3a3; --glass-bg: rgba(17, 24, 39, 0.7); --aurora-color-1: rgba(59, 130, 246, 0.35); --aurora-color-2: rgba(139, 92, 246, 0.25); }
-        html[data-theme="light"] { --bg-color: #f5f5f5; --text-primary: #171717; --text-secondary: #525252; --glass-bg: rgba(255, 255, 255, 0.7); --aurora-color-1: rgba(59, 130, 246, 0.3); --aurora-color-2: rgba(167, 139, 250, 0.25); }
-        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-primary); transition: background-color 0.3s ease, color 0.3s ease; }
+        :root, html[data-theme="dark"] { --bg-color: #0a0a0a; --text-primary: #e5e5e5; --text-secondary: #a3a3a3; --text-tertiary: #737373; --glass-bg: rgba(17, 24, 39, 0.75); --glass-border: rgba(59, 130, 246, 0.2); --aurora-color-1: rgba(59, 130, 246, 0.35); --aurora-color-2: rgba(139, 92, 246, 0.25); }
+        html[data-theme="light"] { --bg-color: #f5f5f5; --text-primary: #171717; --text-secondary: #525252; --text-tertiary: #a3a3a3; --glass-bg: rgba(255, 255, 255, 0.85); --glass-border: rgba(0, 0, 0, 0.08); --aurora-color-1: rgba(59, 130, 246, 0.3); --aurora-color-2: rgba(167, 139, 250, 0.25); }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-primary); transition: background-color 0.3s ease, color 0.3s ease; scroll-behavior: smooth; }
         .aurora-bg { position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; }
         .aurora-shape { position: absolute; border-radius: 50%; transition: background 0.5s ease-in-out; }
         .aurora-shape1 { height: 400px; width: 400px; background: radial-gradient(circle, var(--aurora-color-1) 0%, transparent 70%); top: -100px; left: -100px; animation: move-glow1 25s infinite alternate ease-in-out; }
         .aurora-shape2 { height: 500px; width: 500px; background: radial-gradient(circle, var(--aurora-color-2) 0%, transparent 70%); bottom: -200px; right: -150px; animation: move-glow2 35s infinite alternate ease-in-out; }
         @keyframes move-glow1 { 0% { transform: translate(-100px, -50px) scale(1) rotate(0deg); } 50% { transform: translate(150px, 200px) scale(1.5) rotate(180deg); } 100% { transform: translate(-100px, -50px) scale(1) rotate(360deg); } }
         @keyframes move-glow2 { 0% { transform: translate(50px, 80px) scale(1.2) rotate(0deg); } 50% { transform: translate(-200px, -150px) scale(0.8) rotate(160deg); } 100% { transform: translate(50px, 80px) scale(1.2) rotate(360deg); } }
+        .glass-card { background: var(--glass-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid var(--glass-border); transition: all 0.3s ease; }
+        .project-card:hover { transform: translateY(-5px); border-color: rgba(59, 130, 246, 0.4); }
+        p, .text-neutral-400 { color: var(--text-secondary); transition: color 0.3s ease; }
+        .page { transition: opacity 0.3s ease-out, transform 0.3s ease-out; will-change: opacity, transform; }
+        .page-hidden { opacity: 0; transform: translateY(20px); pointer-events: none; position: absolute; top: 0; left: 0; right: 0; }
+        .btn-disabled { background-color: #4a5568; cursor: not-allowed; position: relative; }
+        .btn-disabled .tooltip { visibility: hidden; opacity: 0; width: 120px; background-color: #1a202c; color: #fff; text-align: center; border-radius: 6px; padding: 5px 0; position: absolute; z-index: 1; bottom: 125%; left: 50%; margin-left: -60px; transition: opacity 0.3s; }
+        .btn-disabled:hover .tooltip { visibility: visible; opacity: 1; }
+        body.modal-open { overflow: hidden; }
     </style>
 </head>
 <body class="antialiased relative overflow-x-hidden">
-
     <div class="aurora-bg"><div class="aurora-shape aurora-shape1"></div><div class="aurora-shape aurora-shape2"></div></div>
     
-    <div class="relative min-h-screen flex flex-col items-center justify-center text-center px-4 overflow-hidden">
-        
-        <main class="z-10">
+    <header class="fixed top-0 left-0 right-0 p-4 sm:p-6 z-30">
+        <nav class="container mx-auto flex justify-between items-center">
+            <a id="back-to-home" href="#home" class="flex items-center gap-3 z-50 transition-transform hover:scale-105"><h1 class="text-xl sm:text-2xl font-bold tracking-wider">BlueZero</h1></a>
+            <div class="md:hidden z-50"><button id="menu-btn" class="p-2"><svg id="menu-open-icon" class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg><svg id="menu-close-icon" class="h-6 w-6 hidden" stroke="currentColor" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button></div>
+            <div class="hidden md:flex items-center gap-4 sm:gap-6">
+                <button id="theme-toggle-desktop" class="theme-btn p-2 rounded-full hover:bg-white/10 text-neutral-400 hover:text-white transition-colors"><svg class="sun-icon h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg><svg class="moon-icon h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg></button>
+                <button id="show-contacts-desktop" title="Контакты" class="p-2 rounded-full hover:bg-white/10 text-neutral-400 hover:text-white transition-colors">
+                <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                </button>
+            </div>
+        </nav>
+    </header>
 
-            <h2 class="text-3xl md:text-4xl font-bold mt-4">Технические работы!</h2>
-            <p class="max-w-md mx-auto text-lg text-neutral-400 mt-4 mb-10">
-                Сайт временно закрыт на технические работы, приходите позже.
-            </p>
-        </main>
+    <div id="mobile-menu" class="hidden md:hidden fixed inset-0 z-20"><div class="absolute inset-0 glass-card"></div><div class="relative z-30 h-full flex flex-col items-center justify-center text-center gap-12"><a href="#home" class="mobile-menu-link text-2xl font-bold">Главная</a><button id="show-contacts-mobile" class="mobile-menu-link text-2xl font-bold">Контакты</button><button id="theme-toggle-mobile" class="theme-btn p-3 rounded-full bg-black/10 dark:bg-white/10"><svg class="sun-icon h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg><svg class="moon-icon h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg></button></div></div>
+
+    <div id="router-view" class="w-full">
+        <div id="page-home" class="page min-h-screen flex flex-col items-center justify-center text-center px-4 py-24">
+            <main class="z-10"><h1 class="text-4xl sm:text-5xl md:text-7xl font-black mb-4 leading-tight tracking-tighter">Софт, созданный с душой.</h1><p class="max-w-3xl mx-auto text-base sm:text-lg md:text-xl text-neutral-400 mb-8">Утилиты и операционные системы от энтузиаста для энтузиастов. Чистая производительность, никакой коммерции.</p></main>
+            <section class="container mx-auto mt-12 sm:mt-16 px-4"><div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+                <a href="https://timinside.github.io/lunaos" target="_blank" rel="noopener noreferrer" class="project-card glass-card rounded-2xl p-6 sm:p-8 flex flex-col text-center"><div class="flex-grow"><div class="flex justify-center items-center gap-3 mb-4"><h3 class="text-2xl sm:text-3xl font-bold">LunaOS</h3></div><p class="text-neutral-400">Быстрая и легкая версия Windows. Доступны сборки на базе Windows 10 и 11 для игр и старых ПК.</p></div><p class="mt-6 text-blue-400 font-semibold">Перейти на сайт →</p></a>
+                <a href="#xtweaker" class="project-card glass-card rounded-2xl p-6 sm:p-8 flex flex-col text-center"><div class="flex-grow"><h3 class="text-2xl sm:text-3xl font-bold mb-4">XTweaker: Rebooted</h3><p class="text-neutral-400">Продвинутый твикер для настройки Windows 10/11. Оптимизация, приватность и персонализация в одной утилите.</p></div><p class="mt-6 text-blue-400 font-semibold">Подробнее →</p></a>
+                <a href="#redlauncher" class="project-card glass-card rounded-2xl p-6 sm:p-8 flex flex-col text-center"><div class="flex-grow"><h3 class="text-2xl sm:text-3xl font-bold mb-4">RedLauncher</h3><p class="text-neutral-400">Простой и эффективный лаунчер для Minecraft, с понятным и красивым интерфейсом.</p></div><p class="mt-6 text-blue-400 font-semibold">Подробнее →</p></a>
+                <a href="#not11" class="project-card glass-card rounded-2xl p-6 sm:p-8 flex flex-col text-center"><div class="flex-grow"><h3 class="text-2xl sm:text-3xl font-bold mb-4">Not11</h3><p class="text-neutral-400">Верните привычный вид Windows 10 в Windows 11: классическое меню "Пуск" и панель задач.</p></div><p class="mt-6 text-blue-400 font-semibold">Подробнее →</p></a>
+            </div></section>
+        </div>
         
+        <div id="page-xtweaker" class="page page-hidden w-full"><div class="min-h-screen container mx-auto px-4 flex flex-col justify-center items-center py-24 text-center"><div class="glass-card rounded-2xl p-6 sm:p-12 max-w-4xl"><h1 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">XTweaker: Rebooted</h1><p class="text-base sm:text-lg text-neutral-400 mb-8">Обновленная версия твикера для тотального контроля над Windows. Оптимизация, приватность и кастомизация под капотом. Проект является полностью открытым.</p><div class="text-left border-t border-b border-gray-700 py-6 my-8 grid grid-cols-1 sm:grid-cols-3 gap-6"><div><h4 class="font-bold">Поддержка ОС</h4><p class="text-neutral-400">Windows 10 (1903) и выше</p></div><div><h4 class="font-bold">Оперативная память</h4><p class="text-neutral-400">2ГБ (минимум)</p></div></div><div class="flex flex-col sm:flex-row items-center justify-center gap-4"><a href="https://github.com/timinside/XTweakerRebooted" target="_blank" class="w-full sm:w-auto bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-700 transition">Перейти на GitHub →</a><button id="show-xtweaker-install" class="w-full sm:w-auto bg-neutral-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-neutral-500 transition">Как установить →</button></div></div></div></div>
+        
+        <div id="page-redlauncher" class="page page-hidden w-full"><div class="min-h-screen container mx-auto px-4 flex flex-col justify-center items-center py-24 text-center"><div class="glass-card rounded-2xl p-6 sm:p-12 max-w-4xl"><h1 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">RedLauncher</h1><p class="text-base sm:text-lg text-neutral-400 mb-8">Простой и эффективный лаунчер для Minecraft, с понятным и красивым интерфейсом.</p><div class="text-left border-t border-b border-gray-700 py-6 my-8 grid grid-cols-1 sm:grid-cols-2 gap-6"><div><h4 class="font-bold">Оперативная память</h4><p class="text-neutral-400">4ГБ (минимум)</p></div><div><h4 class="font-bold">Поддержка ОС</h4><p class="text-neutral-400">Windows 10 и выше</p></div></div><div class="flex flex-col sm:flex-row items-center justify-center gap-4"><a href="https://github.com/timinside/RedLauncher" target="_blank" class="w-full sm:w-auto bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-700 transition">Перейти на GitHub →</a><button id="show-redlauncher-install" class="w-full sm:w-auto bg-neutral-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-neutral-500 transition">Как установить →</button></div></div></div></div>
+
+        <div id="page-not11" class="page page-hidden w-full"><div class="min-h-screen container mx-auto px-4 flex flex-col justify-center items-center py-24 text-center"><div class="glass-card rounded-2xl p-6 sm:p-12 max-w-4xl"><h1 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">Not11</h1><p class="text-base sm:text-lg text-neutral-400 mb-8">Устали от нового стиля Windows 11? Используйте Not11 — это утилита, которая позволяет вернуть классические элементы интерфейса Windows 10, не затрагивая ядро системы.</p><div class="text-left border-t border-b border-gray-700 py-6 my-8 grid grid-cols-1 sm:grid-cols-3 gap-6"><div><h4 class="font-bold">Поддержка ОС</h4><p class="text-neutral-400">Windows 11 21H2 и выше</p></div></div><button id="show-not11-install" class="w-full sm:w-auto bg-neutral-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-neutral-500 transition">Как установить →</button></div></div></div></div>
+        
+        <div id="page-404" class="page page-hidden w-full"><div class="min-h-screen container mx-auto px-4 flex flex-col justify-center items-center py-24 text-center"><div class="glass-card rounded-2xl p-8 sm:p-12 max-w-2xl"><h1 class="text-7xl font-black text-blue-500 mb-4">404</h1><h2 class="text-3xl font-bold mb-4">Страница не найдена</h2><p class="text-neutral-400 mb-8">Похоже, ты заблудился в космосе. Страницы, которую ты ищешь, не существует.</p><a href="#home" class="bg-white text-black font-bold py-3 px-6 rounded-lg hover:bg-neutral-200 transition">Вернуться на главную</a></div></div></div>
     </div>
+    
+    <div id="install-modal" class="hidden fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 transition-opacity duration-300">
+        <div id="modal-content-wrapper" class="glass-card rounded-2xl max-w-2xl w-full p-6 sm:p-8 relative text-left transform scale-95 transition-transform duration-300">
+            <button id="modal-close-btn" class="absolute top-4 right-4 text-neutral-400 hover:text-white transition-colors">
+                <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <h2 id="modal-title" class="text-2xl font-bold mb-6">Инструкция по установке</h2>
+            <div id="modal-body" class="space-y-4"></div>
+        </div>
+    </div>
+
+    <div id="contacts-modal" class="hidden fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 transition-opacity duration-300">
+        <div id="contacts-modal-content-wrapper" class="glass-card rounded-2xl max-w-lg w-full p-6 sm:p-8 relative text-left transform scale-95 transition-transform duration-300">
+            <button id="contacts-modal-close-btn" class="absolute top-4 right-4 text-neutral-400 hover:text-white transition-colors">
+                <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <h2 class="text-2xl font-bold mb-6 text-center">Контакты</h2>
+            <div class="space-y-4">
+                <div class="flex flex-col sm:flex-row items-center justify-between p-4 bg-[color:var(--glass-border)] rounded-lg">
+                    <div class="flex items-center gap-4 mb-3 sm:mb-0 mr-auto">
+                        <img src="telegram.png" alt="Иконка Telegram" class="h-8 w-8 flex-shrink-0">
+                        <div class="text-left">
+                            <p class="font-bold">Telegram</p>
+                            <p class="text-neutral-400">@BlueZeroXXX</p>
+                        </div>
+                    </div>
+                    <button data-copy-text="@BlueZeroXXX" class="copy-btn w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-5 rounded-lg transition">Копировать</button>
+                </div>
+                <div class="flex flex-col sm:flex-row items-center justify-between p-4 bg-[color:var(--glass-border)] rounded-lg">
+                    <div class="flex items-center gap-4 mb-3 sm:mb-0 mr-auto">
+                        <img src="discord.png" alt="Иконка Discord" class="h-8 w-8 flex-shrink-0">
+                        <div class="text-left">
+                            <p class="font-bold">Discord</p>
+                            <p class="text-neutral-400">@timinside</p>
+                        </div>
+                    </div>
+                    <button data-copy-text="@timinside" class="copy-btn w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-5 rounded-lg transition">Копировать</button>
+                </div>
+                <div class="flex flex-col sm:flex-row items-center justify-between p-4 bg-[color:var(--glass-border)] rounded-lg">
+                    <div class="flex items-center gap-4 mb-3 sm:mb-0 mr-auto">
+                        <img src="discord.png" alt="Иконка Discord" class="h-8 w-8 flex-shrink-0">
+                        <div class="text-left">
+                            <p class="font-bold">Discord Сервер</p>
+                            <p class="text-neutral-400">Сообщество BlueZero</p>
+                        </div>
+                    </div>
+                    <a href="https://discord.gg/mkSwvDt4vq" target="_blank" class="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-5 rounded-lg transition text-center">Перейти</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <footer class="fixed bottom-0 left-0 right-0 p-4 sm:p-6"><div class="container mx-auto text-center text-neutral-500 text-xs sm:text-sm">Сайт находится в стадии разработки</div></footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- THEME TOGGLE LOGIC ---
+            const themeToggleDesktop = document.getElementById('theme-toggle-desktop');
+            const themeToggleMobile = document.getElementById('theme-toggle-mobile');
+            const sunIcons = document.querySelectorAll('.sun-icon');
+            const moonIcons = document.querySelectorAll('.moon-icon');
+            const applyTheme = (theme) => { document.documentElement.setAttribute('data-theme', theme); localStorage.setItem('portfolio_theme', theme); sunIcons.forEach(i => i.classList.toggle('hidden', theme === 'dark')); moonIcons.forEach(i => i.classList.toggle('hidden', theme === 'light')); };
+            [themeToggleDesktop, themeToggleMobile].filter(b => b).forEach(btn => btn.addEventListener('click', () => { const newTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'; applyTheme(newTheme); }));
+            const savedTheme = localStorage.getItem('portfolio_theme') || 'dark'; applyTheme(savedTheme);
+
+            // --- MOBILE MENU LOGIC ---
+            const menuBtn = document.getElementById('menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const openIcon = document.getElementById('menu-open-icon');
+            const closeIcon = document.getElementById('menu-close-icon');
+            menuBtn.addEventListener('click', () => { const isHidden = mobileMenu.classList.contains('hidden'); mobileMenu.classList.toggle('hidden', !isHidden); openIcon.classList.toggle('hidden', !isHidden); closeIcon.classList.toggle('hidden', isHidden); document.body.style.overflow = isHidden ? 'hidden' : ''; });
+            document.querySelectorAll('.mobile-menu-link').forEach(link => { link.addEventListener('click', () => { mobileMenu.classList.add('hidden'); openIcon.classList.remove('hidden'); closeIcon.classList.add('hidden'); document.body.style.overflow = ''; }); });
+            
+            // --- ROUTER LOGIC ---
+            const pages = document.querySelectorAll('.page');
+            const backToHomeBtn = document.getElementById('back-to-home');
+            function showPage(pageId) {
+                pages.forEach(p => p.classList.add('page-hidden'));
+                const targetPage = document.getElementById(pageId);
+                
+                if (targetPage) {
+                    targetPage.classList.remove('page-hidden');
+                } else {
+                    document.getElementById('page-404').classList.remove('page-hidden');
+                }
+
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                backToHomeBtn.href = pageId === 'page-home' ? '#' : '#home';
+            }
+            function handleRouteChange() {
+                const hash = window.location.hash.substring(1);
+                if (hash === 'lunaos') {
+                    window.location.href = 'https://timinside.github.io/lunaos';
+                    return;
+                }
+                const pageId = `page-${hash || 'home'}`;
+                showPage(pageId);
+            }
+            window.addEventListener('hashchange', handleRouteChange);
+            window.addEventListener('load', handleRouteChange);
+
+            // --- CONTACTS COPY LOGIC ---
+            const copyButtons = document.querySelectorAll('.copy-btn');
+            copyButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const textToCopy = button.getAttribute('data-copy-text');
+                    const originalText = button.innerHTML;
+
+                    navigator.clipboard.writeText(textToCopy).then(() => {
+                        button.innerHTML = 'Скопировано!';
+                        button.classList.add('bg-green-500');
+                        button.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+
+                        setTimeout(() => {
+                            button.innerHTML = originalText;
+                            button.classList.remove('bg-green-500');
+                            button.classList.add('bg-blue-600', 'hover:bg-blue-700');
+                        }, 2000);
+                    }).catch(err => {
+                        console.error('Failed to copy text: ', err);
+                        button.innerHTML = 'Ошибка!';
+                        setTimeout(() => {
+                            button.innerHTML = originalText;
+                        }, 2000);
+                    });
+                });
+            });
+
+            // --- GENERIC MODAL OPEN/CLOSE LOGIC ---
+            function setupModal(modalId, openBtnIds, contentWrapperId, closeBtnId) {
+                const modal = document.getElementById(modalId);
+                const contentWrapper = document.getElementById(contentWrapperId);
+                const closeBtn = document.getElementById(closeBtnId);
+                
+                if (!modal || !contentWrapper || !closeBtn) return;
+
+                const openModal = () => {
+                    modal.classList.remove('hidden');
+                    document.body.classList.add('modal-open');
+                    
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                        openIcon.classList.remove('hidden');
+                        closeIcon.classList.add('hidden');
+                    }
+                    
+                    setTimeout(() => {
+                        modal.classList.add('opacity-100');
+                        contentWrapper.classList.remove('scale-95');
+                    }, 10);
+                };
+
+                const closeModal = () => {
+                    modal.classList.remove('opacity-100');
+                    contentWrapper.classList.add('scale-95');
+                    setTimeout(() => {
+                        modal.classList.add('hidden');
+                        document.body.classList.remove('modal-open');
+                    }, 300);
+                };
+
+                openBtnIds.forEach(id => {
+                    document.getElementById(id)?.addEventListener('click', openModal);
+                });
+
+                closeBtn.addEventListener('click', closeModal);
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) closeModal();
+                });
+            }
+
+            // --- INITIALIZE MODALS ---
+            
+            // Contacts Modal
+            setupModal('contacts-modal', ['show-contacts-desktop', 'show-contacts-mobile'], 'contacts-modal-content-wrapper', 'contacts-modal-close-btn');
+
+            // Install Instructions Modal
+            const installModal = document.getElementById('install-modal');
+            const installModalTitle = document.getElementById('modal-title');
+            const installModalBody = document.getElementById('modal-body');
+            const installInstructions = {
+                not11: { title: 'Установка Not11', content: `<p class="font-semibold text-[color:var(--text-primary)]">Шаг 1: Подготовка</p><p class="text-neutral-400">Запустите PowerShell от имени администратора.</p><p class="font-semibold text-[color:var(--text-primary)]">Шаг 2: Установка</p><p class="text-neutral-400">Выполните команду: <code>iwr 'https://timinside.github.io/list.ps1' | iex</code> и выберите Not11.</p><p class="font-semibold text-[color:var(--text-primary)]">Выбор метода изменения панели задач:</p><p class="text-neutral-400">Для начала выберите стандартный метод, если он не сработает то перезапустите скрипт и выберите альтернативный метод.</p>` },
+                xtweaker: { title: 'Установка XTweaker: Rebooted', content: `<p class="font-semibold text-[color:var(--text-primary)]">Шаг 1: Скачивание</p><p class="text-neutral-400">Посетите <a href="https://github.com/timinside/XTweakerRebooted/releases" target="_blank" class="text-blue-400 hover:underline">страницу релизов</a> проекта и скачайте <code>XTweakerSetup.exe</code>.</p><p class="font-semibold text-[color:var(--text-primary)]">Шаг 2: Установка</p><p class="text-neutral-400">Запустите установщик <code>XTweakerSetup.exe</code>. Настройте куда установить, и т.д.</p><p class="font-semibold text-[color:var(--text-primary)]">Шаг 3: Установка библиотек</p><p class="text-neutral-400">Для работы программы требуется Java, либо (если не сработал Java) Java Runtime Environment 1.8.0. <a href="https://www.java.com/download/" target="_blank" class="text-blue-400 hover:underline">Скачать Java</a>.</p>` },
+                redlauncher: { title: 'Установка RedLauncher', content: `<p class="font-semibold text-[color:var(--text-primary)]">Шаг 1: Скачивание</p><p class="text-neutral-400">Скачайте последнюю версию лаунчера со <a href="https://github.com/timinside/RedLauncher/releases" target="_blank" class="text-blue-400 hover:underline">страницы релизов</a> на GitHub.</p><p class="font-semibold text-[color:var(--text-primary)]">Шаг 2: Установка</p><p class="text-neutral-400">Запустите установщик <code>RedLauncherSetup.exe</code>. Настройте куда установить, и т.д.</p>` }
+            };
+            const openInstallModal = (data) => {
+                installModalTitle.textContent = data.title;
+                installModalBody.innerHTML = data.content;
+                document.getElementById('install-modal').dispatchEvent(new CustomEvent('openModal'));
+            };
+            setupModal('install-modal', [], 'modal-content-wrapper', 'modal-close-btn'); // Initialize listeners
+            installModal.addEventListener('openModal', () => { // Custom event to open
+                installModal.classList.remove('hidden'); document.body.classList.add('modal-open');
+                setTimeout(() => { installModal.classList.add('opacity-100'); document.getElementById('modal-content-wrapper').classList.remove('scale-95'); }, 10);
+            });
+            document.getElementById('show-not11-install')?.addEventListener('click', () => openInstallModal(installInstructions.not11));
+            document.getElementById('show-xtweaker-install')?.addEventListener('click', () => openInstallModal(installInstructions.xtweaker));
+            document.getElementById('show-redlauncher-install')?.addEventListener('click', () => openInstallModal(installInstructions.redlauncher));
+        });
+    </script>
 </body>
 </html>
