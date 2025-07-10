@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BetterDevelNext - Улучшенная среда разработки</title>
+    <link rel="icon" href="icon.png" type="image/png">
+    
+    <style>
+        :root {
+            --bg-color: #f3f3f3;
+            --surface-color: #ffffff;
+            --surface-color-transparent: rgba(255, 255, 255, 0.6);
+            --text-color: #000000;
+            --text-secondary-color: #5c5c5c;
+            --accent-color: #4A55D8;
+            --accent-color-hover: #3e47b4;
+            --border-color: #e0e0e0;
+            --shadow-color: rgba(0, 0, 0, 0.08);
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body[data-theme="dark"] {
+            --bg-color: #202020;
+            --surface-color: #2d2d2d;
+            --surface-color-transparent: rgba(45, 45, 45, 0.6);
+            --text-color: #ffffff;
+            --text-secondary-color: #a7a7a7;
+            --accent-color: #8791FF;
+            --accent-color-hover: #a0a9ff;
+            --border-color: #444444;
+            --shadow-color: rgba(0, 0, 0, 0.25);
+        }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; transition: background-color 0.3s ease, color 0.3s ease; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+        h1, h2, h3, h4 { font-weight: 600; }
+        p { line-height: 1.6; }
+        .app-header { display: flex; justify-content: space-between; align-items: center; padding: 15px 25px; position: sticky; top: 0; z-index: 100; border-bottom: 1px solid var(--border-color); background-color: var(--surface-color-transparent); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); transition: background-color 0.3s ease, border-color 0.3s ease; }
+        .logo-container { display: flex; align-items: center; gap: 15px; }
+        .logo-icon { height: 32px; border-radius: 6px; }
+        .app-header h1 { font-size: 22px; margin: 0; }
+        .theme-switcher { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--text-secondary-color); }
+        .switch { position: relative; display: inline-block; width: 44px; height: 24px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; border-radius: 24px; transition: .4s; }
+        .slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 4px; bottom: 4px; background-color: white; border-radius: 50%; transition: .4s; }
+        input:checked + .slider { background-color: var(--accent-color); }
+        input:checked + .slider:before { transform: translateX(20px); }
+        main { padding-top: 40px; }
+        
+        .hero-section {
+            text-align: center;
+            margin: 60px 0 100px 0;
+        }
+        .hero-content h2 {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+        .hero-content .subtitle {
+            font-size: 18px;
+            color: var(--text-secondary-color);
+            max-width: 600px;
+            margin: 0 auto 30px auto;
+        }
+
+        .btn { display: inline-block; padding: 12px 28px; border-radius: 5px; text-decoration: none; font-weight: 600; font-size: 16px; border: 1px solid transparent; cursor: pointer; transition: all 0.2s ease-in-out; }
+        .btn-primary { background-color: var(--accent-color); color: #fff; border-color: var(--accent-color); }
+        .btn-primary:hover { 
+            background-color: var(--accent-color-hover); 
+            border-color: var(--accent-color-hover); 
+            transform: translateY(-2px); 
+            box-shadow: 0 4px 15px rgba(74, 85, 216, 0.3);
+        }
+        body[data-theme="dark"] .btn-primary { 
+            color: #fff; 
+            box-shadow: 0 4px 15px rgba(135, 145, 255, 0.2);
+        }
+
+        .features-section h3, .versions-section h3 { text-align: center; font-size: 32px; margin-bottom: 40px; }
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 80px; }
+        .feature-card, .version-card { background-color: var(--surface-color); border: 1px solid var(--border-color); border-radius: 8px; padding: 25px; box-shadow: 0 4px 12px var(--shadow-color); transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease, border-color 0.3s ease; }
+        .feature-card:hover, .version-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px var(--shadow-color); }
+        .card-icon { font-size: 32px; margin-bottom: 15px; }
+        .feature-card h4, .version-card h4 { font-size: 20px; margin-bottom: 10px; }
+        .feature-card p { color: var(--text-secondary-color); font-size: 15px; }
+        
+        .versions-section {
+            margin-bottom: 80px;
+        }
+        .versions-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .version-card > p {
+            color: var(--text-secondary-color);
+            font-size: 15px;
+            margin-top: 0;
+        }
+        .version-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .version-header h4 {
+            margin: 0;
+        }
+        .latest-badge, .upcoming-badge {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .latest-badge {
+            background-color: var(--accent-color);
+            color: #fff;
+        }
+        /* НОВЫЙ СТИЛЬ ДЛЯ БЕЙДЖА "СКОРО!" */
+        .upcoming-badge {
+            background-color: transparent;
+            color: var(--accent-color);
+            border: 1px solid var(--accent-color);
+        }
+        .version-actions {
+            margin-top: 20px;
+        }
+        
+        .changelog {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+        .changelog h4 {
+            font-size: 16px;
+            margin: 0 0 10px 0;
+            color: var(--text-color);
+        }
+        .changelog ul {
+            list-style-type: none;
+            padding-left: 1em;
+            margin: 0;
+        }
+        .changelog li {
+            color: var(--text-secondary-color);
+            margin-bottom: 8px;
+            position: relative;
+        }
+        .changelog li::before {
+            content: '•';
+            color: var(--accent-color);
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+
+        footer { text-align: center; padding: 30px 0; border-top: 1px solid var(--border-color); color: var(--text-secondary-color); font-size: 14px; }
+        
+        @media (max-width: 768px) {
+            .hero-content h2 { font-size: 36px; }
+            .theme-switcher span { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header class="app-header">
+            <div class="logo-container">
+                <img src="icon.png" alt="BetterDevelNext Logo" class="logo-icon">
+                <h1>BetterDevelNext</h1>
+            </div>
+            <div class="theme-switcher">
+                <span>Светлая</span>
+                <label class="switch">
+                    <input type="checkbox" id="theme-toggle">
+                    <span class="slider"></span>
+                </label>
+                <span>Тёмная</span>
+            </div>
+        </header>
+
+        <main>
+            <section class="hero-section">
+                <div class="hero-content">
+                    <h2>Представляем BetterDevelNext!</h2>
+                    <p class="subtitle">BetterDevelNext — это управляемая сообществом модификация DevelNext, нацеленная на стабильность, исправление ошибок и внедрение новых возможностей, которых так не хватало оригиналу.</p>
+                    <a href="#versions" class="btn btn-primary">Установить</a>
+                </div>
+            </section>
+
+            <section class="features-section">
+                <h3>Ключевые преимущества</h3>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="card-icon">⚡️</div>
+                        <h4>Оптимизация и скорость</h4>
+                        <p>Мы оптимизировали ядро для повышения производительности и отзывчивости, чтобы ваши приложения работали еще быстрее.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="card-icon">🧩</div>
+                        <h4>Новые расширения</h4>
+                        <p>Полная совместимость со старыми расширениями и доступ к новым, эксклюзивным возможностям только в BetterDevelNext.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="card-icon">🛡️</div>
+                        <h4>Стабильность и поддержка</h4>
+                        <p>Активное исправление багов и проблем оригинальной версии. Получайте помощь от активного и дружелюбного сообщества.</p>
+                    </div>
+                     <div class="feature-card">
+                        <div class="card-icon">🚀</div>
+                        <h4>Современные технологии</h4>
+                        <p>Поддержка актуальных версий PHP и Java, а также интеграция современных API для создания мощных приложений.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="versions-section" id="versions">
+                <h3>Выберите версию для скачивания:</h3>
+                <div class="versions-list">
+                    
+                    <div class="version-card">
+                        <div class="version-header">
+                            <h4>Версия 17.1.0</h4>
+                            <span class="upcoming-badge">Скоро!</span>
+                        </div>
+                        <p>Стабильный релиз с множеством улучшений производительности, обновленным ядром и новыми API для расширений.</p>
+                        
+                        <div class="changelog">
+                            <h4>Что мы хотим добавить в этой версии:</h4>
+                            <ul>
+                                <li>Система тем для IDE (темная и светлая).</li>
+                                <li>Обновить систему проверки наличия обновлений программы.</li>
+                                <li>Обновить инструменты программы.</li>
+                                <li>Исправить баги.</li>
+                                <li>И многое другое!</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="version-card">
+                        <div class="version-header">
+                            <h4>Версия 17.0.0 Beta</h4>
+                            <span class="latest-badge">Последняя</span>
+                        </div>
+                        <p>Начало BetterDevelNext, релиз с исправлением ошибок, повышением стабильности работы IDE и улучшенным внешним видом программы.</p>
+                        
+                        <div class="changelog">
+                            <h4>Что нового в этой версии:</h4>
+                            <ul>
+                                <li>Новые иконки стиля Windows 11.</li>
+                                <li>Внешний вид программы стиля Windows 11. (BETA ФУНКЦИЯ)</li>
+                                <li>Повышена производительность.</li>
+                                <li>Удалена часть нерабочего функционала (система аккаунтов и публичные проекты)</li>
+                                <li>Добавлена система проверки наличия обновлений программы (BETA ФУНКЦИЯ)</li>
+                                <li>Добавлено больше пакетов для ваших проектов!</li>
+                                <li>И многое другое!</li>
+                            </ul>
+                        </div>
+                        <div class="version-actions">
+                            <a href="https://github.com/timinside/BetterDevelNext/releases/download/17.0.0/BetterDevelNextSetup.exe" class="btn btn-primary">Скачать</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>Сайт находится на стадии разработки</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeToggle = document.getElementById('theme-toggle');
+            const body = document.body;
+            const applyTheme = (theme) => {
+                body.setAttribute('data-theme', theme);
+                localStorage.setItem('theme', theme);
+                if (themeToggle) {
+                    themeToggle.checked = theme === 'dark';
+                }
+            };
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (savedTheme) {
+                applyTheme(savedTheme);
+            } else if (prefersDark) {
+                applyTheme('dark');
+            } else {
+                applyTheme('light');
+            }
+            if (themeToggle) {
+                themeToggle.addEventListener('change', () => {
+                    if (themeToggle.checked) {
+                        applyTheme('dark');
+                    } else {
+                        applyTheme('light');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
