@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-lang-key="page_title">WinSteamProject - Игровая ОС на базе Windows</title>
+    <link rel="icon" href="icon.png" type="image/png">
+    <meta name="description" data-lang-key="meta_description" content="WinSteamProject - это мощь Windows с душой SteamOS. Настройте и скачайте свою идеальную игровую сборку.">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root, html[data-theme="dark"] { --bg-color: #0a0a0a; --text-primary: #e5e5e5; --text-secondary: #a3a3a3; --text-tertiary: #737373; --glass-bg: rgba(17, 24, 39, 0.75); --glass-border: rgba(59, 130, 246, 0.2); --aurora-color-1: rgba(59, 130, 246, 0.35); --aurora-color-2: rgba(139, 92, 246, 0.25); --config-btn-bg: rgba(255, 255, 255, 0.05); --config-btn-bg-hover: rgba(255, 255, 255, 0.1); --config-btn-border: rgba(255, 255, 255, 0.1); --config-btn-checked-bg: #2563eb; --config-btn-checked-border: #2563eb; }
+        html[data-theme="light"] { --bg-color: #f5f5f5; --text-primary: #171717; --text-secondary: #525252; --text-tertiary: #a3a3a3; --glass-bg: rgba(255, 255, 255, 0.85); --glass-border: rgba(0, 0, 0, 0.08); --aurora-color-1: rgba(59, 130, 246, 0.3); --aurora-color-2: rgba(167, 139, 250, 0.25); --config-btn-bg: rgba(0, 0, 0, 0.04); --config-btn-bg-hover: rgba(0, 0, 0, 0.08); --config-btn-border: rgba(0, 0, 0, 0.08); --config-btn-checked-bg: #2563eb; --config-btn-checked-border: #2563eb; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-primary); transition: background-color 0.3s ease, color 0.3s ease; scroll-behavior: smooth; }
+        .aurora-bg { position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; }
+        .aurora-shape { position: absolute; border-radius: 50%; transition: background 0.5s ease-in-out; }
+        .aurora-shape1 { height: 400px; width: 400px; background: radial-gradient(circle, var(--aurora-color-1) 0%, transparent 70%); top: -100px; left: -100px; animation: move-glow1 25s infinite alternate ease-in-out; }
+        .aurora-shape2 { height: 500px; width: 500px; background: radial-gradient(circle, var(--aurora-color-2) 0%, transparent 70%); bottom: -200px; right: -150px; animation: move-glow2 35s infinite alternate ease-in-out; }
+        @keyframes move-glow1 { 0% { transform: translate(-100px, -50px) scale(1) rotate(0deg); } 50% { transform: translate(150px, 200px) scale(1.5) rotate(180deg); } 100% { transform: translate(-100px, -50px) scale(1) rotate(360deg); } }
+        @keyframes move-glow2 { 0% { transform: translate(50px, 80px) scale(1.2) rotate(0deg); } 50% { transform: translate(-200px, -150px) scale(0.8) rotate(160deg); } 100% { transform: translate(50px, 80px) scale(1.2) rotate(360deg); } }
+        .glass-card { background: var(--glass-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid var(--glass-border); transition: all 0.3s ease; }
+        p, .text-neutral-400 { color: var(--text-secondary); transition: color 0.3s ease; }
+        .nav-link { color: var(--text-secondary); transition: color 0.2s; }
+        .nav-link:hover { color: var(--text-primary); }
+        .config-label { background-color: var(--config-btn-bg); border: 1px solid var(--config-btn-border); color: var(--text-primary); transition: all 0.2s ease-in-out; }
+        .config-label:hover { background-color: var(--config-btn-bg-hover); }
+        input[type="radio"]:checked + .config-label { background-color: var(--config-btn-checked-bg); border-color: var(--config-btn-checked-border); color: white; font-weight: 600; }
+        input[type="radio"]:focus-visible + .config-label { box-shadow: 0 0 0 2px var(--bg-color), 0 0 0 4px #2563eb; }
+        input[type="radio"]:disabled + .config-label { opacity: 0.5; cursor: not-allowed; }
+        input[type="radio"]:disabled + .config-label:hover { background-color: var(--config-btn-bg); }
+        details > summary { list-style: none; }
+        details > summary::-webkit-details-marker { display: none; }
+        details .faq-arrow { transition: transform 0.2s ease-in-out; }
+        details[open] .faq-arrow { transform: rotate(90deg); }
+        .notification { transition: all 0.3s ease-in-out; }
+        .notification.hidden-state { opacity: 0; transform: translateY(10px); margin-top: 0; max-height: 0; padding-top: 0; padding-bottom: 0; overflow: hidden; }
+    </style>
+</head>
+<body class="antialiased relative overflow-x-hidden">
+    <div class="aurora-bg"><div class="aurora-shape aurora-shape1"></div><div class="aurora-shape aurora-shape2"></div></div>
+    
+    <header class="fixed top-0 left-0 right-0 p-4 sm:p-6 z-30">
+        <nav class="container mx-auto flex justify-between items-center">
+            <a href="#top" class="flex items-center gap-3 z-50 transition-transform hover:scale-105">
+                <h1 class="text-xl sm:text-2xl font-bold tracking-wider">bbzer0</h1>
+            </a>
+            <div class="flex items-center gap-2 sm:gap-4">
+                <div class="text-sm font-medium">
+                    <button id="lang-ru" class="p-2 text-neutral-400 transition-colors">RU</button>
+                    <span class="text-neutral-600">|</span>
+                    <button id="lang-en" class="p-2 text-neutral-400 transition-colors">EN</button>
+                </div>
+                <button id="theme-toggle" class="p-2 rounded-full hover:bg-white/10 text-neutral-400 hover:text-white transition-colors">
+                    <svg class="sun-icon h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                    <svg class="moon-icon h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <div id="top"></div>
+    <main class="min-h-screen flex flex-col items-center justify-center px-4 py-24 sm:py-32">
+        <div class="z-10 text-center">
+            <h1 class="text-4xl sm:text-5xl md:text-7xl font-black mb-4 leading-tight tracking-tighter" data-lang-key="main_title">
+                WinSteamProject
+            </h1>
+            <p class="max-w-3xl mx-auto text-base sm:text-lg md:text-xl text-neutral-400 mb-8" data-lang-key="main_subtitle">
+                Мощь Windows, душа SteamOS.
+            </p>
+            <nav class="flex justify-center gap-4 sm:gap-8 font-semibold">
+                <a href="#configurator" class="nav-link" data-lang-key="nav_config">Конфигуратор</a>
+                <a href="#features" class="nav-link" data-lang-key="nav_features">Особенности</a>
+                <a href="#faq" class="nav-link" data-lang-key="nav_faq">FAQ</a>
+            </nav>
+        </div>
+    </main>
+
+    <div class="space-y-16 sm:space-y-24 pb-32">
+        <section id="configurator" class="container mx-auto px-4 w-full max-w-3xl z-10">
+            <div class="glass-card rounded-2xl p-6 md:p-8">
+                <form id="config-form">
+                    <h2 class="text-2xl font-bold mb-6 text-center" data-lang-key="config_title">
+                        Настройте свою сборку
+                    </h2>
+                    
+                    <fieldset class="mb-6">
+                        <legend class="font-semibold mb-3 text-lg" data-lang-key="config_lang_title">Язык образа</legend>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <input type="radio" id="lang-ru-build" name="build_lang" value="ru" class="sr-only" checked>
+                                <label for="lang-ru-build" class="config-label cursor-pointer w-full text-center block p-3 rounded-lg" data-lang-key="config_lang_ru">Русский</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="lang-en-build" name="build_lang" value="en" class="sr-only">
+                                <label for="lang-en-build" class="config-label cursor-pointer w-full text-center block p-3 rounded-lg" data-lang-key="config_lang_en">English</label>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="mb-6">
+                        <legend class="font-semibold mb-3 text-lg" data-lang-key="config_arch_title">Архитектура</legend>
+                        <div class="bg-[color:var(--config-btn-bg)] border border-[color:var(--config-btn-border)] text-center p-3 rounded-lg">
+                            <span class="font-medium text-[color:var(--text-secondary)]">x64</span>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="mb-8">
+                        <legend class="font-semibold mb-3 text-lg" data-lang-key="config_base_title">База Windows</legend>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                           <div>
+                                <input type="radio" id="base-win11" name="build_base" value="win11-ltsc-2024" class="sr-only" checked>
+                                <label for="base-win11" class="config-label cursor-pointer w-full h-full flex items-center justify-center text-center p-3 rounded-lg">Windows 11 LTSC 2024</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="base-win10-2021" name="build_base" value="win10-ltsc-2021" class="sr-only">
+                                <label for="base-win10-2021" class="config-label cursor-pointer w-full h-full flex items-center justify-center text-center p-3 rounded-lg">Windows 10 LTSC 2021</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="base-win10-2019" name="build_base" value="win10-ltsc-2019" class="sr-only" disabled>
+                                <label for="base-win10-2019" class="config-label cursor-pointer w-full h-full flex items-center justify-center text-center p-3 rounded-lg">Windows 10 LTSC 2019</label>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <button type="submit" class="w-full bg-blue-600 text-white font-bold text-lg py-4 px-6 rounded-xl hover:bg-blue-700 transition-transform hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--bg-color)]" data-lang-key="download_button">
+                        Скачать
+                    </button>
+                    
+                    <div id="config-notification" class="notification hidden-state mt-4 p-3 rounded-lg bg-amber-500/20 border border-amber-500/30 text-center">
+                        <p id="notification-text" class="text-amber-300 dark:text-amber-200 font-medium text-sm"></p>
+                    </div>
+
+                </form>
+            </div>
+        </section>
+
+        <section id="features" class="container mx-auto px-4 z-10">
+            <h2 class="text-3xl sm:text-4xl font-bold mb-8 text-center" data-lang-key="features_title">Ключевые особенности</h2>
+            <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="glass-card rounded-2xl p-6"><h3 class="font-bold text-xl mb-2" data-lang-key="feature_1_title">Максимальная производительность</h3><p class="text-neutral-400" data-lang-key="feature_1_desc">Система очищена от лишних приложений, фоновых процессов и телеметрии. Больше ресурсов для ваших игр.</p></div>
+                <div class="glass-card rounded-2xl p-6"><h3 class="font-bold text-xl mb-2" data-lang-key="feature_2_title">Интеграция со Steam</h3><p class="text-neutral-400" data-lang-key="feature_2_desc">Опциональная установка режима Big Picture при запуске системы для полного погружения, как на консоли.</p></div>
+                <div class="glass-card rounded-2xl p-6"><h3 class="font-bold text-xl mb-2" data-lang-key="feature_3_title">Полный контроль</h3><p class="text-neutral-400" data-lang-key="feature_3_desc">Включает в себя набор твикеров и скриптов для тонкой настройки системы под ваши нужды без лишних усилий.</p></div>
+                <div class="glass-card rounded-2xl p-6"><h3 class="font-bold text-xl mb-2" data-lang-key="feature_4_title">Стабильность LTSC</h3><p class="text-neutral-400" data-lang-key="feature_4_desc">Основано на Long-Term Servicing Channel версиях Windows, что гарантирует стабильность и отсутствие навязчивых обновлений.</p></div>
+            </div>
+        </section>
+        <section id="faq" class="container mx-auto px-4 z-10">
+            <h2 class="text-3xl sm:text-4xl font-bold mb-8 text-center" data-lang-key="faq_title">Часто задаваемые вопросы</h2>
+            <div class="max-w-3xl mx-auto space-y-4">
+                <details class="glass-card rounded-xl p-5 group"><summary class="flex justify-between items-center font-semibold cursor-pointer"><span data-lang-key="faq_1_q">Это легально? Нужна ли лицензия?</span><svg class="faq-arrow h-5 w-5 text-neutral-400 group-hover:text-white transition-transform" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" /></svg></summary><p class="text-neutral-400 mt-3" data-lang-key="faq_1_a">Да, это полностью легально. WinSteamProject является модифицированным образом Windows. Для активации и использования системы вам потребуется действительный лицензионный ключ Windows.</p></details>
+                <details class="glass-card rounded-xl p-5 group"><summary class="flex justify-between items-center font-semibold cursor-pointer"><span data-lang-key="faq_2_q">Смогу ли я запускать все свои игры и программы?</span><svg class="faq-arrow h-5 w-5 text-neutral-400 group-hover:text-white transition-transform" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" /></svg></summary><p class="text-neutral-400 mt-3" data-lang-key="faq_2_a">Абсолютно. В основе лежит полноценная Windows, поэтому вся совместимость с играми, драйверами и программами сохраняется. Если что-то работает на обычной Windows, оно будет работать и здесь.</p></details>
+                <details class="glass-card rounded-xl p-5 group"><summary class="flex justify-between items-center font-semibold cursor-pointer"><span data-lang-key="faq_3_q">Что именно было удалено из системы?</span><svg class="faq-arrow h-5 w-5 text-neutral-400 group-hover:text-white transition-transform" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" /></svg></summary><p class="text-neutral-400 mt-3" data-lang-key="faq_3_a">Были удалены неиспользуемые системные компоненты, встроенные UWP-приложения (кроме Microsoft Store), диагностические службы и телеметрия. Это позволило снизить потребление ОЗУ и нагрузку на процессор в простое.</p></details>
+            </div>
+        </section>
+    </div>
+
+    <footer class="fixed bottom-0 left-0 right-0 p-4 sm:p-6 bg-[color:var(--bg-color)]">
+        <div class="container mx-auto text-center text-neutral-500 text-xs sm:text-sm" data-lang-key="footer_notice">
+            Сайт находится в стадии разработки
+        </div>
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const translations = {
+                ru: {
+                    page_title: "WinSteamProject - Игровая ОС на базе Windows",
+                    meta_description: "WinSteamProject - это мощь Windows с душой SteamOS. Настройте и скачайте свою идеальную игровую сборку.",
+                    nav_config: "Конфигуратор", nav_features: "Особенности", nav_faq: "FAQ",
+                    main_title: "WinSteamProject", main_subtitle: "Мощь Windows, душа SteamOS.",
+                    config_title: "Настройте свою сборку", config_lang_title: "Язык образа", config_lang_ru: "Русский", config_lang_en: "English",
+                    config_arch_title: "Архитектура", config_base_title: "База Windows",
+                    download_button: "Скачать",
+                    features_title: "Ключевые особенности",
+                    feature_1_title: "Максимальная производительность", feature_1_desc: "Система очищена от лишних приложений, фоновых процессов и телеметрии. Больше ресурсов для ваших игр.",
+                    feature_2_title: "Интеграция со Steam", feature_2_desc: "Опциональная установка режима Big Picture при запуске системы для полного погружения, как на консоли.",
+                    feature_3_title: "Полный контроль", feature_3_desc: "Включает в себя набор твикеров и скриптов для тонкой настройки системы под ваши нужды без лишних усилий.",
+                    feature_4_title: "Стабильность LTSC", feature_4_desc: "Основано на Long-Term Servicing Channel версиях Windows, что гарантирует стабильность и отсутствие навязчивых обновлений.",
+                    faq_title: "Часто задаваемые вопросы",
+                    faq_1_q: "Это легально? Нужна ли лицензия?", faq_1_a: "Да, это полностью легально. WinSteamProject является модифицированным образом Windows. Для активации и использования системы вам потребуется действительный лицензионный ключ Windows.",
+                    faq_2_q: "Смогу ли я запускать все свои игры и программы?", faq_2_a: "Абсолютно. В основе лежит полноценная Windows, поэтому вся совместимость с играми, драйверами и программами сохраняется. Если что-то работает на обычной Windows, оно будет работать и здесь.",
+                    faq_3_q: "Что именно было удалено из системы?", faq_3_a: "Были удалены неиспользуемые системные компоненты, встроенные UWP-приложения (кроме Microsoft Store), диагностические службы и телеметрия. Это позволило снизить потребление ОЗУ и нагрузку на процессор в простое.",
+                    footer_notice: "Сайт находится в стадии разработки",
+                    download_unavailable_alert: "К сожалению, образ для выбранной конфигурации еще не готов."
+                },
+                en: {
+                    page_title: "WinSteamProject - Gaming OS based on Windows",
+                    meta_description: "WinSteamProject is the power of Windows with the soul of SteamOS. Configure and download your perfect gaming build.",
+                    nav_config: "Configurator", nav_features: "Features", nav_faq: "FAQ",
+                    main_title: "WinSteamProject", main_subtitle: "The power of Windows, the soul of SteamOS.",
+                    config_title: "Configure Your Build", config_lang_title: "Image Language", config_lang_ru: "Russian", config_lang_en: "English",
+                    config_arch_title: "Architecture", config_base_title: "Windows Base",
+                    download_button: "Download",
+                    features_title: "Key Features",
+                    feature_1_title: "Maximum Performance", feature_1_desc: "The system is cleaned of unnecessary applications, background processes, and telemetry. More resources for your games.",
+                    feature_2_title: "Steam Integration", feature_2_desc: "Optional setup of Big Picture mode on system startup for a full console-like immersion.",
+                    feature_3_title: "Full Control", feature_3_desc: "Includes a set of tweakers and scripts for fine-tuning the system to your needs without extra effort.",
+                    feature_4_title: "LTSC Stability", feature_4_desc: "Based on Long-Term Servicing Channel versions of Windows, ensuring stability and no intrusive updates.",
+                    faq_title: "Frequently Asked Questions",
+                    faq_1_q: "Is this legal? Do I need a license?", faq_1_a: "Yes, it's completely legal. WinSteamProject is a modified Windows image. You will need a valid Windows license key to activate and use the system.",
+                    faq_2_q: "Can I run all my games and programs?", faq_2_a: "Absolutely. It's full-fledged Windows at its core, so all compatibility with games, drivers, and software is preserved. If it runs on regular Windows, it will run here.",
+                    faq_3_q: "What exactly has been removed from the system?", faq_3_a: "Unused system components, built-in UWP apps (except the Microsoft Store), diagnostic services, and telemetry have been removed. This reduces RAM consumption and CPU load at idle.",
+                    footer_notice: "This site is under development",
+                    download_unavailable_alert: "Sorry, the image for the selected configuration is not yet available."
+                }
+            };
+            
+            const langBtnRu = document.getElementById('lang-ru');
+            const langBtnEn = document.getElementById('lang-en');
+            let currentLang = 'ru';
+
+            function setLanguage(lang) {
+                if (!['ru', 'en'].includes(lang)) return;
+                currentLang = lang;
+                document.documentElement.setAttribute('lang', lang);
+                localStorage.setItem('winsteam_lang', lang);
+                document.querySelectorAll('[data-lang-key]').forEach(el => {
+                    const key = el.getAttribute('data-lang-key');
+                    if (translations[lang] && translations[lang][key]) {
+                        if (el.tagName === 'META') {
+                            el.setAttribute('content', translations[lang][key]);
+                        } else {
+                            el.textContent = translations[lang][key];
+                        }
+                    }
+                });
+                langBtnRu.style.color = (lang === 'ru') ? 'var(--text-primary)' : 'var(--text-secondary)';
+                langBtnEn.style.color = (lang === 'en') ? 'var(--text-primary)' : 'var(--text-secondary)';
+                langBtnRu.style.fontWeight = (lang === 'ru') ? '700' : '500';
+                langBtnEn.style.fontWeight = (lang === 'en') ? '700' : '500';
+                updateBuildOptions();
+            }
+            langBtnRu.addEventListener('click', () => setLanguage('ru'));
+            langBtnEn.addEventListener('click', () => setLanguage('en'));
+            
+            const themeToggle = document.getElementById('theme-toggle');
+            const sunIcon = document.querySelector('.sun-icon');
+            const moonIcon = document.querySelector('.moon-icon');
+            function applyTheme(theme) {
+                document.documentElement.setAttribute('data-theme', theme);
+                localStorage.setItem('winsteam_theme', theme);
+                sunIcon.classList.toggle('hidden', theme === 'dark');
+                moonIcon.classList.toggle('hidden', theme === 'light');
+            }
+            themeToggle.addEventListener('click', () => {
+                const newTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+                applyTheme(newTheme);
+            });
+
+            const configForm = document.getElementById('config-form');
+            const langRuBuild = document.getElementById('lang-ru-build');
+            const langEnBuild = document.getElementById('lang-en-build');
+            const baseWin102019Input = document.getElementById('base-win10-2019');
+            const baseWin11Input = document.getElementById('base-win11');
+
+            const notificationArea = document.getElementById('config-notification');
+            const notificationText = document.getElementById('notification-text');
+            let notificationTimer;
+
+            const downloadLinks = {
+                "win11-ltsc-2024_ru": "#",
+                "win11-ltsc-2024_en": "#",
+                "win10-ltsc-2021_ru": "#",
+                "win10-ltsc-2021_en": "#",
+                "win10-ltsc-2019_en": "#"
+            };
+
+            function updateBuildOptions() {
+                if (langRuBuild.checked) {
+                    if (baseWin102019Input.checked) {
+                        baseWin11Input.checked = true;
+                    }
+                    baseWin102019Input.disabled = true;
+                } else {
+                    baseWin102019Input.disabled = false;
+                }
+            }
+            langRuBuild.addEventListener('change', updateBuildOptions);
+            langEnBuild.addEventListener('change', updateBuildOptions);
+
+            function showNotification(message) {
+                clearTimeout(notificationTimer);
+                notificationText.textContent = message;
+                notificationArea.classList.remove('hidden-state');
+                
+                notificationTimer = setTimeout(() => {
+                    hideNotification();
+                }, 2000);
+            }
+
+            function hideNotification() {
+                notificationArea.classList.add('hidden-state');
+            }
+
+            configForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                hideNotification();
+
+                const formData = new FormData(configForm);
+                const selectedBase = formData.get('build_base');
+                const selectedLang = formData.get('build_lang');
+                const linkKey = `${selectedBase}_${selectedLang}`;
+                const downloadLink = downloadLinks[linkKey];
+
+                if (downloadLink && downloadLink !== '#') {
+                    window.location.href = downloadLink;
+                } else {
+                    showNotification(translations[currentLang].download_unavailable_alert);
+                }
+            });
+            
+            function initialize() {
+                const savedTheme = localStorage.getItem('winsteam_theme') || 'dark';
+                applyTheme(savedTheme);
+                const savedLang = localStorage.getItem('winsteam_lang') || 'ru';
+                setLanguage(savedLang); 
+            }
+            initialize();
+        });
+    </script>
+</body>
+</html>
