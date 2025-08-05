@@ -28,6 +28,8 @@
         .config-label { background-color: var(--bg); border: 1px solid var(--border); color: var(--text-muted); cursor: pointer; transition: all 0.2s; }
         .config-label:hover { border-color: var(--accent); color: var(--text-main); }
         input[type="radio"]:checked + .config-label { background-color: var(--accent); border-color: var(--accent); color: white; font-weight: 600; }
+        input[type="radio"]:disabled + .config-label { opacity: 0.5; cursor: not-allowed; background-color: var(--bg-secondary); border-color: var(--border); color: var(--text-muted); }
+        input[type="radio"]:disabled + .config-label:hover { border-color: var(--border); }
     </style>
 </head>
 <body class="antialiased">
@@ -48,7 +50,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const projects = [
-                { id: 'lunaos', title: 'LunaOS', category: 'windows', shortDescription: 'Быстрая и легкая версия Windows для игр и старых ПК.', constructorData: { languages: ['Русский'], bases: ['Windows 11 Pro 22H2', 'Windows 10 Pro 22H2', 'Патчер'] } },
+                { id: 'lunaos', title: 'LunaOS', category: 'windows', shortDescription: 'Быстрая и легкая версия Windows для игр и старых ПК.', constructorData: { bases: ['Windows 11 Pro 22H2', 'Windows 10 Pro 22H2', 'Патчер'] } },
                 { id: 'winsteamproject', title: 'WinSteamProject', category: 'windows', shortDescription: 'Оптимизированная сборка Windows для геймеров с интеграцией Steam.', constructorData: { languages: ['Русский', 'English'], bases: ['Windows 11 LTSC 2024', 'Windows 10 LTSC 2021', 'Windows 10 LTSC 2019'] } },
                 { id: 'xtweaker-rebooted', title: 'XTweaker: Rebooted', category: 'program', version: 'v0.9 (Beta)', shortDescription: 'Продвинутый твикер для настройки Windows 10/11.', details: `<p class="mb-6">Оптимизация, приватность и персонализация в одной утилите. Эта версия является полным перезапуском оригинального XTweaker.</p><a href="https://github.com/timinside/XTweakerRebooted/releases/latest/download/XTweakerSetup.exe" class="btn-primary">Скачать установщик</a>` },
                 { id: 'lunaclean', title: 'LunaClean', category: 'program', version: 'v2.0.0 (Stable)', shortDescription: 'Мощный и простой инструмент для очистки системы от мусора.', details: `<p class="mb-6">Удаляет временные файлы, кеш, ненужные записи в реестре и другой системный мусор для ускорения работы вашего ПК.</p><a href="https://github.com/timinside/LunaClean/releases/latest/download/Setup.exe" class="btn-primary">Скачать установщик</a>` },
@@ -61,21 +63,38 @@
                 { id: 'qip', title: 'QIP (Quick Install Project)', category: 'other', status: 'Заброшен', shortDescription: 'Универсальный скрипт для PowerShell для быстрой установки ПО.', details: `<p class="mb-6">Этот проект был заменен на BlueLauncher и больше не поддерживается.</p>` },
                 { id: 'xtweaker-legacy', title: 'XTweaker (Legacy)', category: 'program', status: 'Заброшен', shortDescription: 'Оригинальная версия твикера.', details: `<p class="mb-6">Проект заброшен. Рекомендуется использовать новую версию — XTweaker: Rebooted.</p><a href="https://github.com/timinside/XTweaker/releases/latest/download/XTweakerSetup.exe" class="btn-primary">Скачать установщик</a>` }
             ];
+
+            const downloadLinks = {
+                "lunaos_Windows 11 Pro 22H2": "#",
+                "lunaos_Windows 10 Pro 22H2": "#",
+                "lunaos_Патчер": "#",
+
+                "winsteamproject_Windows 11 LTSC 2024_Русский": "#",
+                "winsteamproject_Windows 11 LTSC 2024_English": "#",
+                "winsteamproject_Windows 10 LTSC 2021_Русский": "#",
+                "winsteamproject_Windows 10 LTSC 2021_English": "#",
+                "winsteamproject_Windows 10 LTSC 2019_English": "#",
+            };
             
             const container = document.getElementById('projects-container');
 
             const createConstructorHTML = (id, data) => {
-                const languagesHTML = data.languages.map((lang, index) => `
+                const hasLanguageSelector = data.languages && data.languages.length > 0;
+                
+                const languagesHTML = hasLanguageSelector ? data.languages.map((lang, index) => `
                     <div><input type="radio" id="${id}-lang-${index}" name="${id}-lang" value="${lang}" class="sr-only" ${index === 0 ? 'checked' : ''}>
-                    <label for="${id}-lang-${index}" class="config-label block text-center p-3 rounded-lg">${lang}</label></div>`).join('');
+                    <label for="${id}-lang-${index}" class="config-label block text-center p-3 rounded-lg">${lang}</label></div>`).join('') : '';
+
                 const basesHTML = data.bases.map((base, index) => `
                     <div><input type="radio" id="${id}-base-${index}" name="${id}-base" value="${base}" class="sr-only" ${index === 0 ? 'checked' : ''}>
                     <label for="${id}-base-${index}" class="config-label block text-center p-3 rounded-lg h-full flex items-center justify-center">${base}</label></div>`).join('');
                 
+                const languageSection = hasLanguageSelector ? `<div><h3 class="font-semibold mb-3 text-lg">Язык образа</h3><div class="grid grid-cols-2 gap-3">${languagesHTML}</div></div>` : '';
+
                 return `<form class="space-y-6" data-form-id="${id}">
-                            <div><h3 class="font-semibold mb-3 text-lg">Язык образа</h3><div class="grid grid-cols-2 gap-3">${languagesHTML}</div></div>
+                            ${languageSection}
                             <div><h3 class="font-semibold mb-3 text-lg">База Windows</h3><div class="grid grid-cols-1 md:grid-cols-3 gap-3">${basesHTML}</div></div>
-                            <button type="submit" class="btn-primary w-full">Сгенерировать ссылку</button>
+                            <button type="submit" class="btn-primary w-full">Скачать</button>
                             <p data-notification-id="${id}" class="text-center text-sm p-3 rounded-lg bg-yellow-100 text-yellow-800 dark:bg-yellow-900/50 dark:text-yellow-300 hidden">Сборка для этой конфигурации пока не готова.</p>
                         </form>`;
             };
@@ -110,12 +129,47 @@
                 e.preventDefault();
                 const form = e.target;
                 const id = form.dataset.formId;
-                const notification = document.querySelector(`[data-notification-id="${id}"]`);
-                if(notification) {
-                    notification.classList.remove('hidden');
-                    setTimeout(() => notification.classList.add('hidden'), 3000);
+                
+                const base = form.querySelector(`input[name="${id}-base"]:checked`).value;
+                const langInput = form.querySelector(`input[name="${id}-lang"]:checked`);
+                const lang = langInput ? langInput.value : null;
+
+                const key = lang ? `${id}_${base}_${lang}` : `${id}_${base}`;
+                
+                const link = downloadLinks[key];
+
+                if (link && link !== "#") {
+                    window.location.href = link;
+                } else {
+                    const notification = form.querySelector(`[data-notification-id="${id}"]`);
+                    if(notification) {
+                        notification.classList.remove('hidden');
+                        setTimeout(() => notification.classList.add('hidden'), 3000);
+                    }
                 }
             });
+            
+            const winsteamForm = document.querySelector('[data-form-id="winsteamproject"]');
+            if (winsteamForm) {
+                const langRadios = winsteamForm.querySelectorAll('input[name="winsteamproject-lang"]');
+                const ltsc2019Radio = document.getElementById('winsteamproject-base-2');
+                const ltsc2024Radio = document.getElementById('winsteamproject-base-0');
+
+                const updateLtsc2019State = () => {
+                    const selectedLang = winsteamForm.querySelector('input[name="winsteamproject-lang"]:checked').value;
+                    if (selectedLang === 'Русский') {
+                        if (ltsc2019Radio.checked) {
+                            ltsc2024Radio.checked = true;
+                        }
+                        ltsc2019Radio.disabled = true;
+                    } else {
+                        ltsc2019Radio.disabled = false;
+                    }
+                };
+
+                langRadios.forEach(radio => radio.addEventListener('change', updateLtsc2019State));
+                updateLtsc2019State();
+            }
 
             const themeToggle = document.getElementById('theme-toggle');
             const sunIcon = document.getElementById('sun-icon');
