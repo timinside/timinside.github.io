@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Инструменты - bbweb</title>
+    <link rel="icon" href="../icon.png" type="image/png">
+    <meta name="description" content="Железо и софт, которые я использую в работе.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #ffffff; --bg-secondary: #f9fafb; --text-main: #111827; --text-muted: #6b7280; --border: #e5e7eb; --accent: #2563eb; }
+        html[data-theme="dark"] { --bg: #111827; --bg-secondary: #1f2937; --text-main: #f9fafb; --text-muted: #9ca3af; --border: #374151; --accent: #3b82f6; }
+        body { font-family: 'Manrope', sans-serif; background-color: var(--bg); color: var(--text-main); transition: background-color 0.3s, color 0.3s; }
+        .theme-btn:hover { background-color: var(--bg-secondary); }
+        .list-item { border-bottom: 1px solid var(--border); padding: 1rem 0; }
+        .list-item:last-child { border-bottom: none; }
+    </style>
+</head>
+<body class="antialiased">
+    <header class="py-5 border-b" style="border-color: var(--border);">
+        <div class="max-w-4xl mx-auto px-4 flex justify-between items-center">
+            <a href="../index.html" class="text-2xl font-extrabold tracking-tight">bbweb / инструменты</a>
+            <button id="theme-toggle" class="theme-btn p-2 rounded-lg border" style="border-color: var(--border);">
+                <svg id="sun-icon" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                <svg id="moon-icon" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+            </button>
+        </div>
+    </header>
+    <main class="max-w-4xl mx-auto px-4 py-12 sm:py-16">
+        <div class="text-center mb-12"><h1 class="text-5xl md:text-6xl font-extrabold tracking-tighter">Мои инструменты</h1><p class="mt-4 max-w-2xl mx-auto text-lg" style="color: var(--text-muted);">Список железа и программного обеспечения, которые я использую ежедневно.</p></div>
+        <div class="space-y-12">
+            <div><h2 class="text-3xl font-extrabold mb-6">Железо</h2>
+                <ul>
+                    <li class="list-item"><strong class="font-bold">Оперативная память:</strong> NONAME 8x2</li>
+                    <li class="list-item"><strong class="font-bold">Процессор:</strong> AMD Ryzen 5 5600G</li>
+                    <li class="list-item"><strong class="font-bold">Видеокарта:</strong> *пока что нет =(*</li>
+                    <li class="list-item"><strong class="font-bold">Мышь:</strong> Logitech Signature M650 L</li>
+                </ul>
+            </div>
+            <div><h2 class="text-3xl font-extrabold mb-6">Софт</h2>
+                <ul>
+                    <li class="list-item"><strong class="font-bold">Редактор кода:</strong> Visual Studio Code</li>
+                    <li class="list-item"><strong class="font-bold">Терминал:</strong> Windows Terminal</li>
+                    <li class="list-item"><strong class="font-bold">Создание обложек и картинок:</strong> PowerPoint (да, все верно)</li>
+                    <li class="list-item"><strong class="font-bold">Дизайн:</strong> Figma</li>
+                </ul>
+            </div>
+        </div>
+    </main>
+    <footer class="py-6 mt-16 border-t" style="border-color: var(--border);"><div class="max-w-4xl mx-auto px-4 text-center"><p style="color: var(--text-muted);">Сайт находится в стадии разработки</p></div></footer>
+    <script>
+        const themeToggle = document.getElementById('theme-toggle');
+        const sunIcon = document.getElementById('sun-icon');
+        const moonIcon = document.getElementById('moon-icon');
+        const applyTheme = (theme) => { document.documentElement.setAttribute('data-theme', theme); localStorage.setItem('bbweb_theme', theme); sunIcon.style.display = theme === 'dark' ? 'none' : 'block'; moonIcon.style.display = theme === 'dark' ? 'block' : 'none'; };
+        themeToggle.addEventListener('click', () => { const newTheme = (document.documentElement.getAttribute('data-theme') || 'light') === 'dark' ? 'light' : 'dark'; applyTheme(newTheme); });
+        applyTheme(localStorage.getItem('bbweb_theme') || 'dark');
+    </script>
+</body>
+</html>

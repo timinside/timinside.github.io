@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Иконки - bbweb</title>
+    <link rel="icon" href="icon.png" type="image/png">
+    <meta name="description" content="Список всех иконок использованных на сайте.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #ffffff; --bg-secondary: #f9fafb; --text-main: #111827; --text-muted: #6b7280; --border: #e5e7eb; --accent: #2563eb; }
+        html[data-theme="dark"] { --bg: #111827; --bg-secondary: #1f2937; --text-main: #f9fafb; --text-muted: #9ca3af; --border: #374151; --accent: #3b82f6; }
+        body { font-family: 'Manrope', sans-serif; background-color: var(--bg); color: var(--text-main); transition: background-color 0.3s, color 0.3s; }
+        .theme-btn:hover { background-color: var(--bg-secondary); }
+        .card { background-color: var(--bg-secondary); border: 1px solid var(--border); border-radius: 12px; }
+        .btn { display: inline-block; border-radius: 8px; font-weight: 600; font-size: 0.9rem; transition: all 0.2s; text-align: center; }
+        .btn-primary { background-color: var(--accent); color: white; padding: 8px 16px; }
+        .btn-primary:hover { background-color: #1d4ed8; } html[data-theme="dark"] .btn-primary:hover { background-color: #60a5fa; }
+    </style>
+</head>
+<body class="antialiased">
+    <header class="py-5 border-b" style="border-color: var(--border);">
+        <div class="max-w-4xl mx-auto px-4 flex justify-between items-center">
+            <a href="../index.html" class="text-2xl font-extrabold tracking-tight">bbweb / ресурсы</a>
+            <button id="theme-toggle" class="theme-btn p-2 rounded-lg border" style="border-color: var(--border);">
+                <svg id="sun-icon" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                <svg id="moon-icon" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+            </button>
+        </div>
+    </header>
+    <main class="max-w-4xl mx-auto px-4 py-12 sm:py-16">
+        <div class="text-center mb-12">
+            <h1 class="text-5xl md:text-6xl font-extrabold tracking-tighter">Иконки и ресурсы</h1>
+            <p class="mt-4 max-w-2xl mx-auto text-lg" style="color: var(--text-muted);">Здесь собраны все иконки, которые используются на сайте.</p>
+        </div>
+
+        <div class="space-y-12">
+            <div>
+                <h2 class="text-3xl font-extrabold mb-6">Пользовательские иконки (PNG)</h2>
+                <div class="space-y-4">
+                    <div class="card p-4 sm:p-6 flex flex-col sm:flex-row items-center gap-4 sm:gap-6"><div class="flex gap-4 p-2 rounded-lg border" style="border-color: var(--border);"><div class="p-3 rounded-lg" style="background-color: #ffffff;"><img src="youtube2.png" alt="YouTube Light" class="w-10 h-10"></div><div class="p-3 rounded-lg" style="background-color: #111827;"><img src="youtube1.png" alt="YouTube Dark" class="w-10 h-10"></div></div><div class="flex-grow text-center sm:text-left"><h3 class="text-xl font-bold">YouTube</h3><p class="text-sm" style="color: var(--text-muted);">Источник: <a href="https://icons8.com/" target="_blank" rel="noopener noreferrer" class="underline">icons8</a>; стиль: Windows 11 Filled</p></div><div class="flex gap-3"><a href="youtube2.png" download class="btn btn-primary">Скачать (Light)</a><a href="youtube1.png" download class="btn btn-primary">Скачать (Dark)</a></div></div>
+                    <div class="card p-4 sm:p-6 flex flex-col sm:flex-row items-center gap-4 sm:gap-6"><div class="flex gap-4 p-2 rounded-lg border" style="border-color: var(--border);"><div class="p-3 rounded-lg" style="background-color: #ffffff;"><img src="discord2.png" alt="Discord Light" class="w-10 h-10"></div><div class="p-3 rounded-lg" style="background-color: #111827;"><img src="discord1.png" alt="Discord Dark" class="w-10 h-10"></div></div><div class="flex-grow text-center sm:text-left"><h3 class="text-xl font-bold">Discord</h3><p class="text-sm" style="color: var(--text-muted);">Источник: <a href="https://icons8.com/" target="_blank" rel="noopener noreferrer" class="underline">icons8</a>; стиль: Windows 11 Filled</p></div><div class="flex gap-3"><a href="discord2.png" download class="btn btn-primary">Скачать (Light)</a><a href="discord1.png" download class="btn btn-primary">Скачать (Dark)</a></div></div>
+                    <div class="card p-4 sm:p-6 flex flex-col sm:flex-row items-center gap-4 sm:gap-6"><div class="flex gap-4 p-2 rounded-lg border" style="border-color: var(--border);"><div class="p-3 rounded-lg" style="background-color: #ffffff;"><img src="telegram2.png" alt="Telegram Light" class="w-10 h-10"></div><div class="p-3 rounded-lg" style="background-color: #111827;"><img src="telegram1.png" alt="Telegram Dark" class="w-10 h-10"></div></div><div class="flex-grow text-center sm:text-left"><h3 class="text-xl font-bold">Telegram</h3><p class="text-sm" style="color: var(--text-muted);">Источник: <a href="https://icons8.com/" target="_blank" rel="noopener noreferrer" class="underline">icons8</a>; стиль: Windows 11 Filled</p></div><div class="flex gap-3"><a href="telegram2.png" download class="btn btn-primary">Скачать (Light)</a><a href="telegram1.png" download class="btn btn-primary">Скачать (Dark)</a></div></div>
+                    <div class="card p-4 sm:p-6 flex flex-col sm:flex-row items-center gap-4 sm:gap-6"><div class="flex gap-4 p-2 rounded-lg border" style="border-color: var(--border);"><div class="p-3 rounded-lg" style="background-color: #ffffff;"><img src="donate2.png" alt="Donate Light" class="w-10 h-10"></div><div class="p-3 rounded-lg" style="background-color: #111827;"><img src="donate1.png" alt="Donate Dark" class="w-10 h-10"></div></div><div class="flex-grow text-center sm:text-left"><h3 class="text-xl font-bold">Поддержать</h3><p class="text-sm" style="color: var(--text-muted);">Источник: <a href="https://icons8.com/" target="_blank" rel="noopener noreferrer" class="underline">icons8</a>; стиль: Windows 11 Filled</p></div><div class="flex gap-3"><a href="donate2.png" download class="btn btn-primary">Скачать (Light)</a><a href="donate1.png" download class="btn btn-primary">Скачать (Dark)</a></div></div>
+                </div>
+            </div>
+
+            <div>
+                <h2 class="text-3xl font-extrabold mb-6">Векторные иконки (SVG)</h2>
+                <div class="space-y-4">
+                    <div class="card p-4 sm:p-6 flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
+                        <div class="p-3 rounded-lg border" style="border-color: var(--border); background-color: var(--bg);"><svg class="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg></div>
+                        <div class="flex-grow text-center sm:text-left"><h3 class="text-xl font-bold">Солнце (Sun)</h3><p class="text-sm" style="color: var(--text-muted);">Источник: <a href="https://heroicons.com/" target="_blank" rel="noopener noreferrer" class="underline">Heroicons</a></p></div>
+                        <div class="w-full sm:w-auto">
+                            <button class="btn btn-primary w-full copy-svg-btn" data-code='<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>'>
+                                Копировать код
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card p-4 sm:p-6 flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
+                        <div class="p-3 rounded-lg border" style="border-color: var(--border); background-color: var(--bg);"><svg class="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg></div>
+                        <div class="flex-grow text-center sm:text-left"><h3 class="text-xl font-bold">Луна (Moon)</h3><p class="text-sm" style="color: var(--text-muted);">Источник: <a href="https://heroicons.com/" target="_blank" rel="noopener noreferrer" class="underline">Heroicons</a></p></div>
+                         <div class="w-full sm:w-auto">
+                            <button class="btn btn-primary w-full copy-svg-btn" data-code='<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>'>
+                                Копировать код
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="py-6 mt-16 border-t" style="border-color: var(--border);"><div class="max-w-4xl mx-auto px-4 text-center"><p style="color: var(--text-muted);">Сайт находится в стадии разработки</p></div></footer>
+    <script>
+        const themeToggle = document.getElementById('theme-toggle');
+        const sunIcon = document.getElementById('sun-icon');
+        const moonIcon = document.getElementById('moon-icon');
+        const applyTheme = (theme) => { document.documentElement.setAttribute('data-theme', theme); localStorage.setItem('bbweb_theme', theme); sunIcon.style.display = theme === 'dark' ? 'none' : 'block'; moonIcon.style.display = theme === 'dark' ? 'block' : 'none'; };
+        themeToggle.addEventListener('click', () => { const newTheme = (document.documentElement.getAttribute('data-theme') || 'light') === 'dark' ? 'light' : 'dark'; applyTheme(newTheme); });
+        applyTheme(localStorage.getItem('bbweb_theme') || 'dark');
+
+        document.querySelectorAll('.copy-svg-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const codeToCopy = button.dataset.code;
+                navigator.clipboard.writeText(codeToCopy).then(() => {
+                    const originalText = button.textContent;
+                    button.textContent = 'Скопировано!';
+                    setTimeout(() => {
+                        button.textContent = originalText;
+                    }, 2000);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

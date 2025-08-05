@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Проекты - bbweb</title>
+    <link rel="icon" href="../icon.png" type="image/png">
+    <meta name="description" content="Официальная страница проектов от разработчика bbzer0.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #ffffff; --bg-secondary: #f9fafb; --text-main: #111827; --text-muted: #6b7280; --border: #e5e7eb; --accent: #2563eb; }
+        html[data-theme="dark"] { --bg: #111827; --bg-secondary: #1f2937; --text-main: #f9fafb; --text-muted: #9ca3af; --border: #374151; --accent: #3b82f6; }
+        body { font-family: 'Manrope', sans-serif; background-color: var(--bg); color: var(--text-main); transition: background-color 0.3s, color 0.3s; }
+        .theme-btn:hover { background-color: var(--bg-secondary); }
+        .project-item { background-color: var(--bg-secondary); border: 1px solid var(--border); border-radius: 12px; transition: all 0.2s ease-in-out; overflow: hidden; }
+        .project-item:hover { border-color: var(--accent); }
+        .project-header { cursor: pointer; padding: 1.5rem; }
+        .project-details { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out; padding: 0 1.5rem; border-top: 1px solid transparent; }
+        .project-item.active .project-details { max-height: 1000px; padding: 1.5rem; border-top-color: var(--border); }
+        .arrow-icon { transition: transform 0.3s ease-in-out; }
+        .project-item.active .arrow-icon { transform: rotate(90deg); }
+        .tag { display: inline-block; padding: 4px 12px; font-size: 0.8rem; font-weight: 600; border-radius: 9999px; }
+        .tag-program { background-color: #f3f4f6; color: #4b5563; } .tag-windows { background-color: #dbeafe; color: #1e40af; } .tag-website { background-color: #d1fae5; color: #065f46; } .tag-other { background-color: #e5e7eb; color: #4b5563; }
+        html[data-theme="dark"] .tag-program { background-color: #374151; color: #d1d5db; } html[data-theme="dark"] .tag-windows { background-color: #1e3a8a; color: #dbeafe; } html[data-theme="dark"] .tag-website { background-color: #064e3b; color: #a7f3d0; } html[data-theme="dark"] .tag-other { background-color: #4b5563; color: #d1d5db; }
+        .btn-primary { display: inline-block; background-color: var(--accent); color: white; padding: 12px 24px; border-radius: 8px; font-weight: 600; transition: background-color 0.2s; }
+        .btn-primary:hover { background-color: #1d4ed8; } html[data-theme="dark"] .btn-primary:hover { background-color: #60a5fa; }
+        .config-label { background-color: var(--bg); border: 1px solid var(--border); color: var(--text-muted); cursor: pointer; transition: all 0.2s; }
+        .config-label:hover { border-color: var(--accent); color: var(--text-main); }
+        input[type="radio"]:checked + .config-label { background-color: var(--accent); border-color: var(--accent); color: white; font-weight: 600; }
+    </style>
+</head>
+<body class="antialiased">
+    <header class="py-5 border-b" style="border-color: var(--border);">
+        <div class="max-w-4xl mx-auto px-4 flex justify-between items-center">
+            <a href="../index.html" class="text-2xl font-extrabold tracking-tight">bbweb / проекты</a>
+            <button id="theme-toggle" class="theme-btn p-2 rounded-lg border" style="border-color: var(--border);">
+                <svg id="sun-icon" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                <svg id="moon-icon" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+            </button>
+        </div>
+    </header>
+    <main class="max-w-4xl mx-auto px-4 py-12 sm:py-16">
+        <div class="text-center mb-12"><h1 class="text-5xl md:text-6xl font-extrabold tracking-tighter">Все проекты</h1><p class="mt-4 max-w-2xl mx-auto text-lg" style="color: var(--text-muted);">Утилиты, сайты и операционные системы от энтузиаста для энтузиастов.</p></div>
+        <div id="projects-container" class="space-y-4"></div>
+    </main>
+    <footer class="py-6 mt-16 border-t" style="border-color: var(--border);"><div class="max-w-4xl mx-auto px-4 text-center"><p style="color: var(--text-muted);">Сайт находится в стадии разработки</p></div></footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const projects = [
+                { id: 'lunaos', title: 'LunaOS', category: 'windows', shortDescription: 'Быстрая и легкая версия Windows для игр и старых ПК.', constructorData: { languages: ['Русский', 'English'], bases: ['Windows 11', 'Windows 10'] } },
+                { id: 'winsteamproject', title: 'WinSteamProject', category: 'windows', shortDescription: 'Оптимизированная сборка Windows для геймеров с интеграцией Steam.', constructorData: { languages: ['Русский', 'English'], bases: ['Windows 11 LTSC 2024', 'Windows 10 LTSC 2021', 'Windows 10 LTSC 2019'] } },
+                { id: 'xtweaker-rebooted', title: 'XTweaker: Rebooted', category: 'program', version: 'v0.9 (Beta)', shortDescription: 'Продвинутый твикер для настройки Windows 10/11.', details: `<p class="mb-6">Оптимизация, приватность и персонализация в одной утилите. Эта версия является полным перезапуском оригинального XTweaker.</p><a href="https://github.com/timinside/XTweakerRebooted/releases/latest/download/XTweakerSetup.exe" class="btn-primary">Скачать XTweakerSetup.exe</a>` },
+                { id: 'lunaclean', title: 'LunaClean', category: 'program', version: 'v2.0.0 (Stable)', shortDescription: 'Мощный и простой инструмент для очистки системы от мусора.', details: `<p class="mb-6">Удаляет временные файлы, кеш, ненужные записи в реестре и другой системный мусор для ускорения работы вашего ПК.</p><a href="https://github.com/timinside/LunaClean/releases/latest/download/Setup.exe" class="btn-primary">Скачать Setup.exe</a>` },
+                { id: 'myisoutility', title: 'MyISOUtility', category: 'program', shortDescription: 'Удобная утилита для работы с ISO-образами.', details: `<p class="mb-6">Позволяет монтировать, распаковывать и создавать загрузочные USB-накопители из ISO-файлов.</p><a href="https://github.com/timinside/MyISOUtility/releases/latest/download/Setup.exe" class="btn-primary">Скачать Setup.exe</a>` },
+                { id: 'betterdevelnext', title: 'BetterDevelNext', category: 'program', version: 'v17.1.0 (Stable)', shortDescription: 'Улучшенная версия популярной утилиты BetterDevel.', details: `<p class="mb-6">Включает новые функции и оптимизации для более эффективной работы.</p><a href="https://github.com/timinside/BetterDevelNext/releases/latest/download/Setup.exe" class="btn-primary">Скачать Setup.exe</a>` },
+                { id: 'webproject', title: 'WebProject', category: 'website', version: 'v4.0 (Beta)', shortDescription: 'Этот самый сайт, на котором вы сейчас находитесь.', details: `<p class="mb-6">Сайт создан с нуля с использованием Tailwind CSS и чистого JavaScript.</p><a href="https://timinside.github.io" target="_blank" rel="noopener noreferrer" class="btn-primary">Посетить главную</a>`},
+                { id: 'bluelauncher', title: 'BlueLauncher', category: 'other', shortDescription: 'PowerShell-скрипт с GUI для быстрой установки программ.', details: `<p class="mb-6">Позволяет быстро скачивать и устанавливать мои программы, а также загружать ISO-образы сборок Windows.</p><a href="https://github.com/timinside/BlueLauncher/releases/latest/download/bluelauncher.ps1" class="btn-primary">Скачать bluelauncher.ps1</a>`},
+                { id: 'redlauncher', title: 'RedLauncher', category: 'program', status: 'Заброшен', shortDescription: 'Простой и эффективный лаунчер для Minecraft.', details: `<p class="mb-6">Проект больше не поддерживается. Разработка остановлена.</p>` },
+                { id: 'not11', title: 'Not11', category: 'program', status: 'Заброшен', shortDescription: 'Утилита для возвращения интерфейса Windows 10 в Windows 11.', details: `<p class="mb-6">Проект больше не поддерживается. Разработка остановлена.</p>` },
+                { id: 'qip', title: 'QIP (Quick Install Project)', category: 'other', status: 'Заброшен', shortDescription: 'Универсальный скрипт для PowerShell для быстрой установки ПО.', details: `<p class="mb-6">Этот проект был заменен на BlueLauncher и больше не поддерживается.</p>` },
+                { id: 'xtweaker-legacy', title: 'XTweaker (Legacy)', category: 'program', status: 'Заброшен', shortDescription: 'Оригинальная версия твикера.', details: `<p class="mb-6">Проект заброшен. Рекомендуется использовать новую версию — XTweaker: Rebooted.</p><a href="https://github.com/timinside/XTweaker/releases/latest/download/XTweakerSetup.exe" class="btn-primary">Скачать старую версию</a>` }
+            ];
+            
+            const container = document.getElementById('projects-container');
+
+            const createConstructorHTML = (id, data) => {
+                const languagesHTML = data.languages.map((lang, index) => `
+                    <div><input type="radio" id="${id}-lang-${index}" name="${id}-lang" value="${lang}" class="sr-only" ${index === 0 ? 'checked' : ''}>
+                    <label for="${id}-lang-${index}" class="config-label block text-center p-3 rounded-lg">${lang}</label></div>`).join('');
+                const basesHTML = data.bases.map((base, index) => `
+                    <div><input type="radio" id="${id}-base-${index}" name="${id}-base" value="${base}" class="sr-only" ${index === 0 ? 'checked' : ''}>
+                    <label for="${id}-base-${index}" class="config-label block text-center p-3 rounded-lg h-full flex items-center justify-center">${base}</label></div>`).join('');
+                
+                return `<form class="space-y-6" data-form-id="${id}">
+                            <div><h3 class="font-semibold mb-3 text-lg">Язык образа</h3><div class="grid grid-cols-2 gap-3">${languagesHTML}</div></div>
+                            <div><h3 class="font-semibold mb-3 text-lg">База Windows</h3><div class="grid grid-cols-1 md:grid-cols-3 gap-3">${basesHTML}</div></div>
+                            <button type="submit" class="btn-primary w-full">Сгенерировать ссылку</button>
+                            <p data-notification-id="${id}" class="text-center text-sm p-3 rounded-lg bg-yellow-100 text-yellow-800 dark:bg-yellow-900/50 dark:text-yellow-300 hidden">Сборка для этой конфигурации пока не готова.</p>
+                        </form>`;
+            };
+
+            projects.forEach(project => {
+                const versionHTML = project.version ? `<span class="text-sm font-semibold">${project.version}</span>` : '';
+                const statusHTML = project.status ? `<span class="text-sm font-semibold text-red-600">${project.status}</span>` : '';
+                const detailsHTML = project.constructorData ? createConstructorHTML(project.id, project.constructorData) : (project.details || '');
+                const tagCategory = project.category.charAt(0).toUpperCase() + project.category.slice(1);
+                
+                const projectElement = document.createElement('div');
+                projectElement.className = 'project-item';
+                projectElement.innerHTML = `
+                    <div class="project-header"><div class="flex items-center justify-between"><div>
+                        <div class="flex items-center gap-4"><h2 class="text-xl font-extrabold">${project.title}</h2><span class="tag tag-${project.category}">${tagCategory}</span></div>
+                        <p class="mt-2 text-base" style="color: var(--text-muted);">${project.shortDescription}</p>
+                    </div><div class="flex items-center gap-4 ml-4"><div class="text-right hidden sm:block">${versionHTML}${statusHTML}</div>
+                    <svg class="arrow-icon w-6 h-6 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" /></svg>
+                    </div></div></div><div class="project-details">${detailsHTML}</div>`;
+                container.appendChild(projectElement);
+            });
+
+            container.addEventListener('click', (e) => {
+                const header = e.target.closest('.project-header');
+                if (header) {
+                    const item = header.closest('.project-item');
+                    item.classList.toggle('active');
+                }
+            });
+
+            container.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const form = e.target;
+                const id = form.dataset.formId;
+                const notification = document.querySelector(`[data-notification-id="${id}"]`);
+                if(notification) {
+                    notification.classList.remove('hidden');
+                    setTimeout(() => notification.classList.add('hidden'), 3000);
+                }
+            });
+
+            const themeToggle = document.getElementById('theme-toggle');
+            const sunIcon = document.getElementById('sun-icon');
+            const moonIcon = document.getElementById('moon-icon');
+            const applyTheme = (theme) => { document.documentElement.setAttribute('data-theme', theme); localStorage.setItem('bbweb_theme', theme); sunIcon.style.display = theme === 'dark' ? 'none' : 'block'; moonIcon.style.display = theme === 'dark' ? 'block' : 'none'; };
+            themeToggle.addEventListener('click', () => { const newTheme = (document.documentElement.getAttribute('data-theme') || 'light') === 'dark' ? 'light' : 'dark'; applyTheme(newTheme); });
+            applyTheme(localStorage.getItem('bbweb_theme') || 'dark');
+        });
+    </script>
+</body>
+</html>

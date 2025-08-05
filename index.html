@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>bbweb - Главная</title>
+    <link rel="icon" href="icon.png" type="image/png">
+    <meta name="description" content="Официальная страница разработчика bbzer0.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #ffffff; --bg-secondary: #f9fafb; --text-main: #111827; --text-muted: #6b7280; --border: #e5e7eb; --accent: #2563eb; --accent-light: #ef4444; }
+        html[data-theme="dark"] { --bg: #111827; --bg-secondary: #1f2937; --text-main: #f9fafb; --text-muted: #9ca3af; --border: #374151; --accent: #3b82f6; --accent-light: #f87171; }
+        body { font-family: 'Manrope', sans-serif; background-color: var(--bg); color: var(--text-main); transition: background-color 0.3s, color 0.3s; }
+        .card { background-color: var(--bg-secondary); border: 1px solid var(--border); border-radius: 12px; transition: all 0.2s ease-in-out; }
+        .card:hover { border-color: var(--accent); transform: translateY(-4px); box-shadow: 0 4px 12px rgba(0,0,0, 0.1); }
+        html[data-theme="dark"] .card:hover { box-shadow: 0 4px 20px rgba(59, 130, 246, 0.15); }
+        .theme-btn:hover { background-color: var(--bg-secondary); }
+        .social-link { background-color: var(--bg-secondary); border: 1px solid var(--border); border-radius: 9999px; padding: 0.75rem; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease-in-out; }
+        .social-link:hover { border-color: var(--accent); transform: scale(1.1); }
+        .donate-btn { display: inline-flex; align-items: center; gap: 0.5rem; background-color: var(--bg-secondary); border: 1px solid var(--border); border-radius: 9999px; padding: 0.75rem 1rem; font-weight: 600; color: var(--text-muted); transition: all 0.2s ease-in-out; }
+        .donate-btn:hover { border-color: var(--accent); color: var(--text-main); transform: scale(1.05); }
+    </style>
+</head>
+<body class="antialiased">
+    <header class="py-5 border-b" style="border-color: var(--border);">
+        <div class="max-w-4xl mx-auto px-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-extrabold tracking-tight">bbweb</a>
+            <button id="theme-toggle" class="theme-btn p-2 rounded-lg border" style="border-color: var(--border);">
+                <svg id="sun-icon" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                <svg id="moon-icon" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+            </button>
+        </div>
+    </header>
+    
+    <main class="max-w-4xl mx-auto px-4 py-16 sm:py-24">
+        <div class="text-center">
+            <h1 class="text-5xl md:text-7xl font-extrabold tracking-tighter">bbzer0</h1>
+            <p class="mt-4 max-w-2xl mx-auto text-lg" style="color: var(--text-muted);">
+                Разработчик, энтузиаст и создатель полезных утилит.
+            </p>
+        </div>
+
+        <div class="mt-10 flex flex-wrap justify-center items-center gap-4">
+            <a href="https://www.youtube.com/@timinside" target="_blank" rel="noopener noreferrer" class="social-link" title="YouTube">
+                <img class="h-6 w-6" 
+                     data-dark-src="./icons/youtube1.png" 
+                     data-light-src="./icons/youtube2.png" 
+                     alt="YouTube icon">
+            </a>
+            <a href="https://discord.gg/j8pvV5bFc2" target="_blank" rel="noopener noreferrer" class="social-link" title="Discord">
+                <img class="h-6 w-6" 
+                     data-dark-src="./icons/discord1.png" 
+                     data-light-src="./icons/discord2.png" 
+                     alt="Discord icon">
+            </a>
+            <a href="https://t.me/bbzer0_community" target="_blank" rel="noopener noreferrer" class="social-link" title="Telegram">
+                <img class="h-6 w-6" 
+                     data-dark-src="./icons/telegram1.png" 
+                     data-light-src="./icons/telegram2.png" 
+                     alt="Telegram icon">
+            </a>
+            <a href="https://www.donationalerts.com/r/bbzer0" target="_blank" rel="noopener noreferrer" class="donate-btn">
+                <img class="h-6 w-6" 
+                     data-dark-src="./icons/donate1.png" 
+                     data-light-src="./icons/donate2.png" 
+                     alt="Donate icon">
+                <span>Поддержать автора</span>
+            </a>
+        </div>
+
+        <div class="mt-16 grid grid-cols-1 md:grid-cols-2 gap-6">
+            <a href="projects/" class="card p-6 block">
+                <h2 class="text-xl font-bold">Проекты</h2>
+                <p class="mt-2" style="color: var(--text-muted);">Список всех моих утилит, сайтов и сборок Windows.</p>
+            </a>
+            <a href="uses/" class="card p-6 block">
+                <h2 class="text-xl font-bold">Инструменты</h2>
+                <p class="mt-2" style="color: var(--text-muted);">Железо и софт, которые я использую в работе каждый день.</p>
+            </a>
+        </div>
+    </main>
+
+    <footer class="py-6 border-t" style="border-color: var(--border);">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <p style="color: var(--text-muted);">Сайт находится в стадии разработки</p>
+        </div>
+    </footer>
+
+    <script>
+        const themeToggle = document.getElementById('theme-toggle');
+        const sunIcon = document.getElementById('sun-icon');
+        const moonIcon = document.getElementById('moon-icon');
+
+        const applyTheme = (theme) => {
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('bbweb_theme', theme);
+            sunIcon.style.display = theme === 'dark' ? 'none' : 'block';
+            moonIcon.style.display = theme === 'dark' ? 'block' : 'none';
+
+            document.querySelectorAll('[data-dark-src]').forEach(img => {
+                const lightSrc = img.dataset.lightSrc;
+                const darkSrc = img.dataset.darkSrc;
+                img.src = (theme === 'dark') ? darkSrc : lightSrc;
+            });
+        };
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            applyTheme(newTheme);
+        });
+
+        const savedTheme = localStorage.getItem('bbweb_theme') || 'dark';
+        applyTheme(savedTheme);
+    </script>
+</body>
+</html>
