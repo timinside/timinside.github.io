@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>День рождения!</title>
+    <link rel="icon" href="icon.png" type="image/png">
+    <meta name="description" content="Список желаемых подарков в 2025 году.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #ffffff; --bg-secondary: #f9fafb; --text-main: #111827; --text-muted: #6b7280; --border: #e5e7eb; --accent: #2563eb; }
+        html[data-theme="dark"] { --bg: #111827; --bg-secondary: #1f2937; --text-main: #f9fafb; --text-muted: #9ca3af; --border: #374151; --accent: #3b82f6; }
+        body { font-family: 'Manrope', sans-serif; background-color: var(--bg); color: var(--text-main); transition: background-color 0.3s, color 0.3s; overflow-x: hidden; }
+        .theme-btn:hover { background-color: var(--bg-secondary); }
+        .btn-primary { display: inline-block; background-color: var(--accent); color: white; padding: 12px 24px; border-radius: 8px; font-weight: 600; transition: background-color 0.2s; }
+        .btn-primary:hover { background-color: #1d4ed8; } html[data-theme="dark"] .btn-primary:hover { background-color: #60a5fa; }
+        .countdown-box { text-align: center; }
+        .countdown-number { font-size: 3rem; font-weight: 800; line-height: 1; color: var(--accent); }
+        .countdown-label { font-size: 0.875rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+        @media (min-width: 640px) { .countdown-number { font-size: 4rem; } }
+
+        #starfall-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 50; pointer-events: none; overflow: hidden; }
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 60px;
+            background: linear-gradient(to bottom, var(--star-color), transparent);
+            border-radius: 50%;
+            animation: fall linear infinite;
+        }
+        @keyframes fall {
+            from { transform: translateY(-10vh) translateX(var(--x-start)); }
+            to { transform: translateY(110vh) translateX(var(--x-end)); }
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <div id="starfall-container"></div>
+
+    <header class="py-5 border-b" style="border-color: var(--border);">
+        <div class="max-w-4xl mx-auto px-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-extrabold tracking-tight">bbweb / днюха</a>
+            <button id="theme-toggle" class="theme-btn p-2 rounded-lg border" style="border-color: var(--border);">
+                <svg id="sun-icon" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                <svg id="moon-icon" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+            </button>
+        </div>
+    </header>
+    <main class="max-w-4xl mx-auto px-4 py-12 sm:py-16">
+        <div class="text-center mb-12">
+            <h1 class="text-5xl md:text-6xl font-extrabold tracking-tighter">День рождения!</h1>
+            <p class="mt-4 max-w-2xl mx-auto text-lg" style="color: var(--text-muted);">
+                Да-да, все верно - у меня совсем скоро день рождение. <br> Если вы хотите поддержать меня, можете сделать это здесь:
+            </p>
+            <div class="mt-6">
+                <a href="https://www.donationalerts.com/r/bbzer0" target="_blank" rel="noopener noreferrer" class="btn-primary">
+                    Поддержать на DonationAlerts
+                </a>
+            </div>
+        </div>
+        
+        <div id="countdown-container" class="grid grid-cols-4 gap-4 max-w-lg mx-auto mb-16">
+            <div class="countdown-box"><div id="days" class="countdown-number">00</div><div class="countdown-label">Дней</div></div>
+            <div class="countdown-box"><div id="hours" class="countdown-number">00</div><div class="countdown-label">Часов</div></div>
+            <div class="countdown-box"><div id="minutes" class="countdown-number">00</div><div class="countdown-label">Минут</div></div>
+            <div class="countdown-box"><div id="seconds" class="countdown-number">00</div><div class="countdown-label">Секунд</div></div>
+        </div>
+        <div id="birthday-message" class="hidden text-center mb-16"><h2 class="text-4xl font-extrabold" style="color: var(--accent);">Таймер завершен. Спасибо вам!</h2></div>
+
+    </main>
+    <footer class="py-6 mt-16 border-t" style="border-color: var(--border);"><div class="max-w-4xl mx-auto px-4 text-center"><p style="color: var(--text-muted);">Сайт находится в стадии разработки</p></div></footer>
+    <script>
+        const themeToggle = document.getElementById('theme-toggle');
+        const sunIcon = document.getElementById('sun-icon');
+        const moonIcon = document.getElementById('moon-icon');
+        const applyTheme = (theme) => { document.documentElement.setAttribute('data-theme', theme); localStorage.setItem('bbweb_theme', theme); sunIcon.style.display = theme === 'dark' ? 'none' : 'block'; moonIcon.style.display = theme === 'dark' ? 'block' : 'none'; };
+        themeToggle.addEventListener('click', () => { const newTheme = (document.documentElement.getAttribute('data-theme') || 'light') === 'dark' ? 'light' : 'dark'; applyTheme(newTheme); });
+        applyTheme(localStorage.getItem('bbweb_theme') || 'dark');
+
+        const countdownContainer = document.getElementById('countdown-container');
+        const birthdayMessage = document.getElementById('birthday-message');
+        const starfallContainer = document.getElementById('starfall-container');
+        const daysEl = document.getElementById('days');
+        const hoursEl = document.getElementById('hours');
+        const minutesEl = document.getElementById('minutes');
+        const secondsEl = document.getElementById('seconds');
+
+        const birthdayDate = new Date("September 25, 2025 13:00:00").getTime();
+
+        const formatTime = (time) => time < 10 ? `0${time}` : time;
+
+        const createStar = () => {
+            const star = document.createElement('div');
+            star.className = 'star';
+
+            const xStart = Math.random() * 100;
+            const duration = Math.random() * 2 + 3; 
+            const delay = Math.random() * 4;
+            const hue = Math.random() * 360;
+
+            star.style.setProperty('--x-start', `${xStart}vw`);
+            star.style.setProperty('--x-end', `${xStart + (Math.random() - 0.5) * 40}vw`);
+            star.style.setProperty('--star-color', `hsl(${hue}, 100%, 75%)`);
+            star.style.animationDuration = `${duration}s`;
+            star.style.animationDelay = `${delay}s`;
+
+            starfallContainer.appendChild(star);
+
+            setTimeout(() => {
+                star.remove();
+            }, (duration + delay) * 1000);
+        };
+
+        const startStarfall = () => {
+            setInterval(createStar, 150);
+        };
+
+        const countdownInterval = setInterval(() => {
+            const now = new Date().getTime();
+            const distance = birthdayDate - now;
+
+            if (distance < 0) {
+                clearInterval(countdownInterval);
+                countdownContainer.style.display = 'none';
+                birthdayMessage.classList.remove('hidden');
+                startStarfall();
+                return;
+            }
+
+            daysEl.innerHTML = formatTime(Math.floor(distance / (1000 * 60 * 60 * 24)));
+            hoursEl.innerHTML = formatTime(Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));
+            minutesEl.innerHTML = formatTime(Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)));
+            secondsEl.innerHTML = formatTime(Math.floor((distance % (1000 * 60)) / 1000));
+        }, 1000);
+    </script>
+</body>
+</html>
