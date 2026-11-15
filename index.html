@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>bbweb / projects</title>
+    <link rel="icon" href="icon.png" type="image/png">
+    <meta name="description" content="Projects by bbzer0.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #111827; --bg-secondary: #1f2937; --text-main: #f9fafb; --text-muted: #9ca3af; --border: #374151; --accent: #3b82f6; }
+        body { font-family: 'Manrope', sans-serif; background-color: var(--bg); color: var(--text-main); }
+        .tab-btn { padding: 0.6rem 1rem; border: 1px solid var(--border); border-radius: 9999px; color: var(--text-muted); font-weight: 600; background: var(--bg-secondary); }
+        .tab-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+        .project-item { background-color: var(--bg-secondary); border: 1px solid var(--border); border-radius: 12px; transition: all 0.2s ease-in-out; overflow: hidden; }
+        .project-item:hover { border-color: var(--accent); }
+        .project-header { cursor: pointer; padding: 1.5rem; }
+        .project-details { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out; padding: 0 1.5rem; border-top: 1px solid transparent; }
+        .project-item.active .project-details { max-height: 1200px; padding: 1.5rem; border-top-color: var(--border); }
+        .arrow-icon { transition: transform 0.3s ease-in-out; }
+        .project-item.active .arrow-icon { transform: rotate(90deg); }
+        .tag { display: inline-block; padding: 4px 12px; font-size: 0.8rem; font-weight: 600; border-radius: 9999px; }
+        .tag-program { background-color: #374151; color: #d1d5db; }
+        .tag-windows { background-color: #1e3a8a; color: #dbeafe; }
+        .tag-website { background-color: #064e3b; color: #a7f3d0; }
+        .tag-runtime { background-color: #4c1d95; color: #ddd6fe; }
+        .tag-website-program { background-color: #134e4a; color: #99f6e4; }
+        .tag-other { background-color: #4b5563; color: #d1d5db; }
+        .btn-primary { display: inline-block; background-color: var(--accent); color: white; padding: 12px 24px; border-radius: 8px; font-weight: 600; transition: background-color 0.2s; }
+        .btn-primary:hover { background-color: #60a5fa; }
+        .btn-secondary { display: inline-block; background-color: #e5e7eb; color: black; padding: 12px 24px; border-radius: 8px; font-weight: 600; transition: background-color 0.2s; }
+        .btn-secondary:hover { background-color: #fff; }
+        .popup { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.45); z-index: 50; }
+        .popup.hidden { display: none; }
+        .popup-card { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem 1.5rem; max-width: 320px; width: calc(100% - 2rem); text-align: center; }
+    </style>
+</head>
+<body class="antialiased">
+    <main class="max-w-4xl mx-auto px-4 py-12 sm:py-16">
+        <div class="text-center mb-10">
+            <h1 class="text-5xl md:text-6xl font-extrabold tracking-tighter">Projects</h1>
+            <p class="mt-4 max-w-2xl mx-auto text-lg" style="color: var(--text-muted);">Utilities, websites, and experiments by bbzer0.</p>
+        </div>
+        <div class="flex flex-wrap justify-center gap-3 mb-8">
+            <button class="tab-btn active" data-tab="all">all projects</button>
+            <button class="tab-btn" data-tab="released">released projects</button>
+            <button class="tab-btn" data-tab="wip">w.i.p projects</button>
+        </div>
+        <div id="projects-container" class="space-y-4"></div>
+    </main>
+    <footer class="py-6 mt-16 border-t" style="border-color: var(--border);">
+        <div class="max-w-4xl mx-auto px-4 text-center"><p style="color: var(--text-muted);">There's no closed projects. You can find it in my GitHub Repository list.</p></div>
+    </footer>
+    <div id="link-popup" class="popup hidden" role="dialog" aria-modal="true" aria-label="Notice">
+        <div class="popup-card">
+            <p class="text-base font-semibold mb-4">Nothing to download - no link set/not released</p>
+            <button id="popup-close" class="btn-primary">OK</button>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const wipIds = ['bbaccounts', 'vynx', 'bbwebinstaller'];
+            const bbwebInstallerSupported = ['10tweaker', 'flaxyide', 'lunaclean', 'bbruntime', 'nextjppm'];
+            const bbwebInstallerBuildSupported = ['10tweaker', 'flaxyide'];
+            const projects = [
+                { id: 'flaxyide', icon: './assets/icons/FlaxyIDEIcon.png', title: 'FlaxyIDE', category: 'program', version: 'v17.2.2', shortDescription: 'A fast, friendly IDE for building Windows apps, powered by DevelNext and FXEdition.', details: '<p class="mb-6">A smoother, more modern place to build Windows software on the DevelNext platform.</p><div class="flex flex-wrap gap-3"><a href="https://timinside.github.io/BetterDevelNext" class="btn-primary">Project page</a><a href="https://github.com/timinside/BetterDevelNext/releases/latest/download/BetterDevelNextSetup.exe" class="btn-secondary">Download BetterDevelNextSetup.exe (46.9MB)</a><a href="https://github.com/timinside/BetterDevelNext" class="btn-secondary">GitHub</a></div>' },
+                { id: '10tweaker', icon: './assets/icons/10tweakerIcon.png', version: 'v1.2.9.1', title: '10tweaker', category: 'program', shortDescription: 'A tool for improving and customizing Windows with a Material 3 interface.', details: '<p class="mb-6">Tweaks and system tools in one place. XTweaker Legacy is the older version of 10tweaker, created a year ago with a different approach.</p><div class="flex flex-wrap gap-3"><a href="https://timinside.github.io/10tweaker" class="btn-primary">Project page</a><a href="https://github.com/timinside/10tweaker/releases/latest/download/XTweakerSetup.exe" class="btn-secondary">Download XTweakerSetup.exe (67.6MB, XTweaker Legacy)</a><a href="https://github.com/timinside/10tweaker" class="btn-secondary">GitHub</a></div>' },
+                { id: 'vynx', icon: './assets/icons/vynxIcon.png', title: 'Vynx', version: 'v1.0_beta1 [W.I.P]' ,category: 'website & program', shortDescription: 'A unified launcher for Steam and other game libraries.', details: '<p class="mb-6">Brings together libraries like Steam, Android games, Roblox, and titles not available in other launchers.</p><div class="flex flex-wrap gap-3"><a href="https://playvynx.unaux.com/" class="btn-primary">Vynx Website</a><a href="#" class="btn-secondary">Download for Windows</a><a href="#" class="btn-secondary">Download for Android</a></div>' },
+                { id: 'lunaclean', icon: './assets/icons/lunacleanIcon.png', version: 'v2.0.0', title: 'LunaClean', category: 'program', shortDescription: 'Scripts and maintenance tools in one tray menu.', details: '<p class="mb-6">System cleanup, restore points, and quick maintenance tasks from the tray.</p><div class="flex flex-wrap gap-3"><a href="https://github.com/timinside/LunaClean/releases/latest/download/Setup.exe" class="btn-secondary">Download Setup.exe (4.72MB)</a><a href="https://github.com/timinside/LunaClean" class="btn-secondary">GitHub</a></div>' },
+                { id: 'bbruntime', icon: './assets/icons/bbruntimeIcon.png', version: 'v1.2', title: 'bbruntime', category: 'runtime', shortDescription: 'Runtime library used by some of my projects.', details: '<p class="mb-6">A shared runtime that can also be used in other projects.</p><div class="flex flex-wrap gap-3"><a href="https://github.com/timinside/bbruntime/releases/latest/download/bbruntimeSetupOffline.exe" class="btn-primary">Download bbruntimeSetupOffline.exe (84.1MB)</a><a href="https://github.com/timinside/bbruntime/releases/latest/download/bbruntimeSetup.exe" class="btn-secondary">Download bbruntimeSetup.exe (2.09MB)</a><a href="https://github.com/timinside/bbruntime" class="btn-secondary">GitHub</a></div>' },
+                { id: 'bbaccounts', icon: './assets/icons/bbaccountsIcon.png', version: 'v2.0 [W.I.P]', title: 'bbaccounts', category: 'website & program', shortDescription: 'Account system for any type of project.', details: '<p class="mb-6">Self-hosted identity provider in PHP: password and social sign-in, OAuth 2.0 with PKCE, recovery codes, and a developer panel. Includes <strong>bbaccounts auth</strong> app for Android and Windows.</p><div class="flex flex-wrap gap-3"><a href="https://bbac.unaux.com" class="btn-primary">Project page</a><a href="#" class="btn-secondary">Download bbaccounts auth for Windows</a><a href="#" class="btn-secondary">Download bbaccounts auth for Android</a><a href="https://github.com/timinside/bbaccounts" class="btn-secondary">GitHub</a></div>' },
+                { id: 'bbwebinstaller', icon: './assets/icons/bbwebinstallerIcon.png', title: 'bbweb Installer', category: 'program', version: 'v1.0_beta1 [W.I.P]', shortDescription: 'Web installer for some of my projects.', details: '<p class="mb-6">Installs or builds supported apps. Building may include unstable scripts.</p><div class="flex flex-wrap gap-3"><a href="./bbwebinstaller/" class="btn-primary">Project page</a><a href="https://github.com/timinside/bbwebInstaller/releases/latest/download/bbwebInstaller.exe" class="btn-secondary">Download bbwebInstaller.exe (8MB)</a><a href="https://github.com/timinside/bbwebInstaller" class="btn-secondary">GitHub</a></div>' },
+                { id: 'bbweb', icon: './assets/icons/bbwebIcon.png', title: 'bbweb', category: 'website', version: 'v4.5', shortDescription: 'This website.', details: '<p class="mb-6">Built with Tailwind CSS and plain JavaScript.</p>' },
+                { id: 'nextjppm', icon: './assets/icons/jppmIcon.png', title: 'NextJPPM', category: 'program', version: 'v0.8.0', shortDescription: 'Better JPHP Package Manager.', details: '<p class="mb-6">An improved package manager for JPHP projects.</p><div class="flex flex-wrap gap-3"><a href="https://github.com/timinside/NextJPPM/releases/latest/download/NextSetup.exe" class="btn-primary">Download NextSetup.exe (179MB)</a><a href="https://github.com/timinside/NextJPPM" class="btn-secondary">GitHub</a></div>' }
+            ];
+
+            const container = document.getElementById('projects-container');
+            const popup = document.getElementById('link-popup');
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            let currentTab = 'all';
+
+            const showPopup = () => popup.classList.remove('hidden');
+            const hidePopup = () => popup.classList.add('hidden');
+            document.getElementById('popup-close').addEventListener('click', hidePopup);
+            popup.addEventListener('click', (e) => { if (e.target === popup) hidePopup(); });
+
+            document.addEventListener('click', (e) => {
+                const link = e.target.closest('a[href="#"]');
+                if (link) {
+                    e.preventDefault();
+                    showPopup();
+                }
+            });
+
+            const render = () => {
+                container.innerHTML = '';
+                projects.forEach(project => {
+                    const isWip = wipIds.includes(project.id);
+                    if (currentTab === 'released' && isWip) return;
+                    if (currentTab === 'wip' && !isWip) return;
+
+                    const versionHTML = project.version ? `<span class="text-sm font-semibold">${project.version}</span>` : '';
+                    const tagCategory = project.category;
+                    const tagClass = 'tag-' + project.category.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+                    const supportedHTML = bbwebInstallerBuildSupported.includes(project.id)
+                        ? `<span class="tag tag-other">Supported by bbwebInstaller &amp; Building</span>`
+                        : bbwebInstallerSupported.includes(project.id)
+                            ? `<span class="tag tag-other">Supported by bbwebInstaller</span>`
+                            : '';
+                    const iconHTML = project.icon ? `<img src="${project.icon}" alt="" class="w-10 h-10 rounded-lg border" style="border-color: var(--border);">` : '';
+
+                    const projectElement = document.createElement('div');
+                    projectElement.className = 'project-item';
+                    projectElement.innerHTML = `
+                        <div class="project-header">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-4">
+                                    ${iconHTML}
+                                    <div>
+                                        <div class="flex items-center gap-4 flex-wrap">
+                                            <h2 class="text-xl font-extrabold">${project.title}</h2>
+                                            <span class="tag ${tagClass}">${tagCategory}</span>
+                                            ${supportedHTML}
+                                        </div>
+                                        <p class="mt-2 text-base" style="color: var(--text-muted);">${project.shortDescription}</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-4 ml-4">
+                                    <div class="text-right hidden sm:block">${versionHTML}</div>
+                                    <svg class="arrow-icon w-6 h-6 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" /></svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-details">${project.details || ''}</div>`;
+                    container.appendChild(projectElement);
+                });
+            };
+
+            tabButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    currentTab = btn.dataset.tab;
+                    tabButtons.forEach(b => b.classList.toggle('active', b === btn));
+                    render();
+                });
+            });
+
+            container.addEventListener('click', (e) => {
+                const header = e.target.closest('.project-header');
+                if (header) header.closest('.project-item').classList.toggle('active');
+            });
+
+            render();
+        });
+    </script>
+</body>
+</html>
