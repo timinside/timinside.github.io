@@ -1,5 +1,11 @@
-# Здравствуй, путник!
+<p align="center">
+  <img src="icon.png" width="96" height="96" alt="bbweb icon">
+</p>
 
-Видимо, вы захотели просмотреть код сайта.. или попали не туда :)
+<h1 align="center">bbweb</h1>
 
-Теперь, здесь будет просто начальная структура. Отдельные страницы для каждого проекта будут находится в репозитории самого проекта.
+<p align="center">
+  Personal projects site by <a href="https://github.com/timinside">timinside</a>
+  <br>
+A small hub for my projects, tools, and experiments.
+</p>
