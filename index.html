@@ -3,9 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>bbweb / projects</title>
+    <title>bbweb / projects by bbzer0 (timinside)</title>
     <link rel="icon" href="icon.png" type="image/png">
-    <meta name="description" content="Projects by bbzer0.">
+    <meta name="description" content="Projects and tools by bbzer0 (timinside): BetterDevelNext (FlaxyIDE), 10tweaker (XTweaker), LunaClean, bbruntime, bbweb Installer, NextJPPM, bbaccounts, Vynx (VynxGamesLauncher), and bbweb.">
+    <meta name="keywords" content="bbzer0, timinside, bbzer000, cyber4ups, gobobdev, BetterDevelNext, FlaxyIDE, 10tweaker, XTweaker, XTweaker Legacy, LunaClean, bbruntime, bbweb Installer, bbwebInstaller, NextJPPM, bbaccounts, Vynx, VynxGamesLauncher, bbweb">
+    <meta name="author" content="bbzer0 (timinside)">
+    <meta name="robots" content="index,follow">
+    <meta property="og:title" content="bbweb / projects by bbzer0 (timinside)">
+    <meta property="og:description" content="Utilities, websites, and experiments by bbzer0 (timinside). Find projects by name or alias, including older names like FlaxyIDE and XTweaker.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://timinside.github.io/">
+    <link rel="canonical" href="https://timinside.github.io/">
     <meta name="yandex-verification" content="6d82253dc63e0df9" />
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,13 +22,15 @@
     <style>
         :root { --bg: #111827; --bg-secondary: #1f2937; --text-main: #f9fafb; --text-muted: #9ca3af; --border: #374151; --accent: #3b82f6; }
         body { font-family: 'Manrope', sans-serif; background-color: var(--bg); color: var(--text-main); }
-        .tab-btn { padding: 0.6rem 1rem; border: 1px solid var(--border); border-radius: 9999px; color: var(--text-muted); font-weight: 600; background: var(--bg-secondary); }
-        .tab-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+        .archive-toggle { width: 100%; text-align: left; background-color: var(--bg-secondary); border: 1px solid var(--border); border-radius: 12px; padding: 1rem; display: flex; align-items: center; gap: 0.75rem; font-weight: 700; transition: all 0.2s ease-in-out; }
+        @media (min-width: 640px) { .archive-toggle { padding: 1rem 1.25rem; gap: 1rem; } }
+        .archive-toggle:hover { border-color: var(--accent); }
         .project-item { background-color: var(--bg-secondary); border: 1px solid var(--border); border-radius: 12px; transition: all 0.2s ease-in-out; overflow: hidden; }
         .project-item:hover { border-color: var(--accent); }
-        .project-header { cursor: pointer; padding: 1.5rem; }
-        .project-details { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out; padding: 0 1.5rem; border-top: 1px solid transparent; }
-        .project-item.active .project-details { max-height: 1200px; padding: 1.5rem; border-top-color: var(--border); }
+        .project-header { cursor: pointer; padding: 1rem; }
+        .project-details { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out; padding: 0 1rem; border-top: 1px solid transparent; }
+        .project-item.active .project-details { max-height: 1200px; padding: 1rem; border-top-color: var(--border); }
+        @media (min-width: 640px) { .project-header { padding: 1.5rem; } .project-item.active .project-details { padding: 1.5rem; } .project-details { padding: 0 1.5rem; } }
         .arrow-icon { transition: transform 0.3s ease-in-out; }
         .project-item.active .arrow-icon { transform: rotate(90deg); }
         .tag { display: inline-block; padding: 4px 12px; font-size: 0.8rem; font-weight: 600; border-radius: 9999px; }
@@ -30,6 +40,7 @@
         .tag-runtime { background-color: #4c1d95; color: #ddd6fe; }
         .tag-website-program { background-color: #134e4a; color: #99f6e4; }
         .tag-other { background-color: #4b5563; color: #d1d5db; }
+        .tag-wip { background-color: #7c2d12; color: #fed7aa; }
         .btn-primary { display: inline-block; background-color: var(--accent); color: white; padding: 12px 24px; border-radius: 8px; font-weight: 600; transition: background-color 0.2s; }
         .btn-primary:hover { background-color: #60a5fa; }
         .btn-secondary { display: inline-block; background-color: #e5e7eb; color: black; padding: 12px 24px; border-radius: 8px; font-weight: 600; transition: background-color 0.2s; }
@@ -37,26 +48,56 @@
         .popup { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.45); z-index: 50; }
         .popup.hidden { display: none; }
         .popup-card { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem 1.5rem; max-width: 320px; width: calc(100% - 2rem); text-align: center; }
+        .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
     </style>
     <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "ProfilePage",
-  "mainEntity": {
-    "@type": "Person",
-    "name": "bbzer0",
-    "alternateName": [
-      "timinside",
-      "bbzer000",
-      "cyber4ups",
-      "gobobdev"
-    ],
-    "description": "Developer of utilities, websites, and experiments (FlaxyIDE, 10tweaker, LunaClean, bbaccounts, Vynx).",
-    "url": "https://timinside.github.io/",
-    "sameAs": [
-      "https://github.com/timinside"
-    ]
-  }
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://timinside.github.io/#website",
+      "url": "https://timinside.github.io/",
+      "name": "bbweb",
+      "description": "Projects and tools by bbzer0 (timinside).",
+      "inLanguage": "en",
+      "publisher": { "@id": "https://timinside.github.io/#person" }
+    },
+    {
+      "@type": "ProfilePage",
+      "@id": "https://timinside.github.io/#profile",
+      "url": "https://timinside.github.io/",
+      "name": "bbweb / projects by bbzer0 (timinside)",
+      "isPartOf": { "@id": "https://timinside.github.io/#website" },
+      "mainEntity": { "@id": "https://timinside.github.io/#person" }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://timinside.github.io/#person",
+      "name": "bbzer0",
+      "alternateName": ["timinside", "bbzer000", "cyber4ups", "gobobdev"],
+      "url": "https://timinside.github.io/",
+      "description": "Developer of utilities, websites, and experiments. Searches for bbzer0, timinside, bbzer000, cyber4ups, or gobobdev refer to the same person.",
+      "sameAs": ["https://github.com/timinside", "https://timinside.github.io/"],
+      "knowsAbout": ["Windows utilities", "web development", "PHP", "JPHP", "game launchers", "installers"]
+    },
+    {
+      "@type": "ItemList",
+      "@id": "https://timinside.github.io/#projects",
+      "name": "Projects by bbzer0 (timinside)",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "item": { "@type": "SoftwareSourceCode", "name": "BetterDevelNext", "alternateName": "FlaxyIDE", "codeRepository": "https://github.com/timinside/BetterDevelNext", "url": "https://timinside.github.io/BetterDevelNext" } },
+        { "@type": "ListItem", "position": 2, "item": { "@type": "SoftwareSourceCode", "name": "10tweaker", "alternateName": ["XTweaker", "XTweaker Legacy"], "codeRepository": "https://github.com/timinside/10tweaker", "url": "https://timinside.github.io/10tweaker" } },
+        { "@type": "ListItem", "position": 3, "item": { "@type": "SoftwareSourceCode", "name": "Vynx", "alternateName": "VynxGamesLauncher", "codeRepository": "https://github.com/timinside/VynxGamesLauncher", "url": "https://playvynx.unaux.com/" } },
+        { "@type": "ListItem", "position": 4, "item": { "@type": "SoftwareSourceCode", "name": "LunaClean", "codeRepository": "https://github.com/timinside/LunaClean" } },
+        { "@type": "ListItem", "position": 5, "item": { "@type": "SoftwareSourceCode", "name": "bbruntime", "codeRepository": "https://github.com/timinside/bbruntime" } },
+        { "@type": "ListItem", "position": 6, "item": { "@type": "SoftwareSourceCode", "name": "bbaccounts", "codeRepository": "https://github.com/timinside/bbaccounts", "url": "https://bbac.unaux.com" } },
+        { "@type": "ListItem", "position": 7, "item": { "@type": "SoftwareSourceCode", "name": "bbweb Installer", "codeRepository": "https://github.com/timinside/bbwebInstaller", "url": "https://timinside.github.io/bbwebinstaller/" } },
+        { "@type": "ListItem", "position": 8, "item": { "@type": "SoftwareSourceCode", "name": "bbweb", "codeRepository": "https://github.com/timinside/timinside.github.io", "url": "https://timinside.github.io/" } },
+        { "@type": "ListItem", "position": 9, "item": { "@type": "SoftwareSourceCode", "name": "NextJPPM", "codeRepository": "https://github.com/timinside/NextJPPM" } }
+      ]
+    }
+  ]
 }
     </script>
 </head>
@@ -64,17 +105,31 @@
     <main class="max-w-4xl mx-auto px-4 py-12 sm:py-16">
         <div class="text-center mb-10">
             <h1 class="text-5xl md:text-6xl font-extrabold tracking-tighter">Projects</h1>
-            <p class="mt-4 max-w-2xl mx-auto text-lg" style="color: var(--text-muted);">Utilities, websites, and experiments by bbzer0.</p>
+            <p class="mt-4 max-w-2xl mx-auto text-lg" style="color: var(--text-muted);">Utilities, websites, and experiments by bbzer0 (timinside).</p>
+            <p class="sr-only">Also known as: bbzer0, timinside, bbzer000, cyber4ups, gobobdev. Older project names: FlaxyIDE (now BetterDevelNext), XTweaker / XTweaker Legacy (now 10tweaker), VynxGamesLauncher (Vynx).</p>
         </div>
-        <div class="flex flex-wrap justify-center gap-3 mb-8">
-            <button class="tab-btn active" data-tab="all">all projects</button>
-            <button class="tab-btn" data-tab="released">released projects</button>
-            <button class="tab-btn" data-tab="wip">w.i.p projects</button>
+        <div class="mb-4">
+            <button id="no-releases-toggle" class="archive-toggle" type="button">
+                <img src="./assets/noReleases.png" alt="" class="w-10 h-10 rounded-lg border flex-shrink-0" style="border-color: var(--border);">
+                <div class="flex-1">
+                    <div class="flex items-center justify-between gap-2 sm:gap-4 flex-wrap">
+                        <span class="text-base sm:text-lg font-extrabold">Projects without releases</span>
+                        <span id="no-releases-count" class="text-sm font-semibold" style="color: var(--text-muted);"></span>
+                    </div>
+                    <p class="mt-1 text-sm font-medium" style="color: var(--text-muted);">Work in progress and unreleased projects</p>
+                </div>
+                <svg id="no-releases-arrow" class="arrow-icon w-6 h-6 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" /></svg>
+            </button>
+            <div id="no-releases-container" class="space-y-4 mt-4 hidden"></div>
+            <div id="no-releases-separator" class="hidden mt-4 border-t" style="border-color: var(--border);"></div>
         </div>
         <div id="projects-container" class="space-y-4"></div>
     </main>
-    <footer class="py-6 mt-16 border-t" style="border-color: var(--border);">
-        <div class="max-w-4xl mx-auto px-4 text-center"><p style="color: var(--text-muted);">There's no closed projects. You can find it in my GitHub Repository list.</p></div>
+    <footer class="py-8 mt-16 border-t" style="border-color: var(--border);">
+        <div class="max-w-4xl mx-auto px-4 text-center space-y-2">
+            <p style="color: var(--text-muted);">No closed projects. Find everything on <a href="https://github.com/timinside" class="underline" style="color: var(--accent);">GitHub (timinside)</a>.</p>
+            <p class="text-sm" style="color: var(--text-muted);">bbzer0 / timinside / bbzer000 / cyber4ups / gobobdev</p>
+        </div>
     </footer>
     <div id="link-popup" class="popup hidden" role="dialog" aria-modal="true" aria-label="Notice">
         <div class="popup-card">
@@ -84,25 +139,28 @@
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const wipIds = ['bbaccounts', 'vynx'];
+            const noReleaseIds = ['bbaccounts', 'vynx'];
             const bbwebInstallerSupported = ['10tweaker', 'flaxyide', 'lunaclean', 'bbruntime', 'nextjppm'];
-            const bbwebInstallerBuildSupported = ['10tweaker', 'flaxyide'];
             const projects = [
-                { id: 'flaxyide', icon: './assets/icons/FlaxyIDEIcon.png', title: 'FlaxyIDE', category: 'program', version: 'v17.2.2', shortDescription: 'A fast, friendly IDE for building Windows apps, powered by DevelNext and FXEdition.', details: '<p class="mb-6">A smoother, more modern place to build Windows software on the DevelNext platform.</p><div class="flex flex-wrap gap-3"><a href="https://timinside.github.io/BetterDevelNext" class="btn-primary">Project page</a><a href="https://github.com/timinside/BetterDevelNext/releases/latest/download/BetterDevelNextSetup.exe" class="btn-secondary">Download BetterDevelNextSetup.exe (46.9MB)</a><a href="https://github.com/timinside/BetterDevelNext" class="btn-secondary">GitHub</a></div>' },
-                { id: '10tweaker', icon: './assets/icons/10tweakerIcon.png', version: 'v1.2.9.1', title: '10tweaker', category: 'program', shortDescription: 'A tool for improving and customizing Windows with a Material 3 interface.', details: '<p class="mb-6">Tweaks and system tools in one place. XTweaker Legacy is the older version of 10tweaker, created a year ago with a different approach.</p><div class="flex flex-wrap gap-3"><a href="https://timinside.github.io/10tweaker" class="btn-primary">Project page</a><a href="https://github.com/timinside/10tweaker/releases/latest/download/XTweakerSetup.exe" class="btn-secondary">Download XTweakerSetup.exe (67.6MB, XTweaker Legacy)</a><a href="https://github.com/timinside/10tweaker" class="btn-secondary">GitHub</a></div>' },
-                { id: 'vynx', icon: './assets/icons/vynxIcon.png', title: 'Vynx', version: 'v0.1.0_beta1 [W.I.P]' ,category: 'website & program', shortDescription: 'A unified launcher for Steam and other game libraries.', details: '<p class="mb-6">Brings together libraries like Steam, Android games, Roblox, and titles not available in other launchers.</p><div class="flex flex-wrap gap-3"><a href="https://playvynx.unaux.com/" class="btn-primary">Vynx Website</a><a href="#" class="btn-secondary">Download for Windows</a><a href="#" class="btn-secondary">Download for Android</a></div>' },
-                { id: 'lunaclean', icon: './assets/icons/LunaCleanIcon.png', version: 'v2.0.0', title: 'LunaClean', category: 'program', shortDescription: 'Scripts and maintenance tools in one tray menu.', details: '<p class="mb-6">System cleanup, restore points, and quick maintenance tasks from the tray.</p><div class="flex flex-wrap gap-3"><a href="https://github.com/timinside/LunaClean/releases/latest/download/Setup.exe" class="btn-secondary">Download Setup.exe (4.72MB)</a><a href="https://github.com/timinside/LunaClean" class="btn-secondary">GitHub</a></div>' },
-                { id: 'bbruntime', icon: './assets/icons/bbruntimeIcon.png', version: 'v1.2', title: 'bbruntime', category: 'runtime', shortDescription: 'Runtime library used by some of my projects.', details: '<p class="mb-6">A shared runtime that can also be used in other projects.</p><div class="flex flex-wrap gap-3"><a href="https://github.com/timinside/bbruntime/releases/latest/download/bbruntimeSetupOffline.exe" class="btn-primary">Download bbruntimeSetupOffline.exe (84.1MB)</a><a href="https://github.com/timinside/bbruntime/releases/latest/download/bbruntimeSetup.exe" class="btn-secondary">Download bbruntimeSetup.exe (2.09MB)</a><a href="https://github.com/timinside/bbruntime" class="btn-secondary">GitHub</a></div>' },
-                { id: 'bbaccounts', icon: './assets/icons/bbaccountsIcon.png', version: 'v2.0 [W.I.P]', title: 'bbaccounts', category: 'website & program', shortDescription: 'Account system for any type of project.', details: '<p class="mb-6">Self-hosted identity provider in PHP: password and social sign-in, OAuth 2.0 with PKCE, recovery codes, and a developer panel. Includes <strong>bbaccounts auth</strong> app for Android and Windows.</p><div class="flex flex-wrap gap-3"><a href="https://bbac.unaux.com" class="btn-primary">Project page</a><a href="#" class="btn-secondary">Download bbaccounts auth for Windows</a><a href="#" class="btn-secondary">Download bbaccounts auth for Android</a><a href="https://github.com/timinside/bbaccounts" class="btn-secondary">GitHub</a></div>' },
-                { id: 'bbwebinstaller', icon: './assets/icons/bbwebInstallerIcon.png', title: 'bbweb Installer', category: 'program', version: 'v0.1.0', shortDescription: 'Lightweight web installer and updater for supported bbweb projects.', details: '<p class="mb-6">Manifest-driven installer with update checks, self-update, and CLI options for per-app checks and updates.</p><div class="flex flex-wrap gap-3"><a href="./bbwebinstaller/" class="btn-primary">Project page</a><a href="https://github.com/timinside/bbwebInstaller/releases/latest/download/bbwebInstaller.exe" class="btn-secondary">Download bbwebInstaller.exe (0.37MB)</a><a href="https://github.com/timinside/bbwebInstaller" class="btn-secondary">GitHub</a></div>' },
-                { id: 'bbweb', icon: './assets/icons/bbwebIcon.png', title: 'bbweb', category: 'website', version: 'v4.5', shortDescription: 'This website.', details: '<p class="mb-6">Built with Tailwind CSS and plain JavaScript.</p>' },
-                { id: 'nextjppm', icon: './assets/icons/jppmIcon.png', title: 'NextJPPM', category: 'program', version: 'v0.8.0', shortDescription: 'Better JPHP Package Manager.', details: '<p class="mb-6">An improved package manager for JPHP projects.</p><div class="flex flex-wrap gap-3"><a href="https://github.com/timinside/NextJPPM/releases/latest/download/NextSetup.exe" class="btn-primary">Download NextSetup.exe (179MB)</a><a href="https://github.com/timinside/NextJPPM" class="btn-secondary">GitHub</a></div>' }
+                { id: 'flaxyide', icon: './assets/icons/FlaxyIDEIcon.png', title: 'FlaxyIDE', category: 'program', version: 'v17.2.2', shortDescription: 'A fast, friendly IDE for building Windows apps, powered by DevelNext and FXEdition.', details: '<p class="mb-6">A smoother, more modern place to build Windows software on the DevelNext platform.</p><p class="mb-6 text-sm font-semibold">Support install, update and build with bbweb Installer.</p><div class="flex flex-wrap gap-3"><a href="https://timinside.github.io/BetterDevelNext" class="btn-primary">Project page</a><a href="https://github.com/timinside/BetterDevelNext/releases/latest/download/BetterDevelNextSetup.exe" class="btn-secondary">Download BetterDevelNextSetup.exe (46.9MB)</a><a href="https://github.com/timinside/BetterDevelNext" class="btn-secondary">GitHub</a></div>' },
+                { id: '10tweaker', icon: './assets/icons/10tweakerIcon.png', version: 'v1.2.9.1', title: '10tweaker', category: 'program', shortDescription: 'A tool for improving and customizing Windows with a Material 3 interface.', details: '<p class="mb-6">Tweaks and system tools in one place. XTweaker Legacy is the older version of 10tweaker, created a year ago with a different approach.</p><p class="mb-6 text-sm font-semibold">Support install, update and build with bbweb Installer.</p><div class="flex flex-wrap gap-3"><a href="https://timinside.github.io/10tweaker" class="btn-primary">Project page</a><a href="https://github.com/timinside/10tweaker/releases/latest/download/XTweakerSetup.exe" class="btn-secondary">Download XTweakerSetup.exe (67.6MB, XTweaker Legacy)</a><a href="https://github.com/timinside/10tweaker" class="btn-secondary">GitHub</a></div>' },
+                { id: 'vynx', icon: './assets/icons/vynxIcon.png', title: 'Vynx', version: 'v0.1.0_beta1', category: 'website & program', shortDescription: 'A unified launcher for Steam and other game libraries.', details: '<p class="mb-6">Brings together libraries like Steam, Android games, Roblox, and titles not available in other launchers.</p><div class="flex flex-wrap gap-3"><a href="https://playvynx.unaux.com/" class="btn-primary">Vynx Website</a><a href="https://github.com/timinside/VynxGamesLauncher" class="btn-secondary">GitHub</a><a href="#" class="btn-secondary">Download for Windows</a><a href="#" class="btn-secondary">Download for Android</a></div>' },
+                { id: 'lunaclean', icon: './assets/icons/LunaCleanIcon.png', version: 'v2.0.0', title: 'LunaClean', category: 'program', shortDescription: 'Scripts and maintenance tools in one tray menu.', details: '<p class="mb-6">System cleanup, restore points, and quick maintenance tasks from the tray.</p><p class="mb-6 text-sm font-semibold">Support install and update with bbweb Installer.</p><div class="flex flex-wrap gap-3"><a href="https://github.com/timinside/LunaClean/releases/latest/download/Setup.exe" class="btn-secondary">Download Setup.exe (4.72MB)</a><a href="https://github.com/timinside/LunaClean" class="btn-secondary">GitHub</a></div>' },
+                { id: 'bbruntime', icon: './assets/icons/bbruntimeIcon.png', version: 'v1.2', title: 'bbruntime', category: 'runtime', shortDescription: 'Runtime library used by some of my projects.', details: '<p class="mb-6">A shared runtime that can also be used in other projects.</p><p class="mb-6 text-sm font-semibold">Support install and update with bbweb Installer.</p><div class="flex flex-wrap gap-3"><a href="https://github.com/timinside/bbruntime/releases/latest/download/bbruntimeSetupOffline.exe" class="btn-primary">Download bbruntimeSetupOffline.exe (84.1MB)</a><a href="https://github.com/timinside/bbruntime/releases/latest/download/bbruntimeSetup.exe" class="btn-secondary">Download bbruntimeSetup.exe (2.09MB)</a><a href="https://github.com/timinside/bbruntime" class="btn-secondary">GitHub</a></div>' },
+                { id: 'bbaccounts', icon: './assets/icons/bbaccountsIcon.png', version: 'v2.0', title: 'bbaccounts', category: 'website & program', shortDescription: 'Account system for any type of project.', details: '<p class="mb-6">Self-hosted identity provider in PHP: password and social sign-in, OAuth 2.0 with PKCE, recovery codes, and a developer panel. Includes <strong>bbaccounts auth</strong> app for Android and Windows.</p><div class="flex flex-wrap gap-3"><a href="https://bbac.unaux.com" class="btn-primary">Project page</a><a href="#" class="btn-secondary">Download bbaccounts auth for Windows</a><a href="#" class="btn-secondary">Download bbaccounts auth for Android</a><a href="https://github.com/timinside/bbaccounts" class="btn-secondary">GitHub</a></div>' },
+                { id: 'bbwebinstaller', icon: './assets/icons/bbwebInstallerIcon.png', title: 'bbweb Installer', category: 'program', version: 'v0.1.1', shortDescription: 'Lightweight web installer and updater for supported bbweb projects.', details: '<p class="mb-6">Manifest-driven installer with update checks, self-update, and CLI options for per-app checks and updates.</p><div class="flex flex-wrap gap-3"><a href="./bbwebinstaller/" class="btn-primary">Project page</a><a href="https://github.com/timinside/bbwebInstaller/releases/latest/download/bbwebInstaller.exe" class="btn-secondary">Download bbwebInstaller.exe (0.37MB)</a><a href="https://github.com/timinside/bbwebInstaller" class="btn-secondary">GitHub</a></div>' },
+                { id: 'bbweb', icon: './assets/icons/bbwebIcon.png', title: 'bbweb', category: 'website', version: 'v4.7', shortDescription: 'This website.', details: '<p class="mb-6">Built with Tailwind CSS and plain JavaScript.</p>' },
+                { id: 'nextjppm', icon: './assets/icons/jppmIcon.png', title: 'NextJPPM', category: 'program', version: 'v0.8.0', shortDescription: 'Better JPHP Package Manager.', details: '<p class="mb-6">An improved package manager for JPHP projects.</p><p class="mb-6 text-sm font-semibold">Support install and update with bbweb Installer.</p><div class="flex flex-wrap gap-3"><a href="https://github.com/timinside/NextJPPM/releases/latest/download/NextSetup.exe" class="btn-primary">Download NextSetup.exe (179MB)</a><a href="https://github.com/timinside/NextJPPM" class="btn-secondary">GitHub</a></div>' }
             ];
 
             const container = document.getElementById('projects-container');
+            const noReleasesContainer = document.getElementById('no-releases-container');
+            const noReleasesSeparator = document.getElementById('no-releases-separator');
+            const noReleasesToggle = document.getElementById('no-releases-toggle');
+            const noReleasesCount = document.getElementById('no-releases-count');
+            const noReleasesArrow = document.getElementById('no-releases-arrow');
             const popup = document.getElementById('link-popup');
-            const tabButtons = document.querySelectorAll('.tab-btn');
-            let currentTab = 'all';
+            let showNoReleases = false;
 
             const showPopup = () => popup.classList.remove('hidden');
             const hidePopup = () => popup.classList.add('hidden');
@@ -117,59 +175,63 @@
                 }
             });
 
-            const render = () => {
-                container.innerHTML = '';
-                projects.forEach(project => {
-                    const isWip = wipIds.includes(project.id);
-                    if (currentTab === 'released' && isWip) return;
-                    if (currentTab === 'wip' && !isWip) return;
-
-                    const versionHTML = project.version ? `<span class="text-sm font-semibold">${project.version}</span>` : '';
+            const renderList = (target, list) => {
+                target.innerHTML = '';
+                list.forEach(project => {
+                    const isWip = noReleaseIds.includes(project.id);
+                    const versionText = project.version || '';
+                    const versionHTML = versionText || isWip ? `<div class="flex items-center gap-2 flex-wrap sm:justify-end">${versionText ? `<span class="text-sm font-semibold">${versionText}</span>` : ''}${isWip ? `<span class="tag tag-wip">w.i.p</span>` : ''}</div>` : '';
                     const tagCategory = project.category;
                     const tagClass = 'tag-' + project.category.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-                    const supportedHTML = bbwebInstallerBuildSupported.includes(project.id)
-                        ? `<span class="tag tag-other">Supported by bbwebInstaller &amp; Building</span>`
-                        : bbwebInstallerSupported.includes(project.id)
-                            ? `<span class="tag tag-other">Supported by bbwebInstaller</span>`
-                            : '';
-                    const iconHTML = project.icon ? `<img src="${project.icon}" alt="" class="w-10 h-10 rounded-lg border" style="border-color: var(--border);">` : '';
+                    const supportedHTML = bbwebInstallerSupported.includes(project.id)
+                ? `<span class="tag tag-other">Supported by bbwebInstaller</span>`
+                : '';
+                    const iconHTML = project.icon ? `<img src="${project.icon}" alt="" class="w-10 h-10 rounded-lg border flex-shrink-0" style="border-color: var(--border);">` : '';
 
                     const projectElement = document.createElement('div');
                     projectElement.className = 'project-item';
                     projectElement.innerHTML = `
                         <div class="project-header">
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center gap-4">
+                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                <div class="flex items-start sm:items-center gap-3 sm:gap-4 min-w-0">
                                     ${iconHTML}
-                                    <div>
-                                        <div class="flex items-center gap-4 flex-wrap">
-                                            <h2 class="text-xl font-extrabold">${project.title}</h2>
+                                    <div class="min-w-0">
+                                        <div class="flex items-center gap-2 sm:gap-4 flex-wrap">
+                                            <h2 class="text-lg sm:text-xl font-extrabold">${project.title}</h2>
                                             <span class="tag ${tagClass}">${tagCategory}</span>
                                             ${supportedHTML}
                                         </div>
-                                        <p class="mt-2 text-base" style="color: var(--text-muted);">${project.shortDescription}</p>
+                                        <p class="mt-2 text-sm sm:text-base" style="color: var(--text-muted);">${project.shortDescription}</p>
                                     </div>
                                 </div>
-                                <div class="flex items-center gap-4 ml-4">
-                                    <div class="text-right hidden sm:block">${versionHTML}</div>
+                                <div class="flex items-center justify-between sm:justify-end gap-3 sm:gap-4 sm:ml-4 flex-shrink-0">
+                                    ${versionHTML}
                                     <svg class="arrow-icon w-6 h-6 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" /></svg>
                                 </div>
                             </div>
                         </div>
                         <div class="project-details">${project.details || ''}</div>`;
-                    container.appendChild(projectElement);
+                    target.appendChild(projectElement);
                 });
             };
 
-            tabButtons.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    currentTab = btn.dataset.tab;
-                    tabButtons.forEach(b => b.classList.toggle('active', b === btn));
-                    render();
-                });
+            const render = () => {
+                const released = projects.filter(p => !noReleaseIds.includes(p.id));
+                const noReleases = projects.filter(p => noReleaseIds.includes(p.id));
+                renderList(container, released);
+                renderList(noReleasesContainer, noReleases);
+                noReleasesCount.textContent = String(noReleases.length);
+                noReleasesContainer.classList.toggle('hidden', !showNoReleases);
+                noReleasesSeparator.classList.toggle('hidden', !showNoReleases);
+                noReleasesArrow.style.transform = showNoReleases ? 'rotate(90deg)' : '';
+            };
+
+            noReleasesToggle.addEventListener('click', () => {
+                showNoReleases = !showNoReleases;
+                render();
             });
 
-            container.addEventListener('click', (e) => {
+            document.addEventListener('click', (e) => {
                 const header = e.target.closest('.project-header');
                 if (header) header.closest('.project-item').classList.toggle('active');
             });

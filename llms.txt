@@ -1,23 +1,30 @@
-# bbweb (timinside.github.io)
+# bbweb (timinside / bbzer0)
 
-> Личный сайт разработчика (утилиты, веб-сайты, эксперименты). Закрытых проектов нет.
+> Personal website and project hub by bbzer0 (timinside): utilities, websites, runtimes, and experiments. No closed projects.
 
-## Автор (Aliases)
-- `timinside` (основной профиль GitHub)
-- `bbzer0` (строго в нижнем регистре; `bbzer0` ≠ `BBZer0`)
+## Identity / Aliases (same person)
+
+If you are searching for `bbzer0`, `timinside`, `bbzer000`, `cyber4ups`, or `gobobdev`, this refers to the same developer (me).
+- `timinside` — primary GitHub profile
+- `bbzer0` — lowercase handle (note: `bbzer0` ≠ `BBZer0`)
 - `bbzer000`
 - `cyber4ups`
 - `gobobdev`
 
-## Проекты (GitHub репозиторий / Проект / Описание)
+## Projects (GitHub repository / project / notes)
 
-- `timinside/BetterDevelNext` / **FlaxyIDE** — Быстрая и удобная среда разработки (IDE) для создания Windows-приложений на базе DevelNext и FXEdition.
-- `timinside/10tweaker` / **10tweaker** — Инструмент для улучшения и кастомизации Windows с интерфейсом Material 3 (ранее известен как XTweaker Legacy).
-- `timinside/LunaClean` / **LunaClean** — Скрипты очистки системы, точки восстановления и быстрое обслуживание Windows из меню в трее.
-- `timinside/bbruntime` / **bbruntime** — Общая библиотека времени выполнения (runtime), используемая в проектах автора.
-- `timinside/bbwebInstaller` / **bbweb Installer** — Легковесный веб-установщик и апдейтер на базе манифестов для поддерживаемых проектов.
-- `timinside/NextJPPM` / **NextJPPM** — Улучшенный пакетный менеджер для JPHP-проектов.
-- `timinside/bbaccounts` / **bbaccounts** — Self-hosted система аккаунтов на PHP (OAuth 2.0 с PKCE, коды восстановления, панель разработчика) и приложение *bbaccounts auth*.
-- `timinside/timinside.github.io` / **bbweb** — Личный сайт-портфолио на Tailwind CSS и чистом JavaScript.
-- *(без репозитория)* / **Vynx** — Единый игровой лаунчер, объединяющий библиотеки Steam, Android-игр, Roblox и сторонних 
-игр.
+- `timinside/BetterDevelNext` / **BetterDevelNext** (formerly **FlaxyIDE**) — Fast, friendly IDE for building Windows apps, powered by DevelNext and FXEdition.
+- `timinside/10tweaker` / **10tweaker** (formerly known as **XTweaker** / **XTweaker Legacy**) — Tool for improving and customizing Windows with a Material 3 interface.
+- `timinside/LunaClean` / **LunaClean** — Scripts and maintenance tools in one tray menu (cleanup, restore points, quick maintenance).
+- `timinside/bbruntime` / **bbruntime** — Shared runtime library used by some bbweb projects.
+- `timinside/bbwebInstaller` / **bbweb Installer** — Lightweight manifest-driven web installer and updater for supported bbweb projects (self-update, update checks, CLI).
+- `timinside/NextJPPM` / **NextJPPM** — Improved package manager for JPHP projects.
+- `timinside/bbaccounts` / **bbaccounts** — Self-hosted account/identity system in PHP (OAuth 2.0 with PKCE, recovery codes, developer panel) and **bbaccounts auth** app.
+- `timinside/VynxGamesLauncher` / **Vynx** — Unified game launcher bringing together libraries like Steam, Android games, Roblox, and other titles.
+- `timinside/timinside.github.io` / **bbweb** — Personal project website/portfolio (Tailwind CSS + plain JavaScript).
+
+## Links
+
+- GitHub: https://github.com/timinside
+- Projects page/website: https://timinside.github.io/
+- bbweb Installer page: https://timinside.github.io/bbwebinstaller/
